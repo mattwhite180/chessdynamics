@@ -20,6 +20,5 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY src .
 
-RUN ls
-
+#CMD whereis stockfish
 CMD python3 test.py
