@@ -1,1 +1,1 @@
-# chessbook
+# chessdynamics
