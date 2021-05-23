@@ -39,8 +39,10 @@ def main():
         else:
             engine.configure({"Skill Level": 1})
         turn = not turn
-        result = engine.play(board, chess.engine.Limit(time=0.1))
+        result = engine.play(board, chess.engine.Limit(time=1))
         board.push(result.move)
+        print()
+        print(board)
 
     print(board)
     print(board_to_game(board))
