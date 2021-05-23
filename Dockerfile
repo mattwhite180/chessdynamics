@@ -19,4 +19,4 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY src .
 
-CMD python3 chessdynamics.py
+CMD python3 chesssite/manage.py runserver
