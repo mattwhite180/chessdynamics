@@ -3,6 +3,8 @@ import chess.engine
 import chess.pgn
 import collections
 
+
+
 def board_to_game(board):
     # from https://github.com/niklasf/python-chess/issues/63
     game = chess.pgn.Game()

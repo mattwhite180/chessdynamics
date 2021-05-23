@@ -20,5 +20,4 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY src .
 
-#CMD whereis stockfish
-CMD python3 test.py
+CMD python3 chessdynamics.py
