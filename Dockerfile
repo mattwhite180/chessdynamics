@@ -1,5 +1,7 @@
 FROM debian:buster
 
+EXPOSE 8000
+
 RUN apt-get update -y \                                                                                        
     && apt-get install -y \                                                                                    
     	ipython3 \
@@ -17,6 +19,11 @@ COPY requirements.txt .
 
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-COPY src .
+COPY chesssite .
 
-CMD python3 chesssite/manage.py runserver
+
+RUN python3 manage.py makemigrations
+
+RUN python3 manage.py migrate
+
+CMD bash -c "hostname -I && python3 manage.py runserver 0:8000"
