@@ -2,6 +2,7 @@ import chess
 import chess.engine
 import chess.pgn
 import collections
+import asyncio
 
 
 
@@ -27,20 +28,21 @@ def board_to_game(board):
     return game
 
 def main():
-    engine = chess.engine.SimpleEngine.popen_uci("/usr/games/stockfish")
-
+    engine = chess.engine.SimpleEngine.popen_uci("/usr/games/stockfish", timeout=None)
     game = chess.pgn.Game()
     game.headers["Event"] = "Example"
-
+    turn = True
     board = chess.Board()
-    print(board)
     while not board.is_game_over():
+        if turn:
+            engine.configure({"Skill Level": 8})
+        else:
+            engine.configure({"Skill Level": 1})
+        turn = not turn
         result = engine.play(board, chess.engine.Limit(time=0.1))
-        #game.add_variation(chess.Move.from_uci(board.san(result.move)))
         board.push(result.move)
-        print()
-        print(board)
 
+    print(board)
     print(board_to_game(board))
     engine.quit()
     return board

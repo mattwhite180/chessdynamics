@@ -8,7 +8,6 @@ RUN apt-get update -y \
 	vim \
     && rm -rf /var/lib/apt/lists/*
 
-
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
