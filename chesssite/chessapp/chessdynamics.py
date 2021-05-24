@@ -26,7 +26,12 @@ def board_to_pgn(board):
     game.headers["Result"] = board.result()
     return str(game)
 
-def playgame(playerOne, playerTwo, levelOne, levelTwo, timeLimit):
+
+def playOneCPU(player, level, limit):
+    pass
+
+
+def playTwoCPU(playerOne, playerTwo, levelOne, levelTwo, timeLimit):
     levelOne = int(levelOne)
     levelTwo = int(levelTwo)
     timeLimit = float(timeLimit)
@@ -35,9 +40,13 @@ def playgame(playerOne, playerTwo, levelOne, levelTwo, timeLimit):
     print("levelOne:", levelOne, type(levelOne))
     print("levelTwo:", levelTwo, type(levelTwo))
     print("timeLimit:", timeLimit, type(timeLimit))
-    engineOne = chess.engine.SimpleEngine.popen_uci("/usr/games/stockfish", timeout=None)
+    engineOne = chess.engine.SimpleEngine.popen_uci(
+        "/usr/games/stockfish", timeout=None
+    )
     engineOne.configure({"Skill Level": levelOne})
-    engineTwo = chess.engine.SimpleEngine.popen_uci("/usr/games/stockfish", timeout=None)
+    engineTwo = chess.engine.SimpleEngine.popen_uci(
+        "/usr/games/stockfish", timeout=None
+    )
     engineTwo.configure({"Skill Level": levelTwo})
     game = chess.pgn.Game()
     game.headers["Event"] = "Example"
@@ -57,4 +66,3 @@ def playgame(playerOne, playerTwo, levelOne, levelTwo, timeLimit):
     engineOne.quit()
     engineTwo.quit()
     return board
-

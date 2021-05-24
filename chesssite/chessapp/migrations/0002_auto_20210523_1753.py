@@ -5,24 +5,19 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('chessapp', '0001_initial'),
-    ]
+    dependencies = [("chessapp", "0001_initial")]
 
     operations = [
-        migrations.RemoveField(
-            model_name='game',
-            name='outcome',
-        ),
+        migrations.RemoveField(model_name="game", name="outcome"),
         migrations.AddField(
-            model_name='game',
-            name='black_level',
+            model_name="game",
+            name="black_level",
             field=models.IntegerField(default=0),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='game',
-            name='white_level',
+            model_name="game",
+            name="white_level",
             field=models.IntegerField(default=0),
             preserve_default=False,
         ),

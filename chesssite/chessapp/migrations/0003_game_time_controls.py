@@ -5,15 +5,13 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('chessapp', '0002_auto_20210523_1753'),
-    ]
+    dependencies = [("chessapp", "0002_auto_20210523_1753")]
 
     operations = [
         migrations.AddField(
-            model_name='game',
-            name='time_controls',
+            model_name="game",
+            name="time_controls",
             field=models.IntegerField(default=1),
             preserve_default=False,
-        ),
+        )
     ]
