@@ -1,0 +1,11 @@
+chess
+django==3.1.0
+PyYAML==5.1.0
+uritemplate==3.0.0
+Markdown==3.0.0
+Pygments==2.4.0
+django-filter==1.0.1
+djangorestframework
+ipython
+black
+psycopg2
