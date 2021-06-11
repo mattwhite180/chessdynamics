@@ -34,7 +34,7 @@ def playOneCPU(player, level, limit):
 def playTwoCPU(playerOne, playerTwo, levelOne, levelTwo, timeLimit):
     levelOne = int(levelOne)
     levelTwo = int(levelTwo)
-    timeLimit = float(timeLimit)
+    timeLimit = float(timeLimit) / 1000
     print("playerOne:", playerOne, type(playerOne))
     print("playerTwo:", playerTwo, type(playerTwo))
     print("levelOne:", levelOne, type(levelOne))
