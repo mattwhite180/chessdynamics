@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.urls import reverse
 import os
 from .models import Game
-from chessapp.chessdynamics import board_to_pgn, playTwoCPU
+from chessapp.chessdynamics import playTwoCPU
 
 
 def index(request):
@@ -26,14 +26,12 @@ def createGame(request):
             black_level=post.get("l1", 1),
             white_level=post.get("l2", 1),
         )
-        game.PGN = board_to_pgn(
-            playTwoCPU(
-                game.white,
-                game.black,
-                game.white_level,
-                game.black_level,
-                game.time_controls,
-            )
+        game.PGN = playTwoCPU(
+            game.white,
+            game.black,
+            game.white_level,
+            game.black_level,
+            game.time_controls,
         )
         game.save()
     else:

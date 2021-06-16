@@ -3,21 +3,7 @@ import chess.engine
 import chess.pgn
 import collections
 import asyncio
-
-
-def board_to_pgn(board):
-    # from https://github.com/niklasf/python-chess/issues/63
-    game = chess.pgn.Game()
-
-    node = game
-
-    for i in board.move_stack:
-        node = node.add_variation(i)
-
-
-    game.headers["Result"] = board.result()
-    return str(game)
-
+import io
 
 def playOneCPU(player, level, limit):
     pass
@@ -41,6 +27,7 @@ def playTwoCPU(playerOne, playerTwo, levelOne, levelTwo, timeLimit):
     )
     engineTwo.configure({"Skill Level": levelTwo})
     game = chess.pgn.Game()
+    node = game
     game.headers["Event"] = "Example"
     game.headers["White"] = str(levelOne)
     game.headers["Black"] = str(levelTwo)
@@ -51,12 +38,14 @@ def playTwoCPU(playerOne, playerTwo, levelOne, levelTwo, timeLimit):
             result = engineOne.play(board, chess.engine.Limit(time=timeLimit))
         else:
             result = engineTwo.play(board, chess.engine.Limit(time=timeLimit))
+        node = node.add_variation(result.move)
         turn = not turn
         board.push(result.move)
-        print()
-        print(board)
+        print(result.move)
 
-    print(board)
     engineOne.quit()
     engineTwo.quit()
-    return board
+    game.headers["Result"] = board.result()
+    game.headers["Site"] = "ChessDynamics"
+    game.headers["Round"] = str(timeLimit) + " ms"
+    return str(game)
