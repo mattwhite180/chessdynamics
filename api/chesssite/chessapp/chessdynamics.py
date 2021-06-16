@@ -3,29 +3,7 @@ import chess.engine
 import chess.pgn
 import collections
 import asyncio
-
-
-def board_to_pgn(board):
-    # from https://github.com/niklasf/python-chess/issues/63
-    game = chess.pgn.Game()
-
-    # Undo all moves.
-    switchyard = collections.deque()
-    while board.move_stack:
-        switchyard.append(board.pop())
-
-    game.setup(board)
-    node = game
-
-    # Replay all moves.
-    while switchyard:
-        move = switchyard.pop()
-        node = node.add_variation(move)
-        board.push(move)
-
-    game.headers["Result"] = board.result()
-    return str(game)
-
+import io
 
 def playOneCPU(player, level, limit):
     pass
@@ -49,7 +27,10 @@ def playTwoCPU(playerOne, playerTwo, levelOne, levelTwo, timeLimit):
     )
     engineTwo.configure({"Skill Level": levelTwo})
     game = chess.pgn.Game()
+    node = game
     game.headers["Event"] = "Example"
+    game.headers["White"] = str(levelOne)
+    game.headers["Black"] = str(levelTwo)
     turn = False
     board = chess.Board()
     while not board.is_game_over():
@@ -57,12 +38,14 @@ def playTwoCPU(playerOne, playerTwo, levelOne, levelTwo, timeLimit):
             result = engineOne.play(board, chess.engine.Limit(time=timeLimit))
         else:
             result = engineTwo.play(board, chess.engine.Limit(time=timeLimit))
+        node = node.add_variation(result.move)
         turn = not turn
         board.push(result.move)
-        print()
-        print(board)
+        print(result.move)
 
-    print(board)
     engineOne.quit()
     engineTwo.quit()
-    return board
+    game.headers["Result"] = board.result()
+    game.headers["Site"] = "ChessDynamics"
+    game.headers["Round"] = str(timeLimit) + " ms"
+    return str(game)
