@@ -9,19 +9,11 @@ def board_to_pgn(board):
     # from https://github.com/niklasf/python-chess/issues/63
     game = chess.pgn.Game()
 
-    # Undo all moves.
-    switchyard = collections.deque()
-    while board.move_stack:
-        switchyard.append(board.pop())
-
-    game.setup(board)
     node = game
 
-    # Replay all moves.
-    while switchyard:
-        move = switchyard.pop()
-        node = node.add_variation(move)
-        board.push(move)
+    for i in board.move_stack:
+        node = node.add_variation(i)
+
 
     game.headers["Result"] = board.result()
     return str(game)
@@ -50,6 +42,8 @@ def playTwoCPU(playerOne, playerTwo, levelOne, levelTwo, timeLimit):
     engineTwo.configure({"Skill Level": levelTwo})
     game = chess.pgn.Game()
     game.headers["Event"] = "Example"
+    game.headers["White"] = str(levelOne)
+    game.headers["Black"] = str(levelTwo)
     turn = False
     board = chess.Board()
     while not board.is_game_over():
