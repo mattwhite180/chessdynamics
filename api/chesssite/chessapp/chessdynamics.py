@@ -5,46 +5,71 @@ import collections
 import asyncio
 import io
 
+CHESS_CPU = {"stockfish": "/usr/games/stockfish"}
+
+
+class ChessPlayer:
+    def __init__(self, playerName="stockfish", timeLimit=100, level=1, timeout=None):
+        self.playerName = playerName
+        self.timeLimit = timeLimit
+        self.level = level
+        self.timeout = timeout
+
+        if playerName.lower() == "human":
+            self.engine = False
+            self.isEngine = False
+        else:
+            self.isEngine = True
+            self.engine = chess.engine.SimpleEngine.popen_uci(
+                CHESS_CPU[self.playerName], timeout=self.timeout
+            )
+            self.engine.configure({"Skill Level": self.level})
+
+    def __del__(self):
+        if self.isEngine:
+            self.engine.quit()
+
+    def configure(self, val1, val2):
+        self.engine.configure({val1: val2})
+
+    def play(self, chessBoard):
+        return self.engine.play(chessBoard, chess.engine.Limit(time=self.timeLimit))
+
+
 def playOneCPU(player, level, limit):
     pass
 
 
-def playTwoCPU(playerOne, playerTwo, levelOne, levelTwo, timeLimit):
-    levelOne = int(levelOne)
-    levelTwo = int(levelTwo)
+def playTwoCPU(whitePlayer, blackPlayer, whiteLevel, blackLevel, timeLimit):
+    whiteLevel = int(whiteLevel)
+    blackLevel = int(blackLevel)
     timeLimit = float(timeLimit) / 1000
-    print("playerOne:", playerOne, type(playerOne))
-    print("playerTwo:", playerTwo, type(playerTwo))
-    print("levelOne:", levelOne, type(levelOne))
-    print("levelTwo:", levelTwo, type(levelTwo))
-    print("timeLimit:", timeLimit, type(timeLimit))
-    engineOne = chess.engine.SimpleEngine.popen_uci(
-        "/usr/games/stockfish", timeout=None
-    )
-    engineOne.configure({"Skill Level": levelOne})
-    engineTwo = chess.engine.SimpleEngine.popen_uci(
-        "/usr/games/stockfish", timeout=None
-    )
-    engineTwo.configure({"Skill Level": levelTwo})
+    # engineOne = chess.engine.SimpleEngine.popen_uci(
+    #     "/usr/games/stockfish", timeout=None
+    # )
+    # engineOne.configure({"Skill Level": whiteLevel})
+    # engineTwo = chess.engine.SimpleEngine.popen_uci(
+    #     "/usr/games/stockfish", timeout=None
+    # )
+    # engineTwo.configure({"Skill Level": levelTwo})
+    whiteEngine = ChessPlayer("stockfish", timeLimit, whiteLevel, None)
+    blackEngine = ChessPlayer("stockfish", timeLimit, blackLevel, None)
     game = chess.pgn.Game()
     node = game
     game.headers["Event"] = "Example"
-    game.headers["White"] = str(levelOne)
-    game.headers["Black"] = str(levelTwo)
-    turn = False
+    game.headers["White"] = str(whiteLevel)
+    game.headers["Black"] = str(blackLevel)
+    turn = True
     board = chess.Board()
     while not board.is_game_over():
         if turn:
-            result = engineOne.play(board, chess.engine.Limit(time=timeLimit))
+            result = whiteEngine.play(board)
         else:
-            result = engineTwo.play(board, chess.engine.Limit(time=timeLimit))
+            result = blackEngine.play(board)
         node = node.add_variation(result.move)
         turn = not turn
         board.push(result.move)
         print(result.move)
-
-    engineOne.quit()
-    engineTwo.quit()
     game.headers["Result"] = board.result()
     game.headers["Site"] = "ChessDynamics"
     game.headers["Round"] = str(timeLimit) + " ms"

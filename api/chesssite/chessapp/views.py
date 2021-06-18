@@ -22,9 +22,9 @@ def createGame(request):
             black="stockfish",
             white="stockfish",
             PGN="",
-            time_controls=post.get("game_time", 1),
-            black_level=post.get("l1", 1),
-            white_level=post.get("l2", 1),
+            time_controls=post.get("game_time", 100),
+            white_level=post.get("l1", 1),
+            black_level=post.get("l2", 1),
         )
         game.PGN = playTwoCPU(
             game.white,
