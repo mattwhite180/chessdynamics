@@ -58,12 +58,12 @@ class ChessGame(p1, p2):
         self.node = self.game
 
     def setHeaders(self):
-        game.headers["Event"] = "Example"
-        game.headers["White"] = str(whiteLevel)
-        game.headers["Black"] = str(blackLevel)
-        game.headers["Result"] = board.result()
-        game.headers["Site"] = "ChessDynamics"
-        game.headers["Round"] = str(timeLimit) + " ms"
+        self.game.headers["Event"] = "Example"
+        self.game.headers["White"] = str(whiteLevel)
+        self.game.headers["Black"] = str(blackLevel)
+        self.game.headers["Result"] = board.result()
+        self.game.headers["Site"] = "ChessDynamics"
+        self.game.headers["Round"] = str(timeLimit) + " ms"
 
 def playTwoCPU(whitePlayer, blackPlayer, whiteLevel, blackLevel, timeLimit):
     whiteLevel = int(whiteLevel)
