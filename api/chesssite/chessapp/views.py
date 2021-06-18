@@ -31,7 +31,7 @@ def createGame(request):
             game.black,
             game.white_level,
             game.black_level,
-            game.time_controls,
+            game.time_controls / 1000,
         )
         game.save()
     else:

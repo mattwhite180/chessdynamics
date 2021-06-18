@@ -35,10 +35,35 @@ class ChessPlayer:
     def play(self, chessBoard):
         return self.engine.play(chessBoard, chess.engine.Limit(time=self.timeLimit))
 
+    def getPlayer(self):
+        return self.playerName
+    
+    def getLevel(self):
+        return self.level
+    
+    def getTimeout(self):
+        return self.timeout
+
+    def getTimeLimit(self):
+        return self.timeLimit
 
 def playOneCPU(player, level, limit):
     pass
 
+
+class ChessGame(p1, p2):
+
+    def __init__(self):
+        self.game = chess.pgn.Game()
+        self.node = self.game
+
+    def setHeaders(self):
+        game.headers["Event"] = "Example"
+        game.headers["White"] = str(whiteLevel)
+        game.headers["Black"] = str(blackLevel)
+        game.headers["Result"] = board.result()
+        game.headers["Site"] = "ChessDynamics"
+        game.headers["Round"] = str(timeLimit) + " ms"
 
 def playTwoCPU(whitePlayer, blackPlayer, whiteLevel, blackLevel, timeLimit):
     whiteLevel = int(whiteLevel)
