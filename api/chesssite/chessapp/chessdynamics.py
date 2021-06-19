@@ -53,14 +53,13 @@ class ChessPlayer:
 
 
 class ChessGame:
-    def __init__(self, p1, p2, moves="", whiteTurn=True, title="chessdynamics"):
+    def __init__(self, p1, p2, moves="", title="chessdynamics"):
         self.board = chess.Board()
         self.moves = moves
         self.game = chess.pgn.Game()
         self.node = self.game
         self.white = p1
         self.black = p2
-        self.white_turn = whiteTurn
         self.title = title
         self.load_game(moves)
 
@@ -83,13 +82,11 @@ class ChessGame:
 
     def play_turn(self):
         if not self.is_game_over():
-            if self.white_turn:
+            if self.board.turn:
                 result = self.white.play(self.board)
             else:
                 result = self.black.play(self.board)
             self.node = self.node.add_variation(result.move)
-
-            self.white_turn = not self.white_turn
             self.board.push(result.move)
             self.moves += ',' + str(result.move)
             return result
@@ -137,7 +134,7 @@ class GameModel():
     def setup_game(self):
         w = self.setup_white()
         b = self.setup_black()
-        cg = ChessGame(w, b, self.game_model.white_move, self.game_model.title)
+        cg = ChessGame(w, b, "", self.game_model.title)
         if len(self.game_model.move_list) > 0:
             cg.load_game(self.game_model.move_list)
         return cg
