@@ -10,12 +10,12 @@ CHESS_CPU = {"stockfish": "/usr/games/stockfish"}
 
 class ChessPlayer:
     def __init__(self, playerName="stockfish", timeLimit=100, level=1, timeout=None):
-        self.playerName = playerName
+        self.playerName = playerName.lower()
         self.timeLimit = timeLimit
-        self.level = level
+        self.level = int(level)
         self.timeout = timeout
 
-        if playerName.lower() == "human":
+        if self.playerName not in CHESS_CPU:
             self.engine = False
             self.isEngine = False
         else:
@@ -29,6 +29,10 @@ class ChessPlayer:
         if self.isEngine:
             self.engine.quit()
 
+    def getConfigure(self, d):
+        if self.playerName != "human":
+            self.engine.configure(d)
+
     def configure(self, val1, val2):
         self.engine.configure({val1: val2})
 
@@ -37,33 +41,71 @@ class ChessPlayer:
 
     def getPlayer(self):
         return self.playerName
-    
+
     def getLevel(self):
         return self.level
-    
+
     def getTimeout(self):
         return self.timeout
 
     def getTimeLimit(self):
         return self.timeLimit
 
+
 def playOneCPU(player, level, limit):
     pass
 
 
-class ChessGame(p1, p2):
-
-    def __init__(self):
+class ChessGame:
+    def __init__(self, p1, p2):
+        self.board = chess.Board()
         self.game = chess.pgn.Game()
         self.node = self.game
+        self.white = p1
+        self.black = p2
+        self.whiteTurn = True
 
-    def setHeaders(self):
+    def is_game_over(self):
+        return self.board.is_game_over()
+
+    def play_turn(self):
+        if not self.is_game_over():
+            if self.whiteTurn:
+                result = self.white.play(self.board)
+            else:
+                result = self.black.play(self.board)
+            self.node = self.node.add_variation(result.move)
+            self.whiteTurn = not self.whiteTurn
+            self.board.push(result.move)
+            return result.move
+        else:
+            return "gg"
+
+    def play_continuous(self):
+        while not self.is_game_over():
+            self.play_turn()
+
+    def get_PGN(self):
+        self.set_headers()
+        return str(self.game)
+
+    def set_headers(self):
         self.game.headers["Event"] = "Example"
-        self.game.headers["White"] = str(whiteLevel)
-        self.game.headers["Black"] = str(blackLevel)
-        self.game.headers["Result"] = board.result()
+        if self.white.getPlayer() not in CHESS_CPU:
+            self.game.headers["White"] = self.white.getPlayer()
+        else:
+            self.game.headers["White"] = (
+                self.white.getPlayer() + ":" + str(self.white.getLevel())
+            )
+        if self.black.getPlayer() not in CHESS_CPU:
+            self.game.headers["Black"] = self.black.getPlayer()
+        else:
+            self.game.headers["Black"] = (
+                self.black.getPlayer() + ":" + str(self.black.getLevel())
+            )
+        self.game.headers["Result"] = self.board.result()
         self.game.headers["Site"] = "ChessDynamics"
-        self.game.headers["Round"] = str(timeLimit) + " ms"
+
 
 def playTwoCPU(whitePlayer, blackPlayer, whiteLevel, blackLevel, timeLimit):
     whiteLevel = int(whiteLevel)
@@ -79,23 +121,6 @@ def playTwoCPU(whitePlayer, blackPlayer, whiteLevel, blackLevel, timeLimit):
     # engineTwo.configure({"Skill Level": levelTwo})
     whiteEngine = ChessPlayer("stockfish", timeLimit, whiteLevel, None)
     blackEngine = ChessPlayer("stockfish", timeLimit, blackLevel, None)
-    game = chess.pgn.Game()
-    node = game
-    game.headers["Event"] = "Example"
-    game.headers["White"] = str(whiteLevel)
-    game.headers["Black"] = str(blackLevel)
-    turn = True
-    board = chess.Board()
-    while not board.is_game_over():
-        if turn:
-            result = whiteEngine.play(board)
-        else:
-            result = blackEngine.play(board)
-        node = node.add_variation(result.move)
-        turn = not turn
-        board.push(result.move)
-        print(result.move)
-    game.headers["Result"] = board.result()
-    game.headers["Site"] = "ChessDynamics"
-    game.headers["Round"] = str(timeLimit) + " ms"
-    return str(game)
+    cg = ChessGame(whiteEngine, blackEngine)
+    cg.play_continuous()
+    return cg.get_PGN()
