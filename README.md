@@ -1,5 +1,6 @@
 # chessdynamics
 
+## dependencies
 
 ## USEFUL LINKS
 * https://python-chess.readthedocs.io/en/latest/
