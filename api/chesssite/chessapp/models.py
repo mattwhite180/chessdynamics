@@ -6,7 +6,7 @@ from django.db import models
 class Game(models.Model):
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=500)
-    PGN = models.CharField(max_length=20000)
+    move_list = models.CharField(max_length=2000)
     black = models.CharField(max_length=200)
     black_level = models.IntegerField()
     white = models.CharField(max_length=200)

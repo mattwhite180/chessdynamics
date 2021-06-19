@@ -53,20 +53,30 @@ class ChessPlayer:
 
 
 class ChessGame:
-    def __init__(self, p1, p2, whiteTurn=True, title="chessdynamics"):
+    def __init__(self, p1, p2, moves="", whiteTurn=True, title="chessdynamics"):
         self.board = chess.Board()
+        self.moves = moves
         self.game = chess.pgn.Game()
         self.node = self.game
         self.white = p1
         self.black = p2
         self.white_turn = whiteTurn
         self.title = title
+        self.load_game(moves)
+
+    def load_game(self, moves):
+        if len(moves) > 0:
+            self.board = chess.Board()
+            self.moves = moves
+            for i in moves.split(sep=','):
+                self.board.push(chess.Move.from_uci(i))
+                self.node = self.node.add_variation(chess.Move.from_uci(i))
+
+    def get_moves(self):
+        return self.moves
 
     def print_game(self):
-        return str(board)
-
-    def load_PGN(self, pgn):
-        self.game = chess.pgn.read_game(io.StringIO(pgn))
+        return str(self.board)
 
     def is_game_over(self):
         return self.board.is_game_over()
@@ -78,9 +88,11 @@ class ChessGame:
             else:
                 result = self.black.play(self.board)
             self.node = self.node.add_variation(result.move)
+
             self.white_turn = not self.white_turn
             self.board.push(result.move)
-            return result.move
+            self.moves += ',' + str(result.move)
+            return result
         else:
             return "gg"
 
@@ -91,6 +103,9 @@ class ChessGame:
     def get_PGN(self):
         self.set_headers()
         return str(self.game)
+
+    def get_results(self):
+        return self.board.result()
 
     def set_headers(self):
         self.game.headers["Event"] = self.title
@@ -113,10 +128,8 @@ class GameModel():
     def __init__(self, gm):
         self.game_model = gm
 
-
     def setup_white(self):
         return ChessPlayer(self.game_model.white, self.game_model.time_controls, self.game_model.white_level)
-
 
     def setup_black(self):
         return ChessPlayer(self.game_model.black, self.game_model.time_controls, self.game_model.black_level)
@@ -125,20 +138,23 @@ class GameModel():
         w = self.setup_white()
         b = self.setup_black()
         cg = ChessGame(w, b, self.game_model.white_move, self.game_model.title)
-        if len(self.game_model.PGN) > 0:
-            cg.load_PGN(self.game_model.PGN)
+        if len(self.game_model.move_list) > 0:
+            cg.load_game(self.game_model.move_list)
         return cg
 
     def __str__(self):
         return self.setup_game().get_PGN()
-    
-    def load_PGN(self, pgn):
-        self.game_model.PGN = pgn
+
+    def load_game(self, movelist):
+        self.game_model.move_list = movelist
         self.game_model.save()
     
     def is_game_over(self):
         return self.setup_game().is_game_over()
     
+    def get_results(self):
+        return self.setup_game().get_result()
+
     def play_turn(self):
         g = self.setup_game()
         move = g.play_turn()
