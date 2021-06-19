@@ -1,6 +1,6 @@
 chess
 django==3.1.0
-PyYAML==5.1.0
+PyYAML==5.4
 uritemplate==3.0.0
 Markdown==3.0.0
 Pygments==2.7.4
