@@ -1,0 +1,18 @@
+name: Unit Testing
+
+on:
+  push:
+    branches: [ dev, main ]
+  pull_request:
+    branches: [ dev, main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: echo ${{ secrets.DJANGO_SECRET }} > api/chesssite/djangosecret.txt && docker-compose run api python3 manage.py test
