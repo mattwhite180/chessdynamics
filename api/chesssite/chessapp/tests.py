@@ -1,6 +1,6 @@
 from django.test import TestCase
 from .models import Game
-from .chessdynamics import ChessPlayer, ChessGame, GameModel 
+from .chessdynamics import ChessPlayer, ChessGame, GameModel
 import chess
 import chess.engine
 import chess.pgn
@@ -17,7 +17,7 @@ class ChessPlayerTestCase(TestCase):
         g = chess.pgn.Game()
         moves = "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3"
         b = chess.Board()
-        for i in moves.split(sep=','):
+        for i in moves.split(sep=","):
             b.push_uci(i)
         p = ChessPlayer("stockfish", 123, 7, None)
         checkmates = ["f3f7", "c4f7"]
@@ -25,8 +25,7 @@ class ChessPlayerTestCase(TestCase):
         val = actualMove in checkmates
         expected = True
         errmsg = (
-            "expected either " + str(checkmates) +
-            " actual move was " + str(actualMove)
+            "expected either " + str(checkmates) + " actual move was " + str(actualMove)
         )
         self.assertEqual(val, expected, errmsg)
 
@@ -35,18 +34,22 @@ class ChessPlayerTestCase(TestCase):
         val = p.is_cpu()
         expected = True
         errmsg = (
-            "expected value for ChessPlayer.is_cpu() is " + str(expected) +
-            " actual value is " + str(val)
+            "expected value for ChessPlayer.is_cpu() is "
+            + str(expected)
+            + " actual value is "
+            + str(val)
         )
-        self.assertEqual(val, expected, errmsg) 
+        self.assertEqual(val, expected, errmsg)
 
     def test_human_name(self):
         p = ChessPlayer("matthew", 123, 7, None)
         val = p.is_cpu()
         expected = False
         errmsg = (
-            "expected value for ChessPlayer.is_cpu() is " + str(expected) +
-            " actual value is " + str(val)
+            "expected value for ChessPlayer.is_cpu() is "
+            + str(expected)
+            + " actual value is "
+            + str(val)
         )
         self.assertEqual(val, expected, errmsg)
 
@@ -55,8 +58,10 @@ class ChessPlayerTestCase(TestCase):
         val = p.get_level()
         expected = 7
         errmsg = (
-            "expected value from p.get_level() is " + str(expected) +
-            " actual value was " + str(val)
+            "expected value from p.get_level() is "
+            + str(expected)
+            + " actual value was "
+            + str(val)
         )
         self.assertEqual(val, expected, errmsg)
 
@@ -65,20 +70,25 @@ class ChessPlayerTestCase(TestCase):
         val = p.get_timeout()
         expected = None
         errmsg = (
-            "expected value from p.get_timeout() is " + str(expected) +
-            " actual value was " + str(val)
+            "expected value from p.get_timeout() is "
+            + str(expected)
+            + " actual value was "
+            + str(val)
         )
-        self.assertEqual(val, expected, errmsg) 
+        self.assertEqual(val, expected, errmsg)
 
     def test_get_time_limit(self):
         p = ChessPlayer("stockfish", 123, 7, None)
         val = p.get_time_limit()
         expected = 123 / 1000
         errmsg = (
-            "expected value for ChessPlayer.get_time_limit() is " + str(expected) +
-            " actual value is " + str(val)
+            "expected value for ChessPlayer.get_time_limit() is "
+            + str(expected)
+            + " actual value is "
+            + str(val)
         )
         self.assertEqual(val, expected, errmsg)
+
 
 class ChessGameTestCase(TestCase):
     def setup(self):
@@ -91,12 +101,8 @@ class ChessGameTestCase(TestCase):
         g = ChessGame(w, b, moves)
         val = g.get_moves()
         expected = moves
-        errmsg = (
-            "expected either " + str(val) +
-            " actual value was " + str(expected)
-        )
+        errmsg = "expected either " + str(val) + " actual value was " + str(expected)
         self.assertEqual(val, expected, errmsg)
-
 
     def test_load_game_method(self):
         w = ChessPlayer("stockfish", 123, 1, None)
@@ -106,10 +112,7 @@ class ChessGameTestCase(TestCase):
         g.load_game(moves)
         val = g.get_moves()
         expected = moves
-        errmsg = (
-            "expected either " + str(val) +
-            " actual value was " + str(expected)
-        )
+        errmsg = "expected either " + str(val) + " actual value was " + str(expected)
         self.assertEqual(val, expected, errmsg)
 
     def test_easy_checkmate(self):
@@ -121,14 +124,13 @@ class ChessGameTestCase(TestCase):
         g.play_turn()
         checkmates = [
             "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3,f3f7",
-            "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3,c4f7"
-            ]
+            "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3,c4f7",
+        ]
         actualMove = g.get_moves()
         val = actualMove in checkmates
         expected = True
         errmsg = (
-            "expected either " + str(checkmates) +
-            " actual move was " + str(actualMove)
+            "expected either " + str(checkmates) + " actual move was " + str(actualMove)
         )
         self.assertEqual(val, expected, errmsg)
 
@@ -139,12 +141,8 @@ class ChessGameTestCase(TestCase):
         g.play_continuous()
         val = g.get_results()
         expected = "0-1"
-        errmsg = (
-            "expected either " + str(val) +
-            " actual value was " + str(expected)
-        )
+        errmsg = "expected either " + str(val) + " actual value was " + str(expected)
         self.assertEqual(val, expected, errmsg)
-
 
     def test_full_game_white_wins(self):
         w = ChessPlayer("stockfish", 10, 8, None)
@@ -153,12 +151,8 @@ class ChessGameTestCase(TestCase):
         g.play_continuous()
         val = g.get_results()
         expected = "1-0"
-        errmsg = (
-            "expected either " + str(val) +
-            " actual value was " + str(expected)
-        )
+        errmsg = "expected either " + str(val) + " actual value was " + str(expected)
         self.assertEqual(val, expected, errmsg)
-
 
     def test_full_game_manual(self):
         w = ChessPlayer("stockfish", 10, 1, None)
@@ -168,10 +162,7 @@ class ChessGameTestCase(TestCase):
             g.play_turn()
         val = g.get_results()
         expected = "0-1"
-        errmsg = (
-            "expected either " + str(val) +
-            " actual value was " + str(expected)
-        )
+        errmsg = "expected either " + str(val) + " actual value was " + str(expected)
         self.assertEqual(val, expected, errmsg)
 
     def test_get_pgn_one(self):
@@ -179,19 +170,18 @@ class ChessGameTestCase(TestCase):
         b = ChessPlayer("stockfish", 10, 8, None)
         g = ChessGame(w, b, "e2e3,e7e6,e1e2,e8e7")
         val = g.get_PGN()
-        expected = ('[Event "chessdynamics"]\n' +
-        '[Site "ChessDynamics"]\n' +
-        '[Date "????.??.??"]\n' +
-        '[Round "?"]\n' +
-        '[White "stockfish:1"]\n' +
-        '[Black "stockfish:8"]\n' +
-        '[Result "*"]\n' +
-        '\n' +
-        '1. e3 e6 2. Ke2 Ke7 *')
-        errmsg = (
-            "expected either " + str(val) +
-            " actual move was " + str(expected)
+        expected = (
+            '[Event "chessdynamics"]\n'
+            + '[Site "ChessDynamics"]\n'
+            + '[Date "????.??.??"]\n'
+            + '[Round "?"]\n'
+            + '[White "stockfish:1"]\n'
+            + '[Black "stockfish:8"]\n'
+            + '[Result "*"]\n'
+            + "\n"
+            + "1. e3 e6 2. Ke2 Ke7 *"
         )
+        errmsg = "expected either " + str(val) + " actual move was " + str(expected)
         self.assertEqual(val, expected, errmsg)
 
     def test_get_pgn_two(self):
@@ -200,53 +190,52 @@ class ChessGameTestCase(TestCase):
         g = ChessGame(w, b)
         g.load_game("e2e3,e7e6,e1e2,e8e7")
         val = g.get_PGN()
-        expected = ('[Event "chessdynamics"]\n' +
-        '[Site "ChessDynamics"]\n' +
-        '[Date "????.??.??"]\n' +
-        '[Round "?"]\n' +
-        '[White "stockfish:1"]\n' +
-        '[Black "stockfish:8"]\n' +
-        '[Result "*"]\n' +
-        '\n' +
-        '1. e3 e6 2. Ke2 Ke7 *')
-        errmsg = (
-            "expected either " + str(val) +
-            " actual move was " + str(expected)
+        expected = (
+            '[Event "chessdynamics"]\n'
+            + '[Site "ChessDynamics"]\n'
+            + '[Date "????.??.??"]\n'
+            + '[Round "?"]\n'
+            + '[White "stockfish:1"]\n'
+            + '[Black "stockfish:8"]\n'
+            + '[Result "*"]\n'
+            + "\n"
+            + "1. e3 e6 2. Ke2 Ke7 *"
         )
+        errmsg = "expected either " + str(val) + " actual move was " + str(expected)
         self.assertEqual(val, expected, errmsg)
 
 
 class GameModelTestCase(TestCase):
     def setUp(self):
         Game.objects.create(
-            title = "simple",
-            description = "test",
-            move_list = "",
-            black = "stockfish",
-            black_level = 8,
-            white = "stockfish",
-            white_level = 1,
-            time_controls = 25
+            title="simple",
+            description="test",
+            move_list="",
+            black="stockfish",
+            black_level=8,
+            white="stockfish",
+            white_level=1,
+            time_controls=25,
         )
         Game.objects.create(
-            title = "blackwins",
-            description = "test",
-            move_list = "",
-            black = "stockfish",
-            black_level = 8,
-            white = "stockfish",
-            white_level = 1,
-            time_controls = 25
+            title="blackwins",
+            description="test",
+            move_list="",
+            black="stockfish",
+            black_level=8,
+            white="stockfish",
+            white_level=1,
+            time_controls=25,
         )
         Game.objects.create(
-            title = "whitewins",
-            description = "test",
-            move_list = "",
-            black = "stockfish",
-            black_level = 1,
-            white = "stockfish",
-            white_level = 8,
-            time_controls = 25
+            title="whitewins",
+            description="test",
+            move_list="",
+            black="stockfish",
+            black_level=1,
+            white="stockfish",
+            white_level=8,
+            time_controls=25,
         )
 
     def test_easy_checkmate(self):
@@ -257,14 +246,13 @@ class GameModelTestCase(TestCase):
         gm.play_turn()
         checkmates = [
             "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3,f3f7",
-            "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3,c4f7"
-            ]
+            "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3,c4f7",
+        ]
         actualMove = gm.get_moves()
         val = actualMove in checkmates
         expected = True
         errmsg = (
-            "expected either " + str(checkmates) +
-            " actual move was " + str(actualMove)
+            "expected either " + str(checkmates) + " actual move was " + str(actualMove)
         )
         self.assertEqual(val, expected, errmsg)
 
@@ -274,12 +262,8 @@ class GameModelTestCase(TestCase):
         gm.play_continuous()
         val = gm.get_results()
         expected = "0-1"
-        errmsg = (
-            "expected either " + str(val) +
-            " actual value was " + str(expected)
-        )
+        errmsg = "expected either " + str(val) + " actual value was " + str(expected)
         self.assertEqual(val, expected, errmsg)
-
 
     def test_full_game_white_wins(self):
         g = Game.objects.get(title="whitewins")
@@ -287,12 +271,8 @@ class GameModelTestCase(TestCase):
         gm.play_continuous()
         val = gm.get_results()
         expected = "1-0"
-        errmsg = (
-            "expected either " + str(val) +
-            " actual value was " + str(expected)
-        )
+        errmsg = "expected either " + str(val) + " actual value was " + str(expected)
         self.assertEqual(val, expected, errmsg)
-
 
     def test_full_game_manual(self):
         g = Game.objects.get(title="simple")
@@ -301,10 +281,7 @@ class GameModelTestCase(TestCase):
             gm.play_turn()
         val = gm.get_results()
         expected = "0-1"
-        errmsg = (
-            "expected either " + str(val) +
-            " actual value was " + str(expected)
-        )
+        errmsg = "expected either " + str(val) + " actual value was " + str(expected)
         self.assertEqual(val, expected, errmsg)
 
     def test_get_pgn_one(self):
@@ -312,17 +289,16 @@ class GameModelTestCase(TestCase):
         gm = GameModel(g)
         gm.load_game("e2e3,e7e6,e1e2,e8e7")
         val = gm.get_PGN()
-        expected = ('[Event "simple"]\n' +
-        '[Site "ChessDynamics"]\n' +
-        '[Date "????.??.??"]\n' +
-        '[Round "?"]\n' +
-        '[White "stockfish:1"]\n' +
-        '[Black "stockfish:8"]\n' +
-        '[Result "*"]\n' +
-        '\n' +
-        '1. e3 e6 2. Ke2 Ke7 *')
-        errmsg = (
-            "expected either " + str(val) +
-            " actual value was " + str(expected)
+        expected = (
+            '[Event "simple"]\n'
+            + '[Site "ChessDynamics"]\n'
+            + '[Date "????.??.??"]\n'
+            + '[Round "?"]\n'
+            + '[White "stockfish:1"]\n'
+            + '[Black "stockfish:8"]\n'
+            + '[Result "*"]\n'
+            + "\n"
+            + "1. e3 e6 2. Ke2 Ke7 *"
         )
+        errmsg = "expected either " + str(val) + " actual value was " + str(expected)
         self.assertEqual(val, expected, errmsg)

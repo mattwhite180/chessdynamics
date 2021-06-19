@@ -1,8 +1,6 @@
 name: Unit Testing
 
 on:
-  push:
-    branches: [ testing, main ]
   pull_request:
     branches: [ testing, main ]
 

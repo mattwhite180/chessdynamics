@@ -5,6 +5,7 @@ import os
 from .models import Game
 from chessapp.chessdynamics import ChessPlayer, ChessGame
 
+
 def index(request):
     game_list = Game.objects.order_by("title")
     context = {"game_list": game_list}
