@@ -51,7 +51,6 @@ class ChessPlayer:
         return self.timeLimit
 
 
-
 class ChessGame:
     def __init__(self, p1, p2, moves="", title="chessdynamics"):
         self.board = chess.Board()
@@ -67,7 +66,7 @@ class ChessGame:
         if len(moves) > 0:
             self.board = chess.Board()
             self.moves = moves
-            for i in moves.split(sep=','):
+            for i in moves.split(sep=","):
                 self.board.push(chess.Move.from_uci(i))
                 self.node = self.node.add_variation(chess.Move.from_uci(i))
 
@@ -89,7 +88,7 @@ class ChessGame:
             self.node = self.node.add_variation(result.move)
             self.board.push(result.move)
             if len(self.moves) > 0:
-                self.moves += ',' + str(result.move)
+                self.moves += "," + str(result.move)
             else:
                 self.moves += str(result.move)
             return result
@@ -124,15 +123,24 @@ class ChessGame:
         self.game.headers["Result"] = self.board.result()
         self.game.headers["Site"] = "ChessDynamics"
 
-class GameModel():
+
+class GameModel:
     def __init__(self, gm):
         self.game_model = gm
 
     def setup_white(self):
-        return ChessPlayer(self.game_model.white, self.game_model.time_controls, self.game_model.white_level)
+        return ChessPlayer(
+            self.game_model.white,
+            self.game_model.time_controls,
+            self.game_model.white_level,
+        )
 
     def setup_black(self):
-        return ChessPlayer(self.game_model.black, self.game_model.time_controls, self.game_model.black_level)
+        return ChessPlayer(
+            self.game_model.black,
+            self.game_model.time_controls,
+            self.game_model.black_level,
+        )
 
     def setup_game(self):
         w = self.setup_white()
@@ -151,10 +159,10 @@ class GameModel():
     def load_game(self, movelist):
         self.game_model.move_list = movelist
         self.game_model.save()
-    
+
     def is_game_over(self):
         return self.setup_game().is_game_over()
-    
+
     def get_results(self):
         return self.setup_game().get_results()
 
@@ -164,28 +172,28 @@ class GameModel():
         self.game_model.move_list = g.get_moves()
         self.game_model.save()
         return move
-    
+
     def play_continuous(self):
         g = self.setup_game()
         g.play_continuous()
         self.game_model.move_list = g.get_moves()
         self.game_model.save()
         return self.game_model.move_list
-    
+
     def get_PGN(self):
         return self.setup_game().get_PGN()
-    
+
     def print_game(self):
         return self.setup_game().print_game()
 
     def get_white_player(self):
         return self.setup_white().get_player()
-    
+
     def get_black_player(self):
         return self.setup_black().get_player()
-    
+
     def get_white_level(self):
         return self.setup_white().get_level()
-    
+
     def get_black_level(self):
         return self.setup_black().get_level()
