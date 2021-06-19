@@ -24,6 +24,9 @@ class ChessPlayer:
             )
             self.engine.configure({"Skill Level": self.level})
 
+    def is_cpu(self):
+        return self.playerName in CHESS_CPU
+
     def __del__(self):
         if self.isEngine:
             self.engine.quit()
@@ -47,9 +50,6 @@ class ChessPlayer:
     def get_time_limit(self):
         return self.timeLimit
 
-
-def playOneCPU(player, level, limit):
-    pass
 
 
 class ChessGame:
@@ -109,68 +109,65 @@ class ChessGame:
         self.game.headers["Result"] = self.board.result()
         self.game.headers["Site"] = "ChessDynamics"
 
-# class Game(models.Model):
-#     title = models.CharField(max_length=200, default="untitled game")
-#     description = models.CharField(max_length=500, default="test game")
-#     PGN = models.CharField(max_length=20000, default="")
-#     black = models.CharField(max_length=200, default="stockfish")
-#     black_level = models.IntegerField(default=1)
-#     white = models.CharField(max_length=200, default="stockfish")
-#     white_level = models.IntegerField(default=1)
-#     time_controls = models.IntegerField(default=100)
-#     white_move = models.BooleanField(default=True)
-
-#     def setup_white(self):
-#         return ChessPlayer(self.white, self.time_controls, self.white_level)
+class GameModel():
+    def __init__(self, gm):
+        self.game_model = gm
 
 
-#     def setup_black(self):
-#         return ChessPlayer(self.black, self.time_controls, self.black_level)
+    def setup_white(self):
+        return ChessPlayer(self.game_model.white, self.game_model.time_controls, self.game_model.white_level)
 
-#     def setup_game(self):
-#         w = self.setup_white()
-#         b = self.setup_black()
-#         cg = ChessGame(w, b, self.white_move, self.title)
-#         if len(self.PGN) > 0:
-#             cg.load_PGN(self.PGN)
-#         return cg
 
-#     def __str__(self):
-#         return self.setup_game().get_PGN()
-    
-#     def load_PGN(self, pgn):
-#         self.PGN = pgn
-    
-#     def is_game_over(self):
-#         return self.setup_game().is_game_over()
-    
-#     def play_turn(self):
-#         g = self.setup_game()
-#         move = g.play_turn()
-#         self.PGN = g.get_PGN()
-#         return move
-    
-#     def play_continuous(self):
-#         moves = list()
-#         g = self.setup_game()
-#         moves.append(g.play_turn())
-#         self.PGN = g.get_PGN()
-#         return moves
-    
-#     def get_PGN(self):
-#         return self.setup_game().get_PGN()
-    
-#     def print_game(self):
-#         return self.setup_game().print_game()
+    def setup_black(self):
+        return ChessPlayer(self.game_model.black, self.game_model.time_controls, self.game_model.black_level)
 
-#     def get_white_player(self):
-#         return self.setup_white().get_player()
+    def setup_game(self):
+        w = self.setup_white()
+        b = self.setup_black()
+        cg = ChessGame(w, b, self.game_model.white_move, self.game_model.title)
+        if len(self.game_model.PGN) > 0:
+            cg.load_PGN(self.game_model.PGN)
+        return cg
+
+    def __str__(self):
+        return self.setup_game().get_PGN()
     
-#     def get_black_player(self):
-#         return self.setup_black().get_player()
+    def load_PGN(self, pgn):
+        self.game_model.PGN = pgn
+        self.game_model.save()
     
-#     def get_white_level(self):
-#         return self.setup_white().get_level()
+    def is_game_over(self):
+        return self.setup_game().is_game_over()
     
-#     def get_black_level(self):
-#         return self.setup_black().get_level()
+    def play_turn(self):
+        g = self.setup_game()
+        move = g.play_turn()
+        self.game_model.PGN = g.get_PGN()
+        self.game_model.save()
+        return move
+    
+    def play_continuous(self):
+        moves = list()
+        g = self.setup_game()
+        moves.append(g.play_turn())
+        self.game_model.PGN = g.get_PGN()
+        self.game_model.save()
+        return moves
+    
+    def get_PGN(self):
+        return self.setup_game().get_PGN()
+    
+    def print_game(self):
+        return self.setup_game().print_game()
+
+    def get_white_player(self):
+        return self.setup_white().get_player()
+    
+    def get_black_player(self):
+        return self.setup_black().get_player()
+    
+    def get_white_level(self):
+        return self.setup_white().get_level()
+    
+    def get_black_level(self):
+        return self.setup_black().get_level()
