@@ -9,9 +9,9 @@ CHESS_CPU = {"stockfish": "/usr/games/stockfish"}
 
 
 class ChessPlayer:
-    def __init__(self, playerName="stockfish", timeLimit=100, level=1, timeout=None):
+    def __init__(self, playerName="stockfish", timeLimitms=100, level=1, timeout=None):
         self.playerName = playerName.lower()
-        self.timeLimit = timeLimit
+        self.timeLimit = float(timeLimitms) / 1000
         self.level = int(level)
         self.timeout = timeout
 
@@ -57,13 +57,14 @@ def playOneCPU(player, level, limit):
 
 
 class ChessGame:
-    def __init__(self, p1, p2):
+    def __init__(self, p1, p2, title="chessdynamics"):
         self.board = chess.Board()
         self.game = chess.pgn.Game()
         self.node = self.game
         self.white = p1
         self.black = p2
         self.whiteTurn = True
+        self.title = title
 
     def is_game_over(self):
         return self.board.is_game_over()
@@ -90,7 +91,7 @@ class ChessGame:
         return str(self.game)
 
     def set_headers(self):
-        self.game.headers["Event"] = "Example"
+        self.game.headers["Event"] = self.title
         if self.white.getPlayer() not in CHESS_CPU:
             self.game.headers["White"] = self.white.getPlayer()
         else:
@@ -105,22 +106,3 @@ class ChessGame:
             )
         self.game.headers["Result"] = self.board.result()
         self.game.headers["Site"] = "ChessDynamics"
-
-
-def playTwoCPU(whitePlayer, blackPlayer, whiteLevel, blackLevel, timeLimit):
-    whiteLevel = int(whiteLevel)
-    blackLevel = int(blackLevel)
-    timeLimit = float(timeLimit) / 1000
-    # engineOne = chess.engine.SimpleEngine.popen_uci(
-    #     "/usr/games/stockfish", timeout=None
-    # )
-    # engineOne.configure({"Skill Level": whiteLevel})
-    # engineTwo = chess.engine.SimpleEngine.popen_uci(
-    #     "/usr/games/stockfish", timeout=None
-    # )
-    # engineTwo.configure({"Skill Level": levelTwo})
-    whiteEngine = ChessPlayer("stockfish", timeLimit, whiteLevel, None)
-    blackEngine = ChessPlayer("stockfish", timeLimit, blackLevel, None)
-    cg = ChessGame(whiteEngine, blackEngine)
-    cg.play_continuous()
-    return cg.get_PGN()
