@@ -88,7 +88,10 @@ class ChessGame:
                 result = self.black.play(self.board)
             self.node = self.node.add_variation(result.move)
             self.board.push(result.move)
-            self.moves += ',' + str(result.move)
+            if len(self.moves) > 0:
+                self.moves += ',' + str(result.move)
+            else:
+                self.moves += str(result.move)
             return result
         else:
             return "gg"
@@ -142,6 +145,9 @@ class GameModel():
     def __str__(self):
         return self.setup_game().get_PGN()
 
+    def get_moves(self):
+        return self.setup_game().get_moves()
+
     def load_game(self, movelist):
         self.game_model.move_list = movelist
         self.game_model.save()
@@ -150,22 +156,21 @@ class GameModel():
         return self.setup_game().is_game_over()
     
     def get_results(self):
-        return self.setup_game().get_result()
+        return self.setup_game().get_results()
 
     def play_turn(self):
         g = self.setup_game()
         move = g.play_turn()
-        self.game_model.PGN = g.get_PGN()
+        self.game_model.move_list = g.get_moves()
         self.game_model.save()
         return move
     
     def play_continuous(self):
-        moves = list()
         g = self.setup_game()
-        moves.append(g.play_turn())
-        self.game_model.PGN = g.get_PGN()
+        g.play_continuous()
+        self.game_model.move_list = g.get_moves()
         self.game_model.save()
-        return moves
+        return self.game_model.move_list
     
     def get_PGN(self):
         return self.setup_game().get_PGN()
