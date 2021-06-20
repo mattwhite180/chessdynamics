@@ -36,23 +36,25 @@ def createGame(request):
     else:
         return HttpResponseRedirect(reverse("index"))
 
+
 @csrf_exempt
 def game_list(request):
     """
     List all games, or create a new game.
     """
-    if request.method == 'GET':
+    if request.method == "GET":
         games = Game.objects.all()
         serializer = GameSerializer(games, many=True)
         return JsonResponse(serializer.data, safe=False)
 
-    elif request.method == 'POST':
+    elif request.method == "POST":
         data = JSONParser().parse(request)
         serializer = GameSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
+
 
 @csrf_exempt
 def game_detail(request, pk):
@@ -64,11 +66,11 @@ def game_detail(request, pk):
     except Game.DoesNotExist:
         return HttpResponse(status=404)
 
-    if request.method == 'GET':
+    if request.method == "GET":
         serializer = GameSerializer(game)
         return JsonResponse(serializer.data)
 
-    elif request.method == 'PUT':
+    elif request.method == "PUT":
         data = JSONParser().parse(request)
         serializer = GameSerializer(game, data=data)
         if serializer.is_valid():
@@ -76,6 +78,6 @@ def game_detail(request, pk):
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)
 
-    elif request.method == 'DELETE':
+    elif request.method == "DELETE":
         game.delete()
         return HttpResponse(status=204)

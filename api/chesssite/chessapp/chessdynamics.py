@@ -176,7 +176,6 @@ class GameModel:
 
     def play_continuous(self):
         g = self.setup_game()
-        # g.play_continuous()
         while not g.is_game_over():
             move = g.play_turn()
             self.game_model.move_list = g.get_moves()

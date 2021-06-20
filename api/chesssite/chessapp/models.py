@@ -13,5 +13,6 @@ class Game(models.Model):
     black_level = models.IntegerField(default=1, blank=True)
     time_controls = models.IntegerField(default=100, blank=True)
     results = models.CharField(default="...", blank=True, max_length=10)
+
     class Meta:
-        ordering = ['title']
+        ordering = ["title"]
