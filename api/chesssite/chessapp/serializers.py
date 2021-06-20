@@ -1,27 +1,20 @@
 from rest_framework import serializers
-from snippets.models import Snippet, LANGUAGE_CHOICES, STYLE_CHOICES
+from chessapp.models import Game
 
-
-class GameSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    title = serializers.CharField(required=False, allow_blank=True, max_length=200)
-    description = serializers.CharField(required=False, allow_blank=True, max_length=500)
-    move_list = serializers.CharField(required=False, allow_blank=True, max_length=2000)
-    white = serializers.CharField(required=False, allow_blank=True, max_length=200)
-    white_level = serializers.IntegerField(required=False, allow_blank=True)
-    black = serializers.CharField(required=False, allow_blank=True, max_length=500)
-    black_level = serializers.IntegerField(required=False, allow_blank=True)
-    time_controls = serializers.IntegerField(required=False, allow_blank=True)
+class GameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Game
+        fields = ['id', 'title', 'description', 'move_list', 'white', 'white_level', 'black', 'black_level', 'time_controls']
 
     def create(self, validated_data):
         """
-        Create and return a new `Snippet` instance, given the validated data.
+        Create and return a new `Game` instance, given the validated data.
         """
         return Game.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         """
-        Update and return an existing `Snippet` instance, given the validated data.
+        Update and return an existing `Game` instance, given the validated data.
         """
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
