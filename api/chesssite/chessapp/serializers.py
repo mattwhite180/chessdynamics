@@ -4,7 +4,7 @@ from chessapp.models import Game
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ['id', 'title', 'description', 'move_list', 'white', 'white_level', 'black', 'black_level', 'time_controls']
+        fields = ['id', 'title', 'description', 'move_list', 'white', 'white_level', 'black', 'black_level', 'time_controls', 'results']
 
     def create(self, validated_data):
         """
@@ -24,5 +24,6 @@ class GameSerializer(serializers.ModelSerializer):
         instance.black = validated_data.get('black', instance.black)
         instance.black_level = validated_data.get('black_level', instance.black_level)
         instance.time_controls = validated_data.get('time_controls', instance.time_controls)
+        instance.results = validated_data.get('results', instance.results)
         instance.save()
         return instance

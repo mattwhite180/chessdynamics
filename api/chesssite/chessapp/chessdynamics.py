@@ -170,14 +170,18 @@ class GameModel:
         g = self.setup_game()
         move = g.play_turn()
         self.game_model.move_list = g.get_moves()
+        self.game_model.results = g.get_results()
         self.game_model.save()
         return move
 
     def play_continuous(self):
         g = self.setup_game()
-        g.play_continuous()
-        self.game_model.move_list = g.get_moves()
-        self.game_model.save()
+        # g.play_continuous()
+        while not g.is_game_over():
+            move = g.play_turn()
+            self.game_model.move_list = g.get_moves()
+            self.game_model.results = g.get_results()
+            self.game_model.save()
         return self.game_model.move_list
 
     def get_PGN(self):

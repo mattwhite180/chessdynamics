@@ -1,0 +1,91 @@
+html {
+    background-color: grey;
+    font-size: 200%;
+  }
+
+  h1 {
+    text-align: center;
+    color: blue;
+    background-color: yellow;
+    border: 12px solid black;
+    font-size: 600%;
+  }
+
+  p {
+    color: darkblue;
+    font-family: "Gill Sans Extrabold", sans-serif;
+  }
+
+  code {
+    background-color: lime;
+    font-style: oblique;
+  }
+
+  #dash, #dash td, #dash th {
+      border:4px solid blue;
+  }
+
+  .y {
+    color: yellow;
+    background-color: black;
+  }
+
+
+  table {
+    text-align: center;
+    margin: 1em;
+    border: 4px solid black;
+    padding: 1em;
+    background-color: orange;
+  }
+
+  strong {
+    color: orange;
+  }
+
+  em {
+    color:green;
+  }
+
+  #leftbox {
+    float:left;
+    background:green;
+    width:34%;
+    height:600px;
+  }
+
+  #middlebox{
+    float:left;
+    background:orange;
+    width:33%;
+    height:600px;
+  }
+
+  #rightbox{
+    float:right;
+    background:blue;
+    width:33%;
+    height:600px;
+  }
+
+form {
+    width : 200px;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.formdiv {
+  width: 250px;
+  border: 10px solid black;
+  padding: 20px;
+  margin: 10px;
+}
+
+.chessdiv {
+  width: 500%;
+  border: 5px solid red;
+  padding: 20px;
+  margin: 10px;
+  background-color: darkorange;
+}
