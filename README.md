@@ -3,9 +3,9 @@
 ![Django Badge](https://img.shields.io/badge/Django-3.1.0-informational?style=plastic&logo=django&logoColor=blue&color=green)
 ![Docker Badge](https://img.shields.io/badge/Docker-Debian-informational?style=plastic&logo=docker&logoColor=blue&color=blue)
 
-|   | main | testing |
-|---|------|---------|
-|   | [![Unit Testing](https://github.com/mattwhite180/chessdynamics/actions/workflows/unittests.yml/badge.svg?branch=main)](https://github.com/mattwhite180/chessdynamics/actions/workflows/unittests.yml) | [![Unit Testing](https://github.com/mattwhite180/chessdynamics/actions/workflows/unittests.yml/badge.svg?branch=testing)](https://github.com/mattwhite180/chessdynamics/actions/workflows/unittests.yml) |
+| main | testing |
+|------|---------|
+| [![Unit Testing](https://github.com/mattwhite180/chessdynamics/actions/workflows/unittests.yml/badge.svg?branch=main)](https://github.com/mattwhite180/chessdynamics/actions/workflows/unittests.yml) | [![Unit Testing](https://github.com/mattwhite180/chessdynamics/actions/workflows/unittests.yml/badge.svg?branch=testing)](https://github.com/mattwhite180/chessdynamics/actions/workflows/unittests.yml) |
 
 ## Dependencies
 * uses `docker-compose` to build and run program
