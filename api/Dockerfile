@@ -8,6 +8,7 @@ RUN apt-get update -y \
 	python3-pip \
 	stockfish \
 	vim \
+	postgresql \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /usr/src/app
