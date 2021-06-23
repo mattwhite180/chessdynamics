@@ -39,7 +39,8 @@ from rest_framework.response import Response
 #         return HttpResponseRedirect(reverse("index"))
 
 
-@csrf_exempt
+# @csrf_exempt
+@api_view(['GET','POST'])
 def game_list(request, format=None):
     """
     List all games, or create a new game.
@@ -47,7 +48,7 @@ def game_list(request, format=None):
     if request.method == "GET":
         games = Game.objects.all()
         serializer = GameSerializer(games, many=True)
-        return Response(serializer.data, safe=False)
+        return Response(serializer.data)
 
     elif request.method == "POST":
         data = JSONParser().parse(request)
