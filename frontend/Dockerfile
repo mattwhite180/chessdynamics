@@ -1,6 +1,6 @@
 FROM debian:buster
 
-EXPOSE 3000
+EXPOSE 5000
 
 RUN apt-get update -y \                                                                                        
     && apt-get install -y \                                                                                    
@@ -17,6 +17,7 @@ RUN npm install --save react-chessground
 
 RUN npm run build
 
+RUN npm install -g serve
 #RUN python3 manage.py makemigrations
 
 #RUN python3 manage.py migrate

@@ -1,5 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
+import Chessground from 'react-chessground'
+import 'react-chessground/dist/styles/chessground.css'
 
 function App() {
   return (

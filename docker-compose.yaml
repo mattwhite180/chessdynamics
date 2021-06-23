@@ -44,11 +44,12 @@ services:
     build: frontend/
     #command: /bin/bash -c "python tests.py"
     #command: bash -c "sleep infinity"
-    command: HOST=0.0.0.0 npm run start
+    #command: HOST=0.0.0.0 npm run start
+    command: serve -s build
     expose:
-      - "3000"
+      - "5000"
     ports:
-      - "3000:3000"
+      - "5000:5000"
     networks:
       - testing_net
     depends_on:
