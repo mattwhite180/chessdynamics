@@ -16,6 +16,7 @@ class GameSerializer(serializers.ModelSerializer):
             "black_level",
             "time_controls",
             "results",
+            "fen",
         ]
 
     def create(self, validated_data):
@@ -39,5 +40,6 @@ class GameSerializer(serializers.ModelSerializer):
             "time_controls", instance.time_controls
         )
         instance.results = validated_data.get("results", instance.results)
+        instance.fen = validated_data.get("fen", instance.fen)
         instance.save()
         return instance

@@ -11,9 +11,11 @@ RUN apt-get update -y \
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY . .
-
 RUN npm install --save react-chessground
+
+RUN npm install --save axios
+
+COPY . .
 
 RUN npm run build
 
