@@ -40,7 +40,7 @@ from rest_framework.response import Response
 
 
 # @csrf_exempt
-@api_view(['GET','POST'])
+@api_view(["GET", "POST"])
 def game_list(request, format=None):
     """
     List all games, or create a new game.
@@ -59,7 +59,7 @@ def game_list(request, format=None):
         return Response(serializer.errors, status=400)
 
 
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(["GET", "PUT", "DELETE"])
 def game_detail(request, pk, format=None):
     """
     Retrieve, update or delete a code game.

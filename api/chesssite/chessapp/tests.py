@@ -101,7 +101,7 @@ class ChessGameTestCase(TestCase):
         g = ChessGame(w, b, moves)
         val = g.get_moves()
         expected = moves
-        errmsg = "expected either " + str(val) + " actual value was " + str(expected)
+        errmsg = "expected either " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
     def test_load_game_method(self):
@@ -112,7 +112,7 @@ class ChessGameTestCase(TestCase):
         g.load_game(moves)
         val = g.get_moves()
         expected = moves
-        errmsg = "expected either " + str(val) + " actual value was " + str(expected)
+        errmsg = "expected either " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
     def test_easy_checkmate(self):
@@ -141,7 +141,7 @@ class ChessGameTestCase(TestCase):
         g.play_continuous()
         val = g.get_results()
         expected = "0-1"
-        errmsg = "expected either " + str(val) + " actual value was " + str(expected)
+        errmsg = "expected either " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
     def test_full_game_white_wins(self):
@@ -151,7 +151,7 @@ class ChessGameTestCase(TestCase):
         g.play_continuous()
         val = g.get_results()
         expected = "1-0"
-        errmsg = "expected either " + str(val) + " actual value was " + str(expected)
+        errmsg = "expected either " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
     def test_full_game_manual(self):
@@ -162,7 +162,7 @@ class ChessGameTestCase(TestCase):
             g.play_turn()
         val = g.get_results()
         expected = "0-1"
-        errmsg = "expected either " + str(val) + " actual value was " + str(expected)
+        errmsg = "expected either " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
     def test_get_pgn_one(self):
@@ -181,7 +181,7 @@ class ChessGameTestCase(TestCase):
             + "\n"
             + "1. e3 e6 2. Ke2 Ke7 *"
         )
-        errmsg = "expected either " + str(val) + " actual move was " + str(expected)
+        errmsg = "expected either " + str(expected) + " actual move was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
     def test_get_pgn_two(self):
@@ -201,7 +201,7 @@ class ChessGameTestCase(TestCase):
             + "\n"
             + "1. e3 e6 2. Ke2 Ke7 *"
         )
-        errmsg = "expected either " + str(val) + " actual move was " + str(expected)
+        errmsg = "expected either " + str(expected) + " actual move was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
 
@@ -238,7 +238,7 @@ class GameModelTestCase(TestCase):
             time_controls=25,
         )
 
-    def test_easy_checkmate(self):
+    def test_easy_checkmate_gm(self):
         g = Game.objects.get(title="simple")
         gm = GameModel(g)
         moves = "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3"
@@ -256,35 +256,35 @@ class GameModelTestCase(TestCase):
         )
         self.assertEqual(val, expected, errmsg)
 
-    def test_full_game_black_wins(self):
+    def test_full_game_black_wins_gm(self):
         g = Game.objects.get(title="blackwins")
         gm = GameModel(g)
         gm.play_continuous()
         val = gm.get_results()
         expected = "0-1"
-        errmsg = "expected either " + str(val) + " actual value was " + str(expected)
+        errmsg = "expected either " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
-    def test_full_game_white_wins(self):
+    def test_full_game_white_wins_gm(self):
         g = Game.objects.get(title="whitewins")
         gm = GameModel(g)
         gm.play_continuous()
         val = gm.get_results()
         expected = "1-0"
-        errmsg = "expected either " + str(val) + " actual value was " + str(expected)
+        errmsg = "expected either " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
-    def test_full_game_manual(self):
+    def test_full_game_manual_gm(self):
         g = Game.objects.get(title="simple")
         gm = GameModel(g)
         while not gm.is_game_over():
             gm.play_turn()
         val = gm.get_results()
         expected = "0-1"
-        errmsg = "expected either " + str(val) + " actual value was " + str(expected)
+        errmsg = "expected either " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
-    def test_get_pgn_one(self):
+    def test_get_pgn_one_gm(self):
         g = Game.objects.get(title="simple")
         gm = GameModel(g)
         gm.load_game("e2e3,e7e6,e1e2,e8e7")
@@ -300,5 +300,22 @@ class GameModelTestCase(TestCase):
             + "\n"
             + "1. e3 e6 2. Ke2 Ke7 *"
         )
-        errmsg = "expected either " + str(val) + " actual value was " + str(expected)
+        errmsg = "expected " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
+
+    def test_fen_before_loading_game(self):
+        g = Game.objects.get(title="simple")
+        gm = GameModel(g)
+        val = gm.get_fen()
+        expected = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+        errmsg = "expected " + str(expected) + " actual value was " + str(val)
+        self.assertEqual(val, expected, errmsg)
+
+    def test_fen_after_loading_game(self):
+        g = Game.objects.get(title="simple")
+        gm = GameModel(g)
+        gm.load_game("e2e3,e7e6,e1e2,e8e7")
+        val = gm.get_fen()
+        Notexpected = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+        errmsg = "expected NOT" + str(Notexpected) + " actual value was " + str(val)
+        self.assertNotEqual(val, Notexpected, errmsg)

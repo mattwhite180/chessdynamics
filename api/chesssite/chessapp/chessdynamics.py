@@ -25,7 +25,7 @@ class ChessPlayer:
             self.engine.configure({"Skill Level": self.level})
 
     def is_cpu(self):
-        return self.playerName in CHESS_CPU
+        return self.isEngine
 
     def __del__(self):
         if self.isEngine:
@@ -78,6 +78,9 @@ class ChessGame:
 
     def is_game_over(self):
         return self.board.is_game_over()
+
+    def get_fen(self):
+        return self.board.fen()
 
     def play_turn(self):
         if not self.is_game_over():
@@ -156,8 +159,11 @@ class GameModel:
     def get_moves(self):
         return self.setup_game().get_moves()
 
-    def load_game(self, movelist):
-        self.game_model.move_list = movelist
+    def load_game(self, moveList):
+        self.game_model.move_list = moveList
+        g = self.setup_game()
+        self.game_model.fen = g.get_fen()
+        self.game_model.results = g.get_results()
         self.game_model.save()
 
     def is_game_over(self):
@@ -171,6 +177,7 @@ class GameModel:
         move = g.play_turn()
         self.game_model.move_list = g.get_moves()
         self.game_model.results = g.get_results()
+        self.game_model.fen = g.get_fen()
         self.game_model.save()
         return move
 
@@ -180,8 +187,12 @@ class GameModel:
             move = g.play_turn()
             self.game_model.move_list = g.get_moves()
             self.game_model.results = g.get_results()
+            self.game_model.fen = g.get_fen()
             self.game_model.save()
         return self.game_model.move_list
+
+    def get_fen(self):
+        return self.setup_game().get_fen()
 
     def get_PGN(self):
         return self.setup_game().get_PGN()
