@@ -21,4 +21,4 @@ docker-compose down --remove-orphans && \
 	echo "serializer = GameSerializer(Game.objects.all(), many=True)"
 	echo "serializer.data"
 	echo "history"
-	docker-compose run api python3 manage.py shell
+	docker-compose run api bash -c "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py shell"
