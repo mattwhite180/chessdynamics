@@ -64,16 +64,22 @@ class GameViewSet(viewsets.ModelViewSet):
     # @action(detail=True, permission_classes=[(permissions.IsAuthenticatedOrReadOnly&IsOwnerOrReadOnly)|permissions.IsAdminUser])
     @action(detail=True)
     def play(self, request, *args, **kwargs):
-        game = self.get_object()
-        gm = GameModel(game)
-        move = gm.play_turn()
         # serializer = MySerializer(move)
         # response = {}
         # response['success'] = True
         # response['data'] = serializer.data
-        return Response({
-            'move': str(move.move),
-            'gameover': str(gm.is_game_over())})
+        game = self.get_object()
+        if (game.owner == request.user) or (request.user.is_superuser == True):
+            gm = GameModel(game)
+            move = gm.play_turn()
+            return Response({
+                'move': str(move.move),
+                'gameover': str(gm.is_game_over())})
+
+        else:
+            return Response({
+                "error": "you don't have permission to do this"
+            })
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
