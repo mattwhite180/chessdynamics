@@ -6,11 +6,44 @@ from chessapp.models import Game
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from chessapp.serializers import GameSerializer
+from chessapp.serializers import GameSerializer, UserSerializer
 from chessapp.chessdynamics import ChessPlayer, ChessGame, GameModel
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import generics
+from django.contrib.auth.models import User
+from rest_framework import permissions
+from django.contrib.auth.models import User
+from chessapp.permissions import IsOwnerOrReadOnly
+
+
+class UserList(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class GameList(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+
+
+class GameDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+
+
 
 # def index(request):
 #     game_list = Game.objects.order_by("title")
@@ -39,47 +72,47 @@ from rest_framework.response import Response
 #         return HttpResponseRedirect(reverse("index"))
 
 
-# @csrf_exempt
-@api_view(["GET", "POST"])
-def game_list(request, format=None):
-    """
-    List all games, or create a new game.
-    """
-    if request.method == "GET":
-        games = Game.objects.all()
-        serializer = GameSerializer(games, many=True)
-        return Response(serializer.data)
+# # @csrf_exempt
+# @api_view(["GET", "POST"])
+# def game_list(request, format=None):
+#     """
+#     List all games, or create a new game.
+#     """
+#     if request.method == "GET":
+#         games = Game.objects.all()
+#         serializer = GameSerializer(games, many=True)
+#         return Response(serializer.data)
 
-    elif request.method == "POST":
-        data = JSONParser().parse(request)
-        serializer = GameSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+#     elif request.method == "POST":
+#         data = JSONParser().parse(request)
+#         serializer = GameSerializer(data=data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=201)
+#         return Response(serializer.errors, status=400)
 
 
-@api_view(["GET", "PUT", "DELETE"])
-def game_detail(request, pk, format=None):
-    """
-    Retrieve, update or delete a code game.
-    """
-    try:
-        game = Game.objects.get(pk=pk)
-    except Game.DoesNotExist:
-        return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+# @api_view(["GET", "PUT", "DELETE"])
+# def game_detail(request, pk, format=None):
+#     """
+#     Retrieve, update or delete a code game.
+#     """
+#     try:
+#         game = Game.objects.get(pk=pk)
+#     except Game.DoesNotExist:
+#         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
-    if request.method == "GET":
-        serializer = GameSerializer(game)
-        return Response(serializer.data)
+#     if request.method == "GET":
+#         serializer = GameSerializer(game)
+#         return Response(serializer.data)
 
-    elif request.method == "PUT":
-        serializer = GameSerializer(game, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=400)
+#     elif request.method == "PUT":
+#         serializer = GameSerializer(game, data=data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=400)
 
-    elif request.method == "DELETE":
-        game.delete()
-        return HttpResponse(status=204)
+#     elif request.method == "DELETE":
+#         game.delete()
+#         return HttpResponse(status=204)

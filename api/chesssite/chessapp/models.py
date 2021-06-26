@@ -14,6 +14,7 @@ class Game(models.Model):
     time_controls = models.IntegerField(default=100, blank=True)
     results = models.CharField(default="...", blank=True, max_length=10)
     fen = models.CharField(default="", blank=True, max_length=200)
+    owner = models.ForeignKey('auth.User', related_name='games', on_delete=models.CASCADE)
 
     class Meta:
         ordering = ["title"]
