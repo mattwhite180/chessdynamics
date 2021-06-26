@@ -1,7 +1,7 @@
 from rest_framework import permissions
 
 
-class IsOwnerOrReadOnly(permissions.BasePermission):
+class BasePermissions(permissions.BasePermission):
     """
     Custom permission to only allow owners of an object to edit it.
     """
@@ -13,4 +13,4 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return True
 
         # Write permissions are only allowed to the owner of the game.
-        return obj.owner == request.user
+        return (obj.owner == request.user) or (request.user.is_superuser == True)

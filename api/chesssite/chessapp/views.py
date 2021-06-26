@@ -16,7 +16,6 @@ from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework import permissions
 from django.contrib.auth.models import User
-from chessapp.permissions import IsOwnerOrReadOnly
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -63,7 +62,7 @@ class GameViewSet(viewsets.ModelViewSet):
     #     return Response(snippet.highlighted)
 
     # @action(detail=True, permission_classes=[(permissions.IsAuthenticatedOrReadOnly&IsOwnerOrReadOnly)|permissions.IsAdminUser])
-    @action(detail=True, permission_classes=[(permissions.IsAuthenticatedOrReadOnly&IsOwnerOrReadOnly)|permissions.IsAdminUser])
+    @action(detail=True)
     def play(self, request, *args, **kwargs):
         game = self.get_object()
         gm = GameModel(game)

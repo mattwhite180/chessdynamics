@@ -17,9 +17,13 @@ class Command(BaseCommand):
             i.delete()
         
         user1=User.objects.create_user('test1', password='test1')
+        user1.is_superuser=False
+        user1.is_staff=False
         user1.save()
 
         user2=User.objects.create_user('test2', password='test2')
+        user2.is_superuser=False
+        user2.is_staff=False
         user2.save()
 
         mattw=User.objects.create_user('mattw', password='asdf')
@@ -27,14 +31,14 @@ class Command(BaseCommand):
         mattw.is_staff=True
         mattw.save()
 
-        simple_checkmate_in_one = Game.objects.create(title="easy checkmate in one", owner=user1)
-        one = GameModel(simple_checkmate_in_one)
-        one.load_game("e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3")
-
         new_game1 = Game.objects.create(title="new1", owner=user1)
         new_game2 = Game.objects.create(title="new2", owner=user2)
         new_game3 = Game.objects.create(title="newmattw", owner=mattw)
         
+        simple_checkmate_in_one = Game.objects.create(title="easy checkmate in one", owner=user1)
+        one = GameModel(simple_checkmate_in_one)
+        one.load_game("e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3")
+    
         finished_game = Game.objects.create(title="finished game", owner=user2)
         two = GameModel(finished_game)
         two.load_game("e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3,f3f7")
