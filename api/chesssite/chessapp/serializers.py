@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
-        owner = serializers.ReadOnlyField(source='owner.username')
+        owner = serializers.ReadOnlyField(source="owner.username")
         fields = [
             "id",
             "title",
@@ -19,7 +19,7 @@ class GameSerializer(serializers.ModelSerializer):
             "time_controls",
             "results",
             "fen",
-            'owner',
+            "owner",
         ]
 
     def create(self, validated_data):
@@ -47,10 +47,10 @@ class GameSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+
 class UserSerializer(serializers.ModelSerializer):
     games = serializers.PrimaryKeyRelatedField(many=True, queryset=Game.objects.all())
 
-
     class Meta:
         model = User
-        fields = ['id', 'username', 'games']
+        fields = ["id", "username", "games"]

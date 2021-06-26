@@ -37,12 +37,10 @@ class GameList(generics.ListCreateAPIView):
         serializer.save(owner=self.request.user)
 
 
-
 class GameDetail(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     queryset = Game.objects.all()
     serializer_class = GameSerializer
-
 
 
 # def index(request):
