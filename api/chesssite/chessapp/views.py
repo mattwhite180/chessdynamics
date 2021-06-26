@@ -25,6 +25,7 @@ from rest_framework.response import Response
 from rest_framework import permissions
 import json
 
+
 @api_view(["GET"])
 def api_root(request, format=None):
     return Response(
@@ -33,6 +34,7 @@ def api_root(request, format=None):
             "games": reverse("game-list", request=request, format=format),
         }
     )
+
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
@@ -62,15 +64,12 @@ class GameViewSet(viewsets.ModelViewSet):
         if (game.owner == request.user) or (request.user.is_superuser == True):
             gm = GameModel(game)
             move = gm.play_turn()
-            return Response({
-                'move': str(move.move),
-                'gameover': str(gm.is_game_over())})
+            return Response(
+                {"move": str(move.move), "gameover": str(gm.is_game_over())}
+            )
 
         else:
-            return Response({
-                "error": "you don't have permission to do this"
-            })
+            return Response({"error": "you don't have permission to do this"})
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
-
