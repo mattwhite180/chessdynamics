@@ -19,6 +19,7 @@ class GameSerializer(serializers.ModelSerializer):
             "time_controls",
             "results",
             "fen",
+            "legal_moves",
             "owner",
         ]
 
@@ -44,6 +45,7 @@ class GameSerializer(serializers.ModelSerializer):
         )
         instance.results = validated_data.get("results", instance.results)
         instance.fen = validated_data.get("fen", instance.fen)
+        instance.legal_moves = validated_data.get("legal_moves", instance.legal_moves)
         instance.save()
         return instance
 

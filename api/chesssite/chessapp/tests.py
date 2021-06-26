@@ -136,8 +136,8 @@ class ChessGameTestCase(TestCase):
         self.assertEqual(val, expected, errmsg)
 
     def test_full_game_black_wins(self):
-        w = ChessPlayer("stockfish", 10, 1, None)
-        b = ChessPlayer("stockfish", 10, 8, None)
+        w = ChessPlayer("stockfish", 100, 1, None)
+        b = ChessPlayer("stockfish", 100, 8, None)
         g = ChessGame(w, b)
         g.play_continuous()
         val = g.get_results()
@@ -146,8 +146,8 @@ class ChessGameTestCase(TestCase):
         self.assertEqual(val, expected, errmsg)
 
     def test_full_game_white_wins(self):
-        w = ChessPlayer("stockfish", 10, 8, None)
-        b = ChessPlayer("stockfish", 10, 1, None)
+        w = ChessPlayer("stockfish", 100, 8, None)
+        b = ChessPlayer("stockfish", 100, 1, None)
         g = ChessGame(w, b)
         g.play_continuous()
         val = g.get_results()
@@ -156,8 +156,8 @@ class ChessGameTestCase(TestCase):
         self.assertEqual(val, expected, errmsg)
 
     def test_full_game_manual(self):
-        w = ChessPlayer("stockfish", 10, 1, None)
-        b = ChessPlayer("stockfish", 10, 8, None)
+        w = ChessPlayer("stockfish", 100, 1, None)
+        b = ChessPlayer("stockfish", 100, 8, None)
         g = ChessGame(w, b)
         while not g.is_game_over():
             g.play_turn()
@@ -167,8 +167,8 @@ class ChessGameTestCase(TestCase):
         self.assertEqual(val, expected, errmsg)
 
     def test_get_pgn_one(self):
-        w = ChessPlayer("stockfish", 10, 1, None)
-        b = ChessPlayer("stockfish", 10, 8, None)
+        w = ChessPlayer("stockfish", 100, 1, None)
+        b = ChessPlayer("stockfish", 100, 8, None)
         g = ChessGame(w, b, "e2e3,e7e6,e1e2,e8e7")
         val = g.get_PGN()
         expected = (
@@ -186,8 +186,8 @@ class ChessGameTestCase(TestCase):
         self.assertEqual(val, expected, errmsg)
 
     def test_get_pgn_two(self):
-        w = ChessPlayer("stockfish", 10, 1, None)
-        b = ChessPlayer("stockfish", 10, 8, None)
+        w = ChessPlayer("stockfish", 100, 1, None)
+        b = ChessPlayer("stockfish", 100, 8, None)
         g = ChessGame(w, b)
         g.load_game("e2e3,e7e6,e1e2,e8e7")
         val = g.get_PGN()
@@ -217,7 +217,7 @@ class GameModelTestCase(TestCase):
             black_level=8,
             white="stockfish",
             white_level=1,
-            time_controls=25,
+            time_controls=100,
             owner=user1,
         )
         Game.objects.create(
@@ -228,7 +228,7 @@ class GameModelTestCase(TestCase):
             black_level=8,
             white="stockfish",
             white_level=1,
-            time_controls=25,
+            time_controls=100,
             owner=user1,
         )
         Game.objects.create(
@@ -239,7 +239,7 @@ class GameModelTestCase(TestCase):
             black_level=1,
             white="stockfish",
             white_level=8,
-            time_controls=25,
+            time_controls=100,
             owner=user1,
         )
 
@@ -267,7 +267,7 @@ class GameModelTestCase(TestCase):
         gm.play_continuous()
         val = gm.get_results()
         expected = "0-1"
-        errmsg = "expected either " + str(expected) + " actual value was " + str(val)
+        errmsg = "expected " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
     def test_full_game_white_wins_gm(self):
@@ -276,7 +276,7 @@ class GameModelTestCase(TestCase):
         gm.play_continuous()
         val = gm.get_results()
         expected = "1-0"
-        errmsg = "expected either " + str(expected) + " actual value was " + str(val)
+        errmsg = "expected " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
     def test_full_game_manual_gm(self):
@@ -286,7 +286,7 @@ class GameModelTestCase(TestCase):
             gm.play_turn()
         val = gm.get_results()
         expected = "0-1"
-        errmsg = "expected either " + str(expected) + " actual value was " + str(val)
+        errmsg = "expected " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
     def test_get_pgn_one_gm(self):

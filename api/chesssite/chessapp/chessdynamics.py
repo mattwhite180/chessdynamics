@@ -79,6 +79,15 @@ class ChessGame:
     def is_game_over(self):
         return self.board.is_game_over()
 
+    def get_legal_moves(self):
+        moveStr = str()
+        for i in self.board.legal_moves:
+            if len(moveStr) == 0:
+                moveStr += str(i)
+            else:
+                moveStr += "," + str(i)
+        return moveStr
+
     def get_fen(self):
         return self.board.fen()
 
@@ -130,6 +139,8 @@ class ChessGame:
 class GameModel:
     def __init__(self, gm):
         self.game_model = gm
+        g = self.setup_game()
+        self.save(g)
 
     def setup_white(self):
         return ChessPlayer(
@@ -160,11 +171,9 @@ class GameModel:
         return self.setup_game().get_moves()
 
     def load_game(self, moveList):
-        self.game_model.move_list = moveList
         g = self.setup_game()
-        self.game_model.fen = g.get_fen()
-        self.game_model.results = g.get_results()
-        self.game_model.save()
+        g.load_game(moveList)
+        self.save(g)
 
     def is_game_over(self):
         return self.setup_game().is_game_over()
@@ -175,21 +184,25 @@ class GameModel:
     def play_turn(self):
         g = self.setup_game()
         move = g.play_turn()
-        self.game_model.move_list = g.get_moves()
-        self.game_model.results = g.get_results()
-        self.game_model.fen = g.get_fen()
-        self.game_model.save()
-        return move
+        self.save(g)
+        return str(move.move)
 
     def play_continuous(self):
         g = self.setup_game()
         while not g.is_game_over():
             move = g.play_turn()
-            self.game_model.move_list = g.get_moves()
-            self.game_model.results = g.get_results()
-            self.game_model.fen = g.get_fen()
-            self.game_model.save()
+            self.save(g)
         return self.game_model.move_list
+
+    def save(self, g):
+        self.game_model.move_list = g.get_moves()
+        self.game_model.results = g.get_results()
+        self.game_model.fen = g.get_fen()
+        self.game_model.legal_moves = g.get_legal_moves()
+        self.game_model.save()
+
+    def get_legal_moves(self):
+        return self.setup_game().get_legal_moves()
 
     def get_fen(self):
         return self.setup_game().get_fen()

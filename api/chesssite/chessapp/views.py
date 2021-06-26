@@ -65,7 +65,7 @@ class GameViewSet(viewsets.ModelViewSet):
             gm = GameModel(game)
             move = gm.play_turn()
             return Response(
-                {"move": str(move.move), "gameover": str(gm.is_game_over())}
+                {"move": move, "gameover": str(gm.is_game_over())}
             )
 
         else:
