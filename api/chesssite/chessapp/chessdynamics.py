@@ -183,9 +183,12 @@ class GameModel:
 
     def play_turn(self):
         g = self.setup_game()
-        move = g.play_turn()
-        self.save(g)
-        return str(move.move)
+        if g.is_game_over():
+            return "gg"
+        else:
+            move = g.play_turn()
+            self.save(g)
+            return str(move.move)
 
     def play_continuous(self):
         g = self.setup_game()
