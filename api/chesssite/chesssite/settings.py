@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 from pathlib import Path
 import os
+import rest_framework
+from chessapp.permissions import IsOwnerOrReadOnly
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -47,7 +49,8 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticatedOrReadOnly"
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
+        "chessapp.permissions.IsOwnerOrReadOnly"
     ],
     # "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
     # 'DEFAULT_RENDERER_CLASSES': [

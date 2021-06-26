@@ -54,14 +54,16 @@ class GameViewSet(viewsets.ModelViewSet):
 
     queryset = Game.objects.all()
     serializer_class = GameSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly|permissions.IsAdminUser]
+    #permission_classes = [(permissions.IsAuthenticatedOrReadOnly&IsOwnerOrReadOnly)|permissions.IsAdminUser]
+    # permission_classes = [IsOwnerOrReadOnly|permissions.IsAdminUser]
 
     # @action(detail=True, renderer_classes=[renderers.StaticHTMLRenderer])
     # def highlight(self, request, *args, **kwargs):
     #     snippet = self.get_object()
     #     return Response(snippet.highlighted)
 
-    @action(detail=True, permission_classes=[permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly, permissions.IsAdminUser])
+    # @action(detail=True, permission_classes=[(permissions.IsAuthenticatedOrReadOnly&IsOwnerOrReadOnly)|permissions.IsAdminUser])
+    @action(detail=True, permission_classes=[(permissions.IsAuthenticatedOrReadOnly&IsOwnerOrReadOnly)|permissions.IsAdminUser])
     def play(self, request, *args, **kwargs):
         game = self.get_object()
         gm = GameModel(game)
