@@ -50,8 +50,7 @@ class ChessPlayer:
         if self.isEngine:
             return self.engine.play(chessBoard, chess.engine.Limit(time=self.timeLimit))
         elif self.playerName == "random":
-            legalMoves = chessBoard.get_legal_moves()
-            return legalMoves[randrange(len(legalMoves))]
+            return "random"
 
     def get_player(self):
         return self.playerName
@@ -106,30 +105,43 @@ class ChessGame:
     def get_fen(self):
         return self.board.fen()
 
+    def play_move(self, move):
+        if self.is_game_over():
+            return "gg"
+        elif move not in self.get_legal_moves().split(sep=","):
+            return "?" + move
+        else:
+            self.board.push_uci(move)
+            self.node = self.node.add_variation(chess.Move.from_uci(move))
+            if len(self.moves) > 0:
+                self.moves += "," + str(move)
+            else:
+                self.moves += str(move)
+            return move
+
+    def play_random(self):
+        if self.is_game_over():
+            return "gg"
+        legalMoves = self.get_legal_moves().split(sep=",")
+        return self.play_move(legalMoves[randrange(len(legalMoves))])
+
     def play_turn(self):
         if not self.is_game_over():
             if self.board.turn:
                 result = self.white.play(self.board)
             else:
                 result = self.black.play(self.board)
+            if result == "random":
+                return self.play_random()
             self.node = self.node.add_variation(result.move)
             self.board.push(result.move)
             if len(self.moves) > 0:
                 self.moves += "," + str(result.move)
             else:
                 self.moves += str(result.move)
-            return result
+            return str(result.move)
         else:
             return "gg"
-
-    def play_move(self, move):
-        if self.is_game_over():
-            return "gg"
-        elif move not in self.get_legal_moves():
-            return "??"
-        else:
-            self.board.push_uci(move)
-            return move
 
     def play_continuous(self):
         while not self.is_game_over():
@@ -212,7 +224,7 @@ class GameModel:
         else:
             move = g.play_turn()
             self.save(g)
-            return str(move.move)
+            return move
 
     def play_move(self, move):
         g = self.setup_game()

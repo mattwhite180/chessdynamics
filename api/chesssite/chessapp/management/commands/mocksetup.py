@@ -35,6 +35,18 @@ class Command(BaseCommand):
         new_game2 = Game.objects.create(title="new2", owner=user2)
         new_game3 = Game.objects.create(title="newmattw", owner=mattw)
 
+        Game.objects.create(
+            title="random",
+            description="random vs lvl 1",
+            move_list="",
+            black="stockfish",
+            black_level=1,
+            white="random",
+            white_level=8,
+            time_controls=100,
+            owner=user1,
+        )
+
         simple_checkmate_in_one = Game.objects.create(
             title="easy checkmate in one", owner=user1
         )
