@@ -45,14 +45,14 @@ services:
     #command: /bin/bash -c "python tests.py"
     #command: bash -c "sleep infinity"
     #command: HOST=0.0.0.0 npm run start
-    command: serve -s build
+    command: bash -c " cd angular-chessdynamics && ng serve --host 0.0.0.0"
     expose:
-      - "5000"
+      - "4200"
     volumes:
       - '.:/app'
       - '/app/node_modules'
     ports:
-      - '4201:4200'
+      - '4200:4200'
     networks:
       - testing_net
     depends_on:
