@@ -242,6 +242,17 @@ class GameModelTestCase(TestCase):
             time_controls=100,
             owner=user1,
         )
+        Game.objects.create(
+            title="random",
+            description="random vs lvl 1",
+            move_list="",
+            black="stockfish",
+            black_level=1,
+            white="random",
+            white_level=8,
+            time_controls=100,
+            owner=user1,
+        )
 
     def test_easy_checkmate_gm(self):
         g = Game.objects.get(title="simple")
@@ -324,3 +335,50 @@ class GameModelTestCase(TestCase):
         Notexpected = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
         errmsg = "expected NOT" + str(Notexpected) + " actual value was " + str(val)
         self.assertNotEqual(val, Notexpected, errmsg)
+
+    def test_play_move_good(self):
+        g = Game.objects.get(title="simple")
+        gm = GameModel(g)
+        moves = "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3"
+        gm.load_game(moves)
+        val = gm.play_move('f3f7')
+        expected = 'f3f7'
+        errmsg = (
+            "expected " + expected + " actual move was " + val
+        )
+        self.assertEqual(val, expected, errmsg)
+
+
+    def test_play_move_bad(self):
+        g = Game.objects.get(title="simple")
+        gm = GameModel(g)
+        moves = "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3"
+        gm.load_game(moves)
+        val = gm.play_move('f3f8')
+        expected = '??'
+        errmsg = (
+            "expected " + expected + " actual move was " + val
+        )
+        self.assertEqual(val, expected, errmsg)
+
+
+    def test_play_move_done(self):
+        g = Game.objects.get(title="simple")
+        gm = GameModel(g)
+        moves = "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3,f3f7"
+        gm.load_game(moves)
+        val = gm.play_move('b4b3')
+        expected = 'gg'
+        errmsg = (
+            "expected " + expected + " actual move was " + val
+        )
+        self.assertEqual(val, expected, errmsg)
+
+    def test_full_game_black_wins_random_gm(self):
+        g = Game.objects.get(title="blackwins")
+        gm = GameModel(g)
+        gm.play_continuous()
+        val = gm.get_results()
+        expected = "0-1"
+        errmsg = "expected " + str(expected) + " actual value was " + str(val)
+        self.assertEqual(val, expected, errmsg)

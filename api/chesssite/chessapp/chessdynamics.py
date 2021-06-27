@@ -3,10 +3,20 @@ import chess.engine
 import chess.pgn
 import collections
 import asyncio
+from random import randrange
 import io
 
-CHESS_CPU = {"stockfish": "/usr/games/stockfish"}
+CHESS_CPU = {
+    "stockfish": {
+         "url": "/usr/games/stockfish",
+        },
+    "random": {
+        }
+    }
 
+class foo:
+    def quit(self, hi=False):
+        return False
 
 class ChessPlayer:
     def __init__(self, playerName="stockfish", timeLimitms=100, level=1, timeout=None):
@@ -14,29 +24,34 @@ class ChessPlayer:
         self.timeLimit = float(timeLimitms) / 1000
         self.level = int(level)
         self.timeout = timeout
-        self.engine = False
+        self.engine = foo()
         self.isEngine = False
 
         if self.playerName in CHESS_CPU:
-            self.isEngine = True
-            self.engine = chess.engine.SimpleEngine.popen_uci(
-                CHESS_CPU[self.playerName], timeout=self.timeout
-            )
-            self.engine.configure({"Skill Level": self.level})
+            if "url" in CHESS_CPU[self.playerName]:
+                self.isEngine = True
+                self.engine = chess.engine.SimpleEngine.popen_uci(
+                    CHESS_CPU[self.playerName]["url"], timeout=self.timeout
+                )
+                self.engine.configure({"Skill Level": self.level})
+
 
     def is_cpu(self):
         return self.isEngine
 
     def __del__(self):
-        if self.isEngine:
-            self.engine.quit()
+        self.engine.quit()
 
     def configure(self, d):
-        if self.playerName != "human":
+        if self.isEngine:
             self.engine.configure(d)
 
     def play(self, chessBoard):
-        return self.engine.play(chessBoard, chess.engine.Limit(time=self.timeLimit))
+        if self.isEngine:
+            return self.engine.play(chessBoard, chess.engine.Limit(time=self.timeLimit))
+        elif self.playerName == "random":
+            legalMoves = chessBoard.get_legal_moves()
+            return legalMoves[randrange(len(legalMoves))]
 
     def get_player(self):
         return self.playerName
@@ -106,6 +121,15 @@ class ChessGame:
             return result
         else:
             return "gg"
+
+    def play_move(self, move):
+        if self.is_game_over():
+            return "gg"
+        elif move not in self.get_legal_moves():
+            return "??"
+        else:
+            self.board.push_uci(move)
+            return move
 
     def play_continuous(self):
         while not self.is_game_over():
@@ -189,6 +213,12 @@ class GameModel:
             move = g.play_turn()
             self.save(g)
             return str(move.move)
+
+    def play_move(self, move):
+        g = self.setup_game()
+        val = g.play_move(move)
+        self.save(g)
+        return val
 
     def play_continuous(self):
         g = self.setup_game()
