@@ -22,7 +22,7 @@ class ChessPlayerTestCase(TestCase):
             b.push_uci(i)
         p = ChessPlayer("stockfish", 123, 7, None)
         checkmates = ["f3f7", "c4f7"]
-        actualMove = str(p.play(b).move)
+        actualMove = p.play(b)
         val = actualMove in checkmates
         expected = True
         errmsg = (
@@ -249,7 +249,7 @@ class GameModelTestCase(TestCase):
             black="stockfish",
             black_level=8,
             white="random",
-            white_level=8,
+            white_level=2,
             time_controls=100,
             owner=user1,
         )

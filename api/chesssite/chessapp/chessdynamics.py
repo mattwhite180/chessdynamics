@@ -9,12 +9,11 @@ import io
 CHESS_CPU = {
     "stockfish": {
          "url": "/usr/games/stockfish",
-        },
-    "random": {
-        }
+         "configs": {}
     }
+}
 
-class foo:
+class EnginePlaceHolder:
     def quit(self, hi=False):
         return False
 
@@ -24,9 +23,8 @@ class ChessPlayer:
         self.timeLimit = float(timeLimitms) / 1000
         self.level = int(level)
         self.timeout = timeout
-        self.engine = foo()
+        self.engine = EnginePlaceHolder()
         self.isEngine = False
-
         if self.playerName in CHESS_CPU:
             if "url" in CHESS_CPU[self.playerName]:
                 self.isEngine = True
@@ -34,7 +32,8 @@ class ChessPlayer:
                     CHESS_CPU[self.playerName]["url"], timeout=self.timeout
                 )
                 self.engine.configure({"Skill Level": self.level})
-
+                for i in CHESS_CPU[self.playerName]["configs"]:
+                    self.engine.configure({i : CHESS_CPU[self.playerName]["configs"][i]})
 
     def is_cpu(self):
         return self.isEngine
@@ -48,9 +47,17 @@ class ChessPlayer:
 
     def play(self, chessBoard):
         if self.isEngine:
-            return self.engine.play(chessBoard, chess.engine.Limit(time=self.timeLimit))
+            return str(self.engine.play(chessBoard, chess.engine.Limit(time=self.timeLimit)).move)
         elif self.playerName == "random":
-            return "random"
+            moveStr = str()
+            for i in chessBoard.legal_moves:
+                if len(moveStr) == 0:
+                    moveStr += str(i)
+                else:
+                    moveStr += "," + str(i)
+            legalMoves = moveStr.split(sep=",")
+            return legalMoves[randrange(len(legalMoves))]
+            
 
     def get_player(self):
         return self.playerName
@@ -119,27 +126,19 @@ class ChessGame:
                 self.moves += str(move)
             return move
 
-    def play_random(self):
-        if self.is_game_over():
-            return "gg"
-        legalMoves = self.get_legal_moves().split(sep=",")
-        return self.play_move(legalMoves[randrange(len(legalMoves))])
-
     def play_turn(self):
         if not self.is_game_over():
             if self.board.turn:
                 result = self.white.play(self.board)
             else:
                 result = self.black.play(self.board)
-            if result == "random":
-                return self.play_random()
-            self.node = self.node.add_variation(result.move)
-            self.board.push(result.move)
+            self.node = self.node.add_variation(chess.Move.from_uci(result))
+            self.board.push(chess.Move.from_uci(result))
             if len(self.moves) > 0:
-                self.moves += "," + str(result.move)
+                self.moves += "," + str(result)
             else:
-                self.moves += str(result.move)
-            return str(result.move)
+                self.moves += str(result)
+            return str(result)
         else:
             return "gg"
 
