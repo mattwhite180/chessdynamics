@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 from pathlib import Path
 import os
+import rest_framework
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -42,7 +43,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": ["chessapp.permissions.BasePermissions"],
+    # "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
+    # 'DEFAULT_RENDERER_CLASSES': [
+    #     'rest_framework.renderers.BrowsableAPIRenderer',
+    # ],
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

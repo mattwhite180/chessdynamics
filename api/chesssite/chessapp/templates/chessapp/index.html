@@ -1,58 +1,69 @@
-
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-<div class="formdiv">
-<form action="{% url 'creategame' %}" method="post">
-    {% csrf_token %}
-    <div>
-	<label for="title">Title:</label>
-	<input type="text" id="title" name="game_title" required="required">
-    </div>
-    <div>
-	<label for="description">Description:</label>
-	<input type="text" id="description" name="game_description" required="required">
-    </div>
-    <div>
-	<label for="timepermove">Time per move (miliseconds):</label>
-	<input type="number" id="timepermove" name="game_time" required="required">
-    </div>
-    <div>
-	<label for"l1">Choose a level for stockfish (white)</label>
-	<select name="l1" id="l1">
-		<option value="1">1</option>
-		<option value="2">2</option>
-		<option value="3">3</option>
-		<option value="4">4</option>
-		<option value="5">5</option>
-		<option value="6">6</option>
-		<option value="7">7</option>
-		<option value="8">8</option>
-	</select>
-    </div>
-    <div>
-	<label for"l2">Choose a level for stockfish (black)</label>
-	<select name="l2" id="l2">
-		<option value="1">1</option>
-		<option value="2">2</option>
-		<option value="3">3</option>
-		<option value="4">4</option>
-		<option value="5">5</option>
-		<option value="6">6</option>
-		<option value="7">7</option>
-		<option value="8">8</option>
-	</select>
-    </div>
-    <button type="submit">Create Game</button>
-</form>
-</div>
-
-{% if game_list %}
-    {% for game in game_list %}
-        <h2><a href="/game/{{ game.id }}/">{{ game.title }}</a></h2>
-	<ul>
-		<li>{{ game.description }}</li>
-		<li><code>{{ game.PGN }}</code></li>
-	</ul>
-    {% endfor %}
-{% else %}
-    <p>No games are available.</p>
-{% endif %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chess Dynamics</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'chessapp/style.css' %}">
+</head>
+<body>
+	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+	<div class="formdiv">
+	<form action="{% url 'creategame' %}" method="post">
+		{% csrf_token %}
+		<div>
+		<label for="title">Title:</label>
+		<input type="text" id="title" name="game_title" required="required">
+		</div>
+		<div>
+		<label for="description">Description:</label>
+		<input type="text" id="description" name="game_description" required="required">
+		</div>
+		<div>
+		<label for="timepermove">Time per move (miliseconds):</label>
+		<input type="number" id="timepermove" name="game_time" required="required">
+		</div>
+		<div>
+		<label for"l1">Choose a level for stockfish (white)</label>
+		<select name="l1" id="l1">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+		</select>
+		</div>
+		<div>
+		<label for"l2">Choose a level for stockfish (black)</label>
+		<select name="l2" id="l2">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+		</select>
+		</div>
+		<button type="submit">Create Game</button>
+	</form>
+	</div>
+	<div class="chessdiv">
+		{% if game_list %}
+			{% for game in game_list %}
+				<h2><a href="/game/{{ game.id }}/">{{ game.title }}</a></h2>
+			<ul>
+				<li>{{ game.description }}</li>
+				<li><code id="chessmoves">{{ game.move_list }}</code></li>
+				<li><b>{{ game.results }}</b></li>
+			</ul>
+			{% endfor %}
+		{% else %}
+			<p>No games are available.</p>
+		{% endif %}
+	</div>
+</body>

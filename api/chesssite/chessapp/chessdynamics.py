@@ -3,10 +3,20 @@ import chess.engine
 import chess.pgn
 import collections
 import asyncio
+from random import randrange
 import io
 
-CHESS_CPU = {"stockfish": "/usr/games/stockfish"}
+CHESS_CPU = {
+    "stockfish": {
+         "url": "/usr/games/stockfish",
+        },
+    "random": {
+        }
+    }
 
+class foo:
+    def quit(self, hi=False):
+        return False
 
 class ChessPlayer:
     def __init__(self, playerName="stockfish", timeLimitms=100, level=1, timeout=None):
@@ -14,29 +24,33 @@ class ChessPlayer:
         self.timeLimit = float(timeLimitms) / 1000
         self.level = int(level)
         self.timeout = timeout
-        self.engine = False
+        self.engine = foo()
         self.isEngine = False
 
         if self.playerName in CHESS_CPU:
-            self.isEngine = True
-            self.engine = chess.engine.SimpleEngine.popen_uci(
-                CHESS_CPU[self.playerName], timeout=self.timeout
-            )
-            self.engine.configure({"Skill Level": self.level})
+            if "url" in CHESS_CPU[self.playerName]:
+                self.isEngine = True
+                self.engine = chess.engine.SimpleEngine.popen_uci(
+                    CHESS_CPU[self.playerName]["url"], timeout=self.timeout
+                )
+                self.engine.configure({"Skill Level": self.level})
+
 
     def is_cpu(self):
-        return self.playerName in CHESS_CPU
+        return self.isEngine
 
     def __del__(self):
-        if self.isEngine:
-            self.engine.quit()
+        self.engine.quit()
 
     def configure(self, d):
-        if self.playerName != "human":
+        if self.isEngine:
             self.engine.configure(d)
 
     def play(self, chessBoard):
-        return self.engine.play(chessBoard, chess.engine.Limit(time=self.timeLimit))
+        if self.isEngine:
+            return self.engine.play(chessBoard, chess.engine.Limit(time=self.timeLimit))
+        elif self.playerName == "random":
+            return "random"
 
     def get_player(self):
         return self.playerName
@@ -79,19 +93,53 @@ class ChessGame:
     def is_game_over(self):
         return self.board.is_game_over()
 
+    def get_legal_moves(self):
+        moveStr = str()
+        for i in self.board.legal_moves:
+            if len(moveStr) == 0:
+                moveStr += str(i)
+            else:
+                moveStr += "," + str(i)
+        return moveStr
+
+    def get_fen(self):
+        return self.board.fen()
+
+    def play_move(self, move):
+        if self.is_game_over():
+            return "gg"
+        elif move not in self.get_legal_moves().split(sep=","):
+            return "?" + move
+        else:
+            self.board.push_uci(move)
+            self.node = self.node.add_variation(chess.Move.from_uci(move))
+            if len(self.moves) > 0:
+                self.moves += "," + str(move)
+            else:
+                self.moves += str(move)
+            return move
+
+    def play_random(self):
+        if self.is_game_over():
+            return "gg"
+        legalMoves = self.get_legal_moves().split(sep=",")
+        return self.play_move(legalMoves[randrange(len(legalMoves))])
+
     def play_turn(self):
         if not self.is_game_over():
             if self.board.turn:
                 result = self.white.play(self.board)
             else:
                 result = self.black.play(self.board)
+            if result == "random":
+                return self.play_random()
             self.node = self.node.add_variation(result.move)
             self.board.push(result.move)
             if len(self.moves) > 0:
                 self.moves += "," + str(result.move)
             else:
                 self.moves += str(result.move)
-            return result
+            return str(result.move)
         else:
             return "gg"
 
@@ -127,6 +175,8 @@ class ChessGame:
 class GameModel:
     def __init__(self, gm):
         self.game_model = gm
+        g = self.setup_game()
+        self.save(g)
 
     def setup_white(self):
         return ChessPlayer(
@@ -156,9 +206,10 @@ class GameModel:
     def get_moves(self):
         return self.setup_game().get_moves()
 
-    def load_game(self, movelist):
-        self.game_model.move_list = movelist
-        self.game_model.save()
+    def load_game(self, moveList):
+        g = self.setup_game()
+        g.load_game(moveList)
+        self.save(g)
 
     def is_game_over(self):
         return self.setup_game().is_game_over()
@@ -168,17 +219,38 @@ class GameModel:
 
     def play_turn(self):
         g = self.setup_game()
-        move = g.play_turn()
-        self.game_model.move_list = g.get_moves()
-        self.game_model.save()
-        return move
+        if g.is_game_over():
+            return "gg"
+        else:
+            move = g.play_turn()
+            self.save(g)
+            return move
+
+    def play_move(self, move):
+        g = self.setup_game()
+        val = g.play_move(move)
+        self.save(g)
+        return val
 
     def play_continuous(self):
         g = self.setup_game()
-        g.play_continuous()
-        self.game_model.move_list = g.get_moves()
-        self.game_model.save()
+        while not g.is_game_over():
+            move = g.play_turn()
+            self.save(g)
         return self.game_model.move_list
+
+    def save(self, g):
+        self.game_model.move_list = g.get_moves()
+        self.game_model.results = g.get_results()
+        self.game_model.fen = g.get_fen()
+        self.game_model.legal_moves = g.get_legal_moves()
+        self.game_model.save()
+
+    def get_legal_moves(self):
+        return self.setup_game().get_legal_moves()
+
+    def get_fen(self):
+        return self.setup_game().get_fen()
 
     def get_PGN(self):
         return self.setup_game().get_PGN()

@@ -2,39 +2,74 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 import os
-from .models import Game
-from chessapp.chessdynamics import ChessPlayer, ChessGame
+from chessapp.models import Game
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import JSONParser
+from chessapp.serializers import GameSerializer, UserSerializer
+from chessapp.chessdynamics import ChessPlayer, ChessGame, GameModel
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import serializers
+from rest_framework import generics
+from django.contrib.auth.models import User
+from rest_framework import permissions
+from django.contrib.auth.models import User
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
+from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import permissions
+import json
 
 
-def index(request):
-    game_list = Game.objects.order_by("title")
-    context = {"game_list": game_list}
-    return render(request, "chessapp/index.html", context)
+@api_view(["GET"])
+def api_root(request, format=None):
+    return Response(
+        {
+            "users": reverse("user-list", request=request, format=format),
+            "games": reverse("game-list", request=request, format=format),
+        }
+    )
 
 
-def createGame(request):
-    n = os.fork()
-    if n > 0:
-        post = request.POST
-        game = Game(
-            title=post.get("game_title", "untitled game"),
-            description=post.get("game_description", "not provided"),
-            black="stockfish",
-            white="stockfish",
-            PGN="",
-            time_controls=post.get("game_time", 100),
-            white_level=post.get("l1", 1),
-            black_level=post.get("l2", 1),
-        )
-        whiteEngine = ChessPlayer(
-            game.white, game.time_controls, game.white_level, None
-        )
-        blackEngine = ChessPlayer(
-            game.black, game.time_controls, game.black_level, None
-        )
-        cg = ChessGame(whiteEngine, blackEngine, game.title)
-        cg.play_continuous()
-        game.PGN = cg.get_PGN()
-        game.save()
-    else:
-        return HttpResponseRedirect(reverse("index"))
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    This viewset automatically provides `list` and `retrieve` actions.
+    """
+
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class GameViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list`, `create`, `retrieve`,
+    `update` and `destroy` actions.
+    """
+
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+
+    @action(detail=True)
+    def play_move(self, request, *args, **kwargs):
+        # serializer = MySerializer(move)
+        # response = {}
+        # response['success'] = True
+        # response['data'] = serializer.data
+        game = self.get_object()
+        if (game.owner == request.user) or (request.user.is_superuser == True):
+            gm = GameModel(game)
+            move = gm.play_turn()
+            return Response(
+                {"move": move, "gameover": str(gm.is_game_over())}
+            )
+
+        else:
+            return Response({"error": "you don't have permission to do this"})
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)

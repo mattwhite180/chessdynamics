@@ -39,6 +39,21 @@ services:
       - PGDATABASE=myproject
       - PGUSER=myprojectuser
       - PGPASSWORD=password
+  # frontend:
+  #   restart: always
+  #   build: frontend/
+  #   #command: /bin/bash -c "python tests.py"
+  #   #command: bash -c "sleep infinity"
+  #   #command: HOST=0.0.0.0 npm run start
+  #   command: serve -s build
+  #   expose:
+  #     - "5000"
+  #   ports:
+  #     - "5000:5000"
+  #   networks:
+  #     - testing_net
+  #   depends_on:
+  #     - api
 
 volumes:
   postgres_data:
