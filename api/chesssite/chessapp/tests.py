@@ -247,7 +247,7 @@ class GameModelTestCase(TestCase):
             description="random vs lvl 1",
             move_list="",
             black="stockfish",
-            black_level=1,
+            black_level=8,
             white="random",
             white_level=8,
             time_controls=100,
