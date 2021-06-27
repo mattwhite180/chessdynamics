@@ -22,7 +22,7 @@ class ChessPlayerTestCase(TestCase):
             b.push_uci(i)
         p = ChessPlayer("stockfish", 123, 7, None)
         checkmates = ["f3f7", "c4f7"]
-        actualMove = str(p.play(b).move)
+        actualMove = p.play(b)
         val = actualMove in checkmates
         expected = True
         errmsg = (
