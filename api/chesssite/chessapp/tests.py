@@ -249,7 +249,7 @@ class GameModelTestCase(TestCase):
             black="stockfish",
             black_level=8,
             white="random",
-            white_level=8,
+            white_level=2,
             time_controls=100,
             owner=user1,
         )
