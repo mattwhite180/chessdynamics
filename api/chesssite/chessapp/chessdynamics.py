@@ -73,14 +73,14 @@ class ChessPlayer:
 
 
 class ChessGame:
-    def __init__(self, p1, p2, moves="", title="chessdynamics"):
+    def __init__(self, p1, p2, moves="", name="chessdynamics"):
         self.board = chess.Board()
         self.moves = moves
         self.game = chess.pgn.Game()
         self.node = self.game
         self.white = p1
         self.black = p2
-        self.title = title
+        self.name = name
         self.load_game(moves)
 
     def load_game(self, moves):
@@ -154,7 +154,7 @@ class ChessGame:
         return self.board.result()
 
     def set_headers(self):
-        self.game.headers["Event"] = self.title
+        self.game.headers["Event"] = self.name
         if self.white.get_player() not in CHESS_CPU:
             self.game.headers["White"] = self.white.get_player()
         else:
@@ -194,7 +194,7 @@ class GameModel:
     def setup_game(self):
         w = self.setup_white()
         b = self.setup_black()
-        cg = ChessGame(w, b, "", self.game_model.title)
+        cg = ChessGame(w, b, "", self.game_model.name)
         if len(self.game_model.move_list) > 0:
             cg.load_game(self.game_model.move_list)
         return cg

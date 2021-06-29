@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Game(models.Model):
-    title = models.CharField(default="untitled", blank=True, max_length=200)
+    name = models.CharField(default="untitled", blank=True, max_length=200)
     description = models.CharField(default="untitled", blank=True, max_length=500)
     move_list = models.CharField(default="", blank=True, max_length=2000)
     white = models.CharField(default="stockfish", blank=True, max_length=200)
@@ -20,4 +20,4 @@ class Game(models.Model):
     )
 
     class Meta:
-        ordering = ["title"]
+        ordering = ["name"]

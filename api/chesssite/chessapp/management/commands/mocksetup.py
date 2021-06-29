@@ -31,12 +31,12 @@ class Command(BaseCommand):
         mattw.is_staff = True
         mattw.save()
 
-        new_game1 = Game.objects.create(title="new1", owner=user1)
-        new_game2 = Game.objects.create(title="new2", owner=user2)
-        new_game3 = Game.objects.create(title="newmattw", owner=mattw)
+        new_game1 = Game.objects.create(name="new1", owner=user1)
+        new_game2 = Game.objects.create(name="new2", owner=user2)
+        new_game3 = Game.objects.create(name="newmattw", owner=mattw)
 
         Game.objects.create(
-            title="random",
+            name="random",
             description="random vs lvl 1",
             move_list="",
             black="stockfish",
@@ -48,12 +48,12 @@ class Command(BaseCommand):
         )
 
         simple_checkmate_in_one = Game.objects.create(
-            title="easy checkmate in one", owner=user1
+            name="easy checkmate in one", owner=user1
         )
         one = GameModel(simple_checkmate_in_one)
         one.load_game("e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3")
 
-        finished_game = Game.objects.create(title="finished game", owner=user2)
+        finished_game = Game.objects.create(name="finished game", owner=user2)
         two = GameModel(finished_game)
         two.load_game("e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3,f3f7")
 

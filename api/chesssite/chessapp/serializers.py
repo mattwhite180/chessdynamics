@@ -9,7 +9,7 @@ class GameSerializer(serializers.ModelSerializer):
         owner = serializers.ReadOnlyField(source="owner.username")
         fields = [
             "id",
-            "title",
+            "name",
             "description",
             "move_list",
             "white",
@@ -33,7 +33,7 @@ class GameSerializer(serializers.ModelSerializer):
         """
         Update and return an existing `Game` instance, given the validated data.
         """
-        instance.title = validated_data.get("title", instance.title)
+        instance.name = validated_data.get("name", instance.name)
         instance.description = validated_data.get("description", instance.description)
         instance.move_list = validated_data.get("move_list", instance.move_list)
         instance.white = validated_data.get("white", instance.white)
