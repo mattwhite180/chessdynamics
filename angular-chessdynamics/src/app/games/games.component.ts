@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from '../game';
+import { GAMES } from '../mock-games';
 
 @Component({
   selector: 'app-games',
@@ -9,6 +10,13 @@ import { Game } from '../game';
 export class GamesComponent implements OnInit {
 
   constructor() { }
+
+  games = GAMES;
+
+  selectedGame?: Game;
+  onSelect(game: Game): void {
+    this.selectedGame = game;
+  }
 
   game: Game = {
     id: 1,
