@@ -6,12 +6,5 @@
     <span class="badge">{{game.id}}</span> {{game.name}}
   </li>
 </ul>
-<div *ngIf="selectedGame">
 
-    <h2>{{selectedGame.name | uppercase}} Details</h2>
-    <div><span>id: </span>{{selectedGame.id}}</div>
-    <div>
-      <label for="game-name">Game name: </label>
-      <input id="game-name" [(ngModel)]="selectedGame.name" placeholder="name">
-    </div>
-</div>
+<app-game-detail [game]="selectedGame"></app-game-detail>
