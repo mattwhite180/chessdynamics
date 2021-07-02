@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 
@@ -18,6 +19,7 @@ class Game(models.Model):
     owner = models.ForeignKey(
         "auth.User", related_name="games", on_delete=models.CASCADE
     )
+    creation_date = models.DateTimeField(default=timezone.now(), blank=True)
 
     class Meta:
-        ordering = ["name"]
+        ordering = ["creation_date"]

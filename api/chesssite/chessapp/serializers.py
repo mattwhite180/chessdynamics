@@ -21,6 +21,7 @@ class GameSerializer(serializers.ModelSerializer):
             "fen",
             "legal_moves",
             "owner",
+            "creation_date"
         ]
 
     def create(self, validated_data):
@@ -46,6 +47,7 @@ class GameSerializer(serializers.ModelSerializer):
         instance.results = validated_data.get("results", instance.results)
         instance.fen = validated_data.get("fen", instance.fen)
         instance.legal_moves = validated_data.get("legal_moves", instance.legal_moves)
+        instance.creation_date = validated_data.get("creation_date", instance.creation_date)
         instance.save()
         return instance
 
