@@ -12,21 +12,13 @@ import { MessageService } from '../message.service';
 })
 export class GamesComponent implements OnInit {
 
-  selectedGame?: Game;
-
   games: Game[] = [];
 
   constructor(
-    private gameService: GameService,
-    private messageService: MessageService) { }
+    private gameService: GameService) { }
 
   ngOnInit(): void {
     this.getGames();
-  }
-
-  onSelect(game: Game): void {
-    this.selectedGame = game;
-    this.messageService.add(`GamesComponent: Selected game id=${game.id}`);
   }
 
   getGames(): void {

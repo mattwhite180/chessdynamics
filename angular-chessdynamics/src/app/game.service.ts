@@ -18,4 +18,12 @@ export class GameService {
     this.messageService.add('GameService: fetched games');
     return games;
   }
+  
+  getGame(id: number): Observable<Game> {
+    // For now, assume that a game with the specified `id` always exists.
+    // Error handling will be added in the next step of the tutorial.
+    const game = GAMES.find(g => g.id === id)!;
+    this.messageService.add(`GameService: fetched game id=${id}`);
+    return of(game);
+  }
 }

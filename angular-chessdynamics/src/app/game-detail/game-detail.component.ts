@@ -1,5 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Game } from '../game'
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
+import { GameService } from '../game.service';
 
 @Component({
   selector: 'app-game-detail',
@@ -8,11 +12,26 @@ import { Game } from '../game'
 })
 export class GameDetailComponent implements OnInit {
 
-  constructor() { }
+  game: Game | undefined;
 
-  @Input() game?: Game;
+  constructor(
+    private route: ActivatedRoute,
+    private gameService: GameService,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
+    this.getGame();
+  }
+  
+  getGame(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.gameService.getGame(id)
+      .subscribe(game => this.game = game);
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
 }
