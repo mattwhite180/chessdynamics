@@ -12,7 +12,7 @@ export const GAMES: Game[] = [
     black_level: 1,
     time_controls: 100,
     results: '*',
-    fen: 'rnbqkbnr/1ppppppp/8/8/2B1P3/p4Q2/PPPP1PPP/RNB1K1NR w KQkq - 0 5',
+    fen: 'rnbqkbnr/p3pppp/8/1ppp4/2PPP3/8/PP3PPP/RNBQKBNR w KQkq - 0 4',
     legal_moves: 'c4f7,c4e6,c4a6,c4d5,c4b5,c4d3,c4b3,c4e2,c4f1,f3f7,f3f6,f3h5,f3f5,f3g4,f3f4,f3h3,f3g3,f3e3,f3d3,f3c3,f3b3,f3a3,f3e2,f3d1,g1h3,g1e2,e1e2,e1f1,e1d1,b1c3,b1a3,b2a3,e4e5,h2h3,g2g3,d2d3,c2c3,b2b3,h2h4,g2g4,d2d4,b2b4',
     owner: 1,
     creation_date: '2021-06-05T00:00:00Z'
@@ -28,7 +28,7 @@ export const GAMES: Game[] = [
     black_level: 8,
     time_controls: 100,
     results: '1-0',
-    fen: 'rnbqkbnr/1ppppppp/8/8/2B1P3/p4Q2/PPPP1PPP/RNB1K1NR w KQkq - 0 5',
+    fen: 'rnbqkbnr/p3pppp/8/1ppp4/2PPP3/8/PP3PPP/RNBQKBNR w KQkq - 0 4',
     legal_moves: 'c4f7,c4e6,c4a6,c4d5,c4b5,c4d3,c4b3,c4e2,c4f1,f3f7,f3f6,f3h5,f3f5,f3g4,f3f4,f3h3,f3g3,f3e3,f3d3,f3c3,f3b3,f3a3,f3e2,f3d1,g1h3,g1e2,e1e2,e1f1,e1d1,b1c3,b1a3,b2a3,e4e5,h2h3,g2g3,d2d3,c2c3,b2b3,h2h4,g2g4,d2d4,b2b4',
     owner: 2,
     creation_date: '2021-06-06T00:00:00Z'
@@ -44,7 +44,7 @@ export const GAMES: Game[] = [
     black_level: 1,
     time_controls: 100,
     results: '*',
-    fen: 'rnbqkbnr/1ppppppp/8/8/2B1P3/p4Q2/PPPP1PPP/RNB1K1NR w KQkq - 0 5',
+    fen: 'rnbqkbnr/p3pppp/8/1ppp4/2PPP3/8/PP3PPP/RNBQKBNR w KQkq - 0 4',
     legal_moves: 'c4f7,c4e6,c4a6,c4d5,c4b5,c4d3,c4b3,c4e2,c4f1,f3f7,f3f6,f3h5,f3f5,f3g4,f3f4,f3h3,f3g3,f3e3,f3d3,f3c3,f3b3,f3a3,f3e2,f3d1,g1h3,g1e2,e1e2,e1f1,e1d1,b1c3,b1a3,b2a3,e4e5,h2h3,g2g3,d2d3,c2c3,b2b3,h2h4,g2g4,d2d4,b2b4',
     owner: 1,
     creation_date: '2021-06-05T00:00:00Z'
@@ -60,7 +60,7 @@ export const GAMES: Game[] = [
     black_level: 8,
     time_controls: 100,
     results: '1-0',
-    fen: 'rnbqkbnr/1ppppppp/8/8/2B1P3/p4Q2/PPPP1PPP/RNB1K1NR w KQkq - 0 5',
+    fen: 'rnbqkbnr/p3pppp/8/1ppp4/2PPP3/8/PP3PPP/RNBQKBNR w KQkq - 0 4',
     legal_moves: 'c4f7,c4e6,c4a6,c4d5,c4b5,c4d3,c4b3,c4e2,c4f1,f3f7,f3f6,f3h5,f3f5,f3g4,f3f4,f3h3,f3g3,f3e3,f3d3,f3c3,f3b3,f3a3,f3e2,f3d1,g1h3,g1e2,e1e2,e1f1,e1d1,b1c3,b1a3,b2a3,e4e5,h2h3,g2g3,d2d3,c2c3,b2b3,h2h4,g2g4,d2d4,b2b4',
     owner: 2,
     creation_date: '2021-06-06T00:00:00Z'
@@ -76,7 +76,7 @@ export const GAMES: Game[] = [
     black_level: 1,
     time_controls: 100,
     results: '*',
-    fen: 'rnbqkbnr/1ppppppp/8/8/2B1P3/p4Q2/PPPP1PPP/RNB1K1NR w KQkq - 0 5',
+    fen: 'rnbqkbnr/p3pppp/8/1ppp4/2PPP3/8/PP3PPP/RNBQKBNR w KQkq - 0 4',
     legal_moves: 'c4f7,c4e6,c4a6,c4d5,c4b5,c4d3,c4b3,c4e2,c4f1,f3f7,f3f6,f3h5,f3f5,f3g4,f3f4,f3h3,f3g3,f3e3,f3d3,f3c3,f3b3,f3a3,f3e2,f3d1,g1h3,g1e2,e1e2,e1f1,e1d1,b1c3,b1a3,b2a3,e4e5,h2h3,g2g3,d2d3,c2c3,b2b3,h2h4,g2g4,d2d4,b2b4',
     owner: 1,
     creation_date: '2021-06-05T00:00:00Z'
@@ -92,7 +92,7 @@ export const GAMES: Game[] = [
     black_level: 8,
     time_controls: 100,
     results: '1-0',
-    fen: 'rnbqkbnr/1ppppppp/8/8/2B1P3/p4Q2/PPPP1PPP/RNB1K1NR w KQkq - 0 5',
+    fen: 'rnbqkbnr/p3pppp/8/1ppp4/2PPP3/8/PP3PPP/RNBQKBNR w KQkq - 0 4',
     legal_moves: 'c4f7,c4e6,c4a6,c4d5,c4b5,c4d3,c4b3,c4e2,c4f1,f3f7,f3f6,f3h5,f3f5,f3g4,f3f4,f3h3,f3g3,f3e3,f3d3,f3c3,f3b3,f3a3,f3e2,f3d1,g1h3,g1e2,e1e2,e1f1,e1d1,b1c3,b1a3,b2a3,e4e5,h2h3,g2g3,d2d3,c2c3,b2b3,h2h4,g2g4,d2d4,b2b4',
     owner: 2,
     creation_date: '2021-06-06T00:00:00Z'
