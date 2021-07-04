@@ -24,12 +24,21 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "/app/node_modules/chessboardjs/www/releases/0.3.0/img",
+                "output": "./img"
+              }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "/app/node_modules/chessboardjs/www/releases/0.3.0/css/chessboard-0.3.0.css"
             ],
-            "scripts": []
+            "scripts": [
+              "/app/node_modules/chessboardjs/www/releases/0.3.0/js/chessboard-0.3.0.js",
+              "/app/node_modules/jquery/dist/jquery.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -91,12 +100,21 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "/app/node_modules/chessboardjs/www/releases/0.3.0/img",
+                "output": "./img"
+              }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "/app/node_modules/chessboardjs/www/releases/0.3.0/css/chessboard-0.3.0.css"
             ],
-            "scripts": []
+            "scripts": [
+              "/app/node_modules/chessboardjs/www/releases/0.3.0/js/chessboard-0.3.0.js",
+              "/app/node_modules/jquery/dist/jquery.js"
+            ]
           }
         }
       }

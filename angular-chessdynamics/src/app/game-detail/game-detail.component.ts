@@ -5,6 +5,8 @@ import { Location } from '@angular/common';
 
 import { GameService } from '../game.service';
 
+declare var ChessBoard: any;
+
 @Component({
   selector: 'app-game-detail',
   templateUrl: './game-detail.component.html',
@@ -13,6 +15,7 @@ import { GameService } from '../game.service';
 export class GameDetailComponent implements OnInit {
 
   game: Game | undefined;
+  board: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,6 +25,10 @@ export class GameDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getGame();
+    this.board = ChessBoard('board1', {
+      position: 'start',
+      draggable: true
+    });
   }
   
   getGame(): void {

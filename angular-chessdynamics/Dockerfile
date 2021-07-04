@@ -12,7 +12,8 @@ WORKDIR /app
 COPY package.json /app/package.json
 RUN npm install
 RUN npm install -g @angular/cli@7.3.9
-RUN npm install chessground
+RUN npm install chessboardjs --save
+RUN npm install jquery --save
 
 # add app
 COPY . /app
