@@ -62,4 +62,19 @@ class Command(BaseCommand):
         two = GameModel(finished_game)
         two.load_game("e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3,f3f7")
 
+
+        finished_random = Game.objects.create(
+            name="random finished",
+            description="random vs lvl 1",
+            move_list="",
+            black="stockfish",
+            black_level=1,
+            white="random",
+            white_level=8,
+            time_controls=100,
+            owner=user1,
+            creation_date=datetime.date(2021,6,4)
+        )
+        three = GameModel(finished_random)
+        three.play_continuous()
         self.stdout.write(self.style.SUCCESS("Successfully setup mock users and games"))

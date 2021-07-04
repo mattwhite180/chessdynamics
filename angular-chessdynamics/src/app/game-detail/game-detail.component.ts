@@ -25,12 +25,15 @@ export class GameDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getGame();
-    let myFen = "start";
-    if (typeof this.game?.fen != "undefined") {
-      myFen = this.game.fen;
-    }
     this.board = ChessBoard('board1', {
-      position: myFen,
+      position: "empty", //this.game!.fen,
+      draggable: true
+    });
+  }
+
+  refreshBoard(): void {
+    this.board = ChessBoard('board1', {
+      position: this.game!.fen, //this.game!.fen,
       draggable: true
     });
   }
