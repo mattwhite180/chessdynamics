@@ -6,16 +6,13 @@ import asyncio
 from random import randrange
 import io
 
-CHESS_CPU = {
-    "stockfish": {
-         "url": "/usr/games/stockfish",
-         "configs": {}
-    }
-}
+CHESS_CPU = {"stockfish": {"url": "/usr/games/stockfish", "configs": {}}}
+
 
 class EnginePlaceHolder:
     def quit(self, hi=False):
         return False
+
 
 class ChessPlayer:
     def __init__(self, playerName="stockfish", timeLimitms=100, level=1, timeout=None):
@@ -33,7 +30,7 @@ class ChessPlayer:
                 )
                 self.engine.configure({"Skill Level": self.level})
                 for i in CHESS_CPU[self.playerName]["configs"]:
-                    self.engine.configure({i : CHESS_CPU[self.playerName]["configs"][i]})
+                    self.engine.configure({i: CHESS_CPU[self.playerName]["configs"][i]})
 
     def is_cpu(self):
         return self.isEngine
@@ -47,7 +44,11 @@ class ChessPlayer:
 
     def play(self, chessBoard):
         if self.isEngine:
-            return str(self.engine.play(chessBoard, chess.engine.Limit(time=self.timeLimit)).move)
+            return str(
+                self.engine.play(
+                    chessBoard, chess.engine.Limit(time=self.timeLimit)
+                ).move
+            )
         elif self.playerName == "random":
             moveStr = str()
             for i in chessBoard.legal_moves:
@@ -57,7 +58,6 @@ class ChessPlayer:
                     moveStr += "," + str(i)
             legalMoves = moveStr.split(sep=",")
             return legalMoves[randrange(len(legalMoves))]
-            
 
     def get_player(self):
         return self.playerName
