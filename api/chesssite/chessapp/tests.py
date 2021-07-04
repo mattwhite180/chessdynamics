@@ -210,7 +210,7 @@ class GameModelTestCase(TestCase):
     def setUp(self):
         user1 = User.objects.create_user("test1", password="test1")
         Game.objects.create(
-            title="simple",
+            name="simple",
             description="test",
             move_list="",
             black="stockfish",
@@ -221,7 +221,7 @@ class GameModelTestCase(TestCase):
             owner=user1,
         )
         Game.objects.create(
-            title="blackwins",
+            name="blackwins",
             description="test",
             move_list="",
             black="stockfish",
@@ -232,7 +232,7 @@ class GameModelTestCase(TestCase):
             owner=user1,
         )
         Game.objects.create(
-            title="whitewins",
+            name="whitewins",
             description="test",
             move_list="",
             black="stockfish",
@@ -243,7 +243,7 @@ class GameModelTestCase(TestCase):
             owner=user1,
         )
         Game.objects.create(
-            title="random",
+            name="random",
             description="random vs lvl 1",
             move_list="",
             black="stockfish",
@@ -255,7 +255,7 @@ class GameModelTestCase(TestCase):
         )
 
     def test_easy_checkmate_gm(self):
-        g = Game.objects.get(title="simple")
+        g = Game.objects.get(name="simple")
         gm = GameModel(g)
         moves = "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3"
         gm.load_game(moves)
@@ -273,7 +273,7 @@ class GameModelTestCase(TestCase):
         self.assertEqual(val, expected, errmsg)
 
     def test_full_game_black_wins_gm(self):
-        g = Game.objects.get(title="blackwins")
+        g = Game.objects.get(name="blackwins")
         gm = GameModel(g)
         gm.play_continuous()
         val = gm.get_results()
@@ -282,7 +282,7 @@ class GameModelTestCase(TestCase):
         self.assertEqual(val, expected, errmsg)
 
     def test_full_game_white_wins_gm(self):
-        g = Game.objects.get(title="whitewins")
+        g = Game.objects.get(name="whitewins")
         gm = GameModel(g)
         gm.play_continuous()
         val = gm.get_results()
@@ -291,7 +291,7 @@ class GameModelTestCase(TestCase):
         self.assertEqual(val, expected, errmsg)
 
     def test_full_game_manual_gm(self):
-        g = Game.objects.get(title="simple")
+        g = Game.objects.get(name="simple")
         gm = GameModel(g)
         while not gm.is_game_over():
             gm.play_turn()
@@ -301,7 +301,7 @@ class GameModelTestCase(TestCase):
         self.assertEqual(val, expected, errmsg)
 
     def test_get_pgn_one_gm(self):
-        g = Game.objects.get(title="simple")
+        g = Game.objects.get(name="simple")
         gm = GameModel(g)
         gm.load_game("e2e3,e7e6,e1e2,e8e7")
         val = gm.get_PGN()
@@ -320,62 +320,65 @@ class GameModelTestCase(TestCase):
         self.assertEqual(val, expected, errmsg)
 
     def test_fen_before_loading_game(self):
-        g = Game.objects.get(title="simple")
+        g = Game.objects.get(name="simple")
         gm = GameModel(g)
         val = gm.get_fen()
         expected = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-        errmsg = "expected " + str(expected) + " actual value was " + str(val)
+        errmsg = "expected:\n" + str(expected) + "\nactual value was\n" + str(val)
         self.assertEqual(val, expected, errmsg)
 
     def test_fen_after_loading_game(self):
-        g = Game.objects.get(title="simple")
+        g = Game.objects.get(name="simple")
         gm = GameModel(g)
         gm.load_game("e2e3,e7e6,e1e2,e8e7")
         val = gm.get_fen()
-        Notexpected = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-        errmsg = "expected NOT" + str(Notexpected) + " actual value was " + str(val)
-        self.assertNotEqual(val, Notexpected, errmsg)
+        expected = "rnbq1bnr/ppppkppp/4p3/8/8/4P3/PPPPKPPP/RNBQ1BNR w - - 2 3"
+        errmsg = "expected:\n" + str(expected) + "\nactual value was\n" + str(val)
+        self.assertEqual(val, expected, errmsg)
+
+    def test_fen_after_playing_game(self):
+        g = Game.objects.get(name="simple")
+        gm = GameModel(g)
+        moves = "e2e3,e7e6,e1e2,e8e7"
+        for i in moves.split(sep=","):
+            gm.play_move(i)
+        val = gm.get_fen()
+        expected = "rnbq1bnr/ppppkppp/4p3/8/8/4P3/PPPPKPPP/RNBQ1BNR w - - 2 3"
+        errmsg = "expected:\n" + str(expected) + "\nactual value was\n" + str(val)
+        self.assertEqual(val, expected, errmsg)
 
     def test_play_move_good(self):
-        g = Game.objects.get(title="simple")
+        g = Game.objects.get(name="simple")
         gm = GameModel(g)
         moves = "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3"
         gm.load_game(moves)
-        val = gm.play_move('f3f7')
-        expected = 'f3f7'
-        errmsg = (
-            "expected " + expected + " actual move was " + val
-        )
+        val = gm.play_move("f3f7")
+        expected = "f3f7"
+        errmsg = "expected " + expected + " actual move was " + val
         self.assertEqual(val, expected, errmsg)
-
 
     def test_play_move_bad(self):
-        g = Game.objects.get(title="simple")
+        g = Game.objects.get(name="simple")
         gm = GameModel(g)
         moves = "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3"
         gm.load_game(moves)
-        val = '?' in gm.play_move('f3f8')
+        val = "?" in gm.play_move("f3f8")
         expected = True
-        errmsg = (
-            "expected " + str(expected) + " actual value was " + str(val)
-        )
+        errmsg = "expected " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
-
     def test_play_move_done(self):
-        g = Game.objects.get(title="simple")
+        g = Game.objects.get(name="simple")
         gm = GameModel(g)
         moves = "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3,f3f7"
         gm.load_game(moves)
-        val = gm.play_move('b4b3')
-        expected = 'gg'
-        errmsg = (
-            "expected " + expected + " actual move was " + val
-        )
+        val = gm.play_move("b4b3")
+        expected = "gg"
+        errmsg = "expected " + expected + " actual move was " + val
         self.assertEqual(val, expected, errmsg)
 
     def test_full_game_black_wins_random_gm(self):
-        g = Game.objects.get(title="random")
+        g = Game.objects.get(name="random")
         gm = GameModel(g)
         gm.play_continuous()
         val = gm.get_results()

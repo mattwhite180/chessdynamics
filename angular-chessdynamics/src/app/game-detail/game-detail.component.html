@@ -1,0 +1,23 @@
+<div *ngIf="game">
+    <h2>{{game.name | uppercase}} Details</h2>
+    <div><span>id: </span>{{game.id}}</div>
+    <div>{{ game.fen }}</div>
+    <div>
+      <label for="game-name">Game name: </label>
+      <input id="game-name" [(ngModel)]="game.name" placeholder="name">
+    </div>
+</div>
+<br>
+<div id="board1" style="width: 500px"></div>
+<button (click)="refreshBoard()">refresh board</button>
+<br>
+<br>
+<button (click)="goBack()">go back</button>
+
+
+<p id="testme">script doesnt work</p>
+<script>
+  v = document.getElementById("testme");
+  v.innerHTML = "script changes the val!"
+  console.log("Hello world from game-detail!")
+</script>

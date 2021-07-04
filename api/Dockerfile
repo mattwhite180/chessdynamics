@@ -1,4 +1,5 @@
 FROM debian:buster
+ENV TZ="America/Denver"
 
 EXPOSE 8000
 

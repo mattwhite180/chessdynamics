@@ -9,7 +9,7 @@ class GameSerializer(serializers.ModelSerializer):
         owner = serializers.ReadOnlyField(source="owner.username")
         fields = [
             "id",
-            "title",
+            "name",
             "description",
             "move_list",
             "white",
@@ -21,6 +21,7 @@ class GameSerializer(serializers.ModelSerializer):
             "fen",
             "legal_moves",
             "owner",
+            "creation_date",
         ]
 
     def create(self, validated_data):
@@ -33,7 +34,7 @@ class GameSerializer(serializers.ModelSerializer):
         """
         Update and return an existing `Game` instance, given the validated data.
         """
-        instance.title = validated_data.get("title", instance.title)
+        instance.name = validated_data.get("name", instance.name)
         instance.description = validated_data.get("description", instance.description)
         instance.move_list = validated_data.get("move_list", instance.move_list)
         instance.white = validated_data.get("white", instance.white)
@@ -46,6 +47,9 @@ class GameSerializer(serializers.ModelSerializer):
         instance.results = validated_data.get("results", instance.results)
         instance.fen = validated_data.get("fen", instance.fen)
         instance.legal_moves = validated_data.get("legal_moves", instance.legal_moves)
+        instance.creation_date = validated_data.get(
+            "creation_date", instance.creation_date
+        )
         instance.save()
         return instance
 

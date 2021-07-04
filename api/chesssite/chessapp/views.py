@@ -64,9 +64,7 @@ class GameViewSet(viewsets.ModelViewSet):
         if (game.owner == request.user) or (request.user.is_superuser == True):
             gm = GameModel(game)
             move = gm.play_turn()
-            return Response(
-                {"move": move, "gameover": str(gm.is_game_over())}
-            )
+            return Response({"move": move, "gameover": str(gm.is_game_over())})
 
         else:
             return Response({"error": "you don't have permission to do this"})
