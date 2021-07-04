@@ -324,7 +324,7 @@ class GameModelTestCase(TestCase):
         gm = GameModel(g)
         val = gm.get_fen()
         expected = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-        errmsg = "expected " + str(expected) + " actual value was " + str(val)
+        errmsg = "expected:\n" + str(expected) + "\nactual value was\n" + str(val)
         self.assertEqual(val, expected, errmsg)
 
     def test_fen_after_loading_game(self):
@@ -332,9 +332,20 @@ class GameModelTestCase(TestCase):
         gm = GameModel(g)
         gm.load_game("e2e3,e7e6,e1e2,e8e7")
         val = gm.get_fen()
-        Notexpected = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-        errmsg = "expected NOT" + str(Notexpected) + " actual value was " + str(val)
-        self.assertNotEqual(val, Notexpected, errmsg)
+        expected = "rnbq1bnr/ppppkppp/4p3/8/8/4P3/PPPPKPPP/RNBQ1BNR w - - 2 3"
+        errmsg = "expected:\n" + str(expected) + "\nactual value was\n" + str(val)
+        self.assertEqual(val, expected, errmsg)
+
+    def test_fen_after_playing_game(self):
+        g = Game.objects.get(name="simple")
+        gm = GameModel(g)
+        moves = "e2e3,e7e6,e1e2,e8e7"
+        for i in moves.split(sep=","):
+            gm.play_move(i)
+        val = gm.get_fen()
+        expected = "rnbq1bnr/ppppkppp/4p3/8/8/4P3/PPPPKPPP/RNBQ1BNR w - - 2 3"
+        errmsg = "expected:\n" + str(expected) + "\nactual value was\n" + str(val)
+        self.assertEqual(val, expected, errmsg)
 
     def test_play_move_good(self):
         g = Game.objects.get(name="simple")
