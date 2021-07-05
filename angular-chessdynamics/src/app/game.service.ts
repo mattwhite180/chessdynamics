@@ -59,4 +59,12 @@ export class GameService {
       catchError(this.handleError<Game>(`getGame id=${id}`))
     );
   }
+
+  playMove(id: number): any {
+    const url = `${this.gamesUrl}${id}/play_move/`;
+    return this.http.get(url).pipe(
+      tap(_ => this.log(`playing game...`)),
+      catchError(this.handleError(`playing game...`))
+    );
+  }
 }
