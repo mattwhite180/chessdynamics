@@ -24,9 +24,6 @@ class Game(models.Model):
         blank=True,
         max_length=2000,
     )
-    owner = models.ForeignKey(
-        "auth.User", related_name="games", on_delete=models.CASCADE
-    )
     creation_date = models.DateTimeField(default=timezone.now(), blank=True)
 
     class Meta:

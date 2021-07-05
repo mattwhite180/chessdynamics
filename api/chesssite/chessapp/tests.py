@@ -1,6 +1,5 @@
 from django.test import TestCase
 from .models import Game
-from django.contrib.auth.models import User
 from .chessdynamics import ChessPlayer, ChessGame, GameModel
 import chess
 import chess.engine
@@ -208,7 +207,6 @@ class ChessGameTestCase(TestCase):
 
 class GameModelTestCase(TestCase):
     def setUp(self):
-        user1 = User.objects.create_user("test1", password="test1")
         Game.objects.create(
             name="simple",
             description="test",
@@ -218,7 +216,6 @@ class GameModelTestCase(TestCase):
             white="stockfish",
             white_level=1,
             time_controls=100,
-            owner=user1,
         )
         Game.objects.create(
             name="blackwins",
@@ -229,7 +226,6 @@ class GameModelTestCase(TestCase):
             white="stockfish",
             white_level=1,
             time_controls=100,
-            owner=user1,
         )
         Game.objects.create(
             name="whitewins",
@@ -240,7 +236,6 @@ class GameModelTestCase(TestCase):
             white="stockfish",
             white_level=8,
             time_controls=100,
-            owner=user1,
         )
         Game.objects.create(
             name="random",
@@ -251,7 +246,6 @@ class GameModelTestCase(TestCase):
             white="random",
             white_level=2,
             time_controls=100,
-            owner=user1,
         )
 
     def test_easy_checkmate_gm(self):

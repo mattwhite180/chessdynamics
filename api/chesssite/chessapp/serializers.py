@@ -1,12 +1,10 @@
 from rest_framework import serializers
 from chessapp.models import Game
-from django.contrib.auth.models import User
 
 
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
-        owner = serializers.ReadOnlyField(source="owner.username")
         fields = [
             "id",
             "name",
@@ -20,7 +18,6 @@ class GameSerializer(serializers.ModelSerializer):
             "results",
             "fen",
             "legal_moves",
-            "owner",
             "creation_date",
         ]
 
@@ -53,10 +50,3 @@ class GameSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-
-class UserSerializer(serializers.ModelSerializer):
-    games = serializers.PrimaryKeyRelatedField(many=True, queryset=Game.objects.all())
-
-    class Meta:
-        model = User
-        fields = ["id", "username", "games"]
