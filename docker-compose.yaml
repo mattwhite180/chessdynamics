@@ -39,21 +39,24 @@ services:
       - PGDATABASE=myproject
       - PGUSER=myprojectuser
       - PGPASSWORD=password
-  # frontend:
-  #   restart: always
-  #   build: frontend/
-  #   #command: /bin/bash -c "python tests.py"
-  #   #command: bash -c "sleep infinity"
-  #   #command: HOST=0.0.0.0 npm run start
-  #   command: serve -s build
-  #   expose:
-  #     - "5000"
-  #   ports:
-  #     - "5000:5000"
-  #   networks:
-  #     - testing_net
-  #   depends_on:
-  #     - api
+  frontend:
+    restart: always
+    build: angular-chessdynamics/
+    #command: /bin/bash -c "python tests.py"
+    #command: bash -c "sleep infinity"
+    #command: HOST=0.0.0.0 npm run start
+    command: bash -c " cd angular-chessdynamics && ng serve --host 0.0.0.0"
+    expose:
+      - "4200"
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - '4200:4200'
+    networks:
+      - testing_net
+    depends_on:
+      - api
 
 volumes:
   postgres_data:
