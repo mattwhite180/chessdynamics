@@ -60,8 +60,8 @@ export class GameService {
     );
   }
 
-  playMove(id: number): any {
-    const url = `${this.gamesUrl}${id}/play_move/`;
+  apiAction(id: number, func: String): any {
+    const url = `${this.gamesUrl}${id}/${func}/`;
     return this.http.get(url).pipe(
       tap(_ => this.log(`playing game...`)),
       catchError(this.handleError(`playing game...`))

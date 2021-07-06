@@ -36,6 +36,7 @@ export class GameDetailComponent implements OnInit {
       position: this.game!.fen, //this.game!.fen,
       draggable: true
     });
+    this.getGame();
   }
   
   getGame(): void {
@@ -46,9 +47,7 @@ export class GameDetailComponent implements OnInit {
 
   playMove(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.gameService.playMove(id).subscribe();
-    this.getGame();
-    this.refreshBoard();
+    this.gameService.apiAction(id, "play_move").subscribe();
   }
 
   goBack(): void {
