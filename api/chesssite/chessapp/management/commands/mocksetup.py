@@ -34,6 +34,10 @@ class Command(BaseCommand):
             name="newmattw", creation_date=datetime.date(2021, 6, 3)
         )
 
+        new_game4 = Game.objects.create(
+            name="longgame", creation_date=datetime.date(2020, 6, 3), time_controls=2000
+        )
+
         Game.objects.create(
             name="random",
             description="random vs lvl 1",
