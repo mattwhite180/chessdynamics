@@ -32,11 +32,11 @@ export class GameDetailComponent implements OnInit {
   }
 
   refreshBoard(): void {
+    this.getGame();
     this.board = ChessBoard('board1', {
       position: this.game!.fen, //this.game!.fen,
       draggable: true
     });
-    this.getGame();
   }
   
   getGame(): void {
@@ -48,6 +48,7 @@ export class GameDetailComponent implements OnInit {
   playMove(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.gameService.apiAction(id, "play_move").subscribe();
+    this.getGame();
   }
 
   goBack(): void {
