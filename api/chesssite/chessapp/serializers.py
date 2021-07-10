@@ -49,4 +49,3 @@ class GameSerializer(serializers.ModelSerializer):
         )
         instance.save()
         return instance
-

@@ -27,12 +27,7 @@ import json
 
 @api_view(["GET"])
 def api_root(request, format=None):
-    return Response(
-        {
-            "games": reverse("game-list", request=request, format=format),
-        }
-    )
-
+    return Response({"games": reverse("game-list", request=request, format=format)})
 
 
 class GameViewSet(viewsets.ModelViewSet):
@@ -45,7 +40,7 @@ class GameViewSet(viewsets.ModelViewSet):
     serializer_class = GameSerializer
 
     @action(detail=True)
-    def play_move(self, request, *args, **kwargs):
+    def play_turn(self, request, *args, **kwargs):
         # serializer = MySerializer(move)
         # response = {}
         # response['success'] = True
@@ -54,6 +49,13 @@ class GameViewSet(viewsets.ModelViewSet):
         gm = GameModel(game)
         move = gm.play_turn()
         return Response({"move": move, "gameover": str(gm.is_game_over())})
+
+    @action(detail=True, url_path="play_move/(?P<move_str>[^/.]+)")
+    def play_move(self, request, move_str, pk=None):
+        game = self.get_object()
+        gm = GameModel(game)
+        valid_move = gm.play_move(str(move_str))
+        return Response({"valid move": valid_move})
 
     def perform_create(self, serializer):
         serializer.save()
