@@ -6,7 +6,7 @@ from chessapp.models import Game
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from chessapp.serializers import GameSerializer, UserSerializer
+from chessapp.serializers import GameSerializer
 from chessapp.chessdynamics import ChessPlayer, ChessGame, GameModel
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -16,7 +16,6 @@ from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework import permissions
 from django.contrib.auth.models import User
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import viewsets
@@ -30,19 +29,10 @@ import json
 def api_root(request, format=None):
     return Response(
         {
-            "users": reverse("user-list", request=request, format=format),
             "games": reverse("game-list", request=request, format=format),
         }
     )
 
-
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    This viewset automatically provides `list` and `retrieve` actions.
-    """
-
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
 
 
 class GameViewSet(viewsets.ModelViewSet):
@@ -61,13 +51,9 @@ class GameViewSet(viewsets.ModelViewSet):
         # response['success'] = True
         # response['data'] = serializer.data
         game = self.get_object()
-        if (game.owner == request.user) or (request.user.is_superuser == True):
-            gm = GameModel(game)
-            move = gm.play_turn()
-            return Response({"move": move, "gameover": str(gm.is_game_over())})
-
-        else:
-            return Response({"error": "you don't have permission to do this"})
+        gm = GameModel(game)
+        move = gm.play_turn()
+        return Response({"move": move, "gameover": str(gm.is_game_over())})
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        serializer.save()

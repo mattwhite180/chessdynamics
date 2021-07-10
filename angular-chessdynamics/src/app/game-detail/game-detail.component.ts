@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Game } from '../game'
+import { Game } from '../game';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -32,6 +32,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   refreshBoard(): void {
+    this.getGame();
     this.board = ChessBoard('board1', {
       position: this.game!.fen, //this.game!.fen,
       draggable: true
@@ -42,6 +43,12 @@ export class GameDetailComponent implements OnInit {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.gameService.getGame(id)
       .subscribe(game => this.game = game);
+  }
+
+  playMove(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.gameService.apiAction(id, "play_move").subscribe();
+    this.getGame();
   }
 
   goBack(): void {

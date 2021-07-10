@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM python:3.10.0b3-buster
 ENV TZ="America/Denver"
 
 EXPOSE 8000

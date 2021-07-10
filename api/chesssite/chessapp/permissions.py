@@ -7,10 +7,13 @@ class BasePermissions(permissions.BasePermission):
     """
 
     def has_object_permission(self, request, view, obj):
+        return True
         # Read permissions are allowed to any request,
         # so we'll always allow GET, HEAD or OPTIONS requests.
-        if request.method in permissions.SAFE_METHODS:
-            return True
+        # if request.method in permissions.SAFE_METHODS:
+        #     return True
+        # else:
+        #     return True
 
-        # Write permissions are only allowed to the owner of the game.
-        return (obj.owner == request.user) or (request.user.is_superuser == True)
+        # # Write permissions are only allowed to the owner of the game.
+        # return (obj.owner == request.user) or (request.user.is_superuser == True)
