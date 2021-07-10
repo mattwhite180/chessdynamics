@@ -1,22 +1,28 @@
-<div *ngIf="game">
-    <h2>{{game.name | uppercase}} Details</h2>
-    <div><span>id: </span>{{game.id}}</div>
-    <div>
-      <label for="game-name">Game name: </label>
-      <input id="game-name" [(ngModel)]="game.name" placeholder="name">
+<div class="flex-container">
+  <div class="flex-child magenta">
+    <div id="board1" style="width: 600px"></div>
+  </div>
+  <div class="flex-child green">
+    <div *ngIf="game">
+        <h2>{{game.name | uppercase}} Details</h2>
+        <div><span>id: </span>{{game.id}}</div>
+        <div>
+          <label for="game-name">Game name: </label>
+          <input id="game-name" [(ngModel)]="game.name" placeholder="name">
+        </div>
     </div>
+    <button (click)="playTurn()">playTurn</button>
+    <br>
+    <button (click)="refreshBoard()">refresh board</button>
+    <form>
+    <select #selected_move type="text" name="moves" id="moves">
+      <option *ngFor="let lm of legal_moves" [value]="lm">
+        {{lm}}
+    </option>
+    </select>
+    <br>
+    <button (click)="playMove(selected_move.value)">Play Selected Move</button>
+    </form>
+    <button (click)="goBack()">go back</button>
+  </div>
 </div>
-<button (click)="playTurn()">playTurn</button>
-<button (click)="refreshBoard()">refresh board</button>
-<div id="board1" style="width: 400px"></div>
-<form>
-<select #selected_move type="text" name="moves" id="moves">
-  <option *ngFor="let lm of legal_moves" [value]="lm">
-    {{lm}}
-</option>
-</select>
-<button (click)="playMove(selected_move.value)">Play Selected Move</button>
-</form>
-<br>
-<br>
-<button (click)="goBack()">go back</button>
