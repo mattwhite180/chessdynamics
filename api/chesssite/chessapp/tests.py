@@ -347,8 +347,8 @@ class GameModelTestCase(TestCase):
         moves = "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3"
         gm.load_game(moves)
         val = gm.play_move("f3f7")
-        expected = "f3f7"
-        errmsg = "expected " + expected + " actual move was " + val
+        expected = True
+        errmsg = "expected " + str(expected) + " actual move was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
     def test_play_move_bad(self):
@@ -356,8 +356,8 @@ class GameModelTestCase(TestCase):
         gm = GameModel(g)
         moves = "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3"
         gm.load_game(moves)
-        val = "?" in gm.play_move("f3f8")
-        expected = True
+        val = gm.play_move("f3f8")
+        expected = False
         errmsg = "expected " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
@@ -367,8 +367,8 @@ class GameModelTestCase(TestCase):
         moves = "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3,f3f7"
         gm.load_game(moves)
         val = gm.play_move("b4b3")
-        expected = "gg"
-        errmsg = "expected " + expected + " actual move was " + val
+        expected = False
+        errmsg = "expected " + str(expected) + " actual move was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
     def test_full_game_black_wins_random_gm(self):

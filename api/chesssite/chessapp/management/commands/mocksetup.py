@@ -51,8 +51,7 @@ class Command(BaseCommand):
         )
 
         simple_checkmate_in_one = Game.objects.create(
-            name="easy checkmate in one",
-            creation_date=datetime.date(2021, 6, 5),
+            name="easy checkmate in one", creation_date=datetime.date(2021, 6, 5)
         )
         one = GameModel(simple_checkmate_in_one)
         one.load_game("e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3")

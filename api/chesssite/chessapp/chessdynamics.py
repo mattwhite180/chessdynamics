@@ -114,9 +114,9 @@ class ChessGame:
 
     def play_move(self, move):
         if self.is_game_over():
-            return "gg"
+            return False
         elif move not in self.get_legal_moves().split(sep=","):
-            return "?" + move
+            return False
         else:
             self.board.push_uci(move)
             self.node = self.node.add_variation(chess.Move.from_uci(move))
@@ -124,7 +124,7 @@ class ChessGame:
                 self.moves += "," + str(move)
             else:
                 self.moves += str(move)
-            return move
+            return True
 
     def play_turn(self):
         if not self.is_game_over():

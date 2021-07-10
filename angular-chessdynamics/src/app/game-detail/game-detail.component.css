@@ -14,6 +14,14 @@ label {
     border-radius: 4px;
     font-size: 1rem;
   }
+  select {
+    margin-top: 20px;
+    background-color: #eee;
+    padding: 1rem;
+    border-radius: 40px;
+    font-size: 1rem;
+    padding: 1rem;
+  }
   button:hover {
     background-color: #cfd8dc;
   }
@@ -22,3 +30,17 @@ label {
     color: #ccc;
     cursor: auto;
   }
+
+.flex-container {
+    display: flex;
+}
+
+.flex-child {
+    flex: 1;
+    border: 2px solid green;
+    padding: 10px;
+}  
+
+.flex-child:first-child {
+    margin-right: 20px;
+} 
