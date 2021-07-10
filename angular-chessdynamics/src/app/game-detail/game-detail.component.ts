@@ -15,6 +15,7 @@ declare var ChessBoard: any;
 export class GameDetailComponent implements OnInit {
 
   game: Game | undefined;
+  legal_moves: any;
   board: any;
 
   constructor(
@@ -37,6 +38,7 @@ export class GameDetailComponent implements OnInit {
       position: this.game!.fen, //this.game!.fen,
       draggable: true
     });
+    this.legal_moves = this.game!.legal_moves.split(",");
   }
   
   getGame(): void {
@@ -45,9 +47,14 @@ export class GameDetailComponent implements OnInit {
       .subscribe(game => this.game = game);
   }
 
-  playMove(): void {
+  playTurn(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.gameService.apiAction(id, "play_turn").subscribe();
+  }
+
+  playMove(move: String): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.gameService.apiAction(id, "play_move/" + move).subscribe();
   }
 
   goBack(): void {
