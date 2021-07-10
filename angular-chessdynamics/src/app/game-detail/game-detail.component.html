@@ -6,10 +6,17 @@
       <input id="game-name" [(ngModel)]="game.name" placeholder="name">
     </div>
 </div>
-<br>
-<div id="board1" style="width: 500px"></div>
-<button (click)="playMove()">playMove</button>
+<button (click)="playTurn()">playTurn</button>
 <button (click)="refreshBoard()">refresh board</button>
+<div id="board1" style="width: 400px"></div>
+<form>
+<select #selected_move type="text" name="moves" id="moves">
+  <option *ngFor="let lm of legal_moves" [value]="lm">
+    {{lm}}
+</option>
+</select>
+<button (click)="playMove(selected_move.value)">Play Selected Move</button>
+</form>
 <br>
 <br>
 <button (click)="goBack()">go back</button>
