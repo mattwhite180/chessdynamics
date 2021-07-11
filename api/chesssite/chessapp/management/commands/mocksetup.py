@@ -38,6 +38,10 @@ class Command(BaseCommand):
             name="longgame", creation_date=datetime.date(2020, 6, 3), time_controls=2000
         )
 
+        leela = Game.objects.create(
+            name="leela", white="stockfish", white_level=8, black="leela", time_controls=(2 * 60 * 1000)
+        )
+
         Game.objects.create(
             name="random",
             description="random vs lvl 1",
