@@ -248,6 +248,28 @@ class GameModelTestCase(TestCase):
             time_controls=100,
         )
 
+        Game.objects.create(
+            name="leelaHard",
+            description="leela vs lvl 1",
+            move_list="",
+            black="leela",
+            black_level=5,
+            white="stockfish",
+            white_level=5,
+            time_controls=200,
+        )
+
+        Game.objects.create(
+            name="leelaEasy",
+            description="leela vs lvl 1",
+            move_list="",
+            black="leela",
+            black_level=1,
+            white="stockfish",
+            white_level=1,
+            time_controls=200,
+        )
+
     def test_easy_checkmate_gm(self):
         g = Game.objects.get(name="simple")
         gm = GameModel(g)
@@ -379,3 +401,22 @@ class GameModelTestCase(TestCase):
         expected = "0-1"
         errmsg = "expected " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
+
+    def test_full_game_black_wins_leela_easy_gm(self):
+        g = Game.objects.get(name="leelaEasy")
+        gm = GameModel(g)
+        gm.play_continuous()
+        val = gm.get_results()
+        expected = "0-1"
+        errmsg = "expected " + str(expected) + " actual value was " + str(val)
+        self.assertEqual(val, expected, errmsg)
+
+    def test_full_game_black_wins_leela_hard_gm(self):
+        g = Game.objects.get(name="leelaHard")
+        gm = GameModel(g)
+        gm.play_continuous()
+        val = gm.get_results()
+        expected = "0-1"
+        errmsg = "expected " + str(expected) + " actual value was " + str(val)
+        self.assertEqual(val, expected, errmsg)
+
