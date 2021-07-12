@@ -1,4 +1,4 @@
-FROM python:3.10.0b3-buster
+FROM python:3.10.0b3-buster AS basedependencies
 ENV TZ="America/Denver"
 
 EXPOSE 8000
@@ -10,8 +10,27 @@ RUN apt-get update -y \
 	stockfish \
 	vim \
 	postgresql \
+	build-essential \
+	procps \
+	curl \
+	file \
+	git \
+	sudo \
     && rm -rf /var/lib/apt/lists/*
 
+##############
+# leela lc0
+FROM basedependencies AS leela
+RUN git clone --depth=1 https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew
+RUN mkdir ~/.linuxbrew/bin
+RUN ln -s ~/.linuxbrew/Homebrew/bin/brew ~/.linuxbrew/bin
+RUN eval $(~/.linuxbrew/bin/brew shellenv)
+ENV PATH="~/.linuxbrew/bin/:$PATH"
+ENV PATH="~/.linuxbrew/Homebrew/bin/:$PATH"
+RUN ~/.linuxbrew/bin/brew install lc0 --verbose
+########
+
+FROM leela
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 

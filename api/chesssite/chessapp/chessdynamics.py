@@ -6,7 +6,10 @@ import asyncio
 from random import randrange
 import io
 
-CHESS_CPU = {"stockfish": {"url": "/usr/games/stockfish", "configs": {}}}
+CHESS_CPU = {
+    "stockfish": {"url": "/usr/games/stockfish", "configs": {}},
+    "leela" : {"url": "/root/.linuxbrew/bin/lc0", "configs": {}}
+    }
 
 
 class EnginePlaceHolder:
@@ -28,9 +31,10 @@ class ChessPlayer:
                 self.engine = chess.engine.SimpleEngine.popen_uci(
                     CHESS_CPU[self.playerName]["url"], timeout=self.timeout
                 )
-                self.engine.configure({"Skill Level": self.level})
-                for i in CHESS_CPU[self.playerName]["configs"]:
-                    self.engine.configure({i: CHESS_CPU[self.playerName]["configs"][i]})
+                if "leela" != self.playerName:
+                    self.engine.configure({"Skill Level": self.level})
+                    for i in CHESS_CPU[self.playerName]["configs"]:
+                        self.engine.configure({i: CHESS_CPU[self.playerName]["configs"][i]})
 
     def is_cpu(self):
         return self.isEngine
