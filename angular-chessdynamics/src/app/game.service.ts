@@ -62,9 +62,10 @@ export class GameService {
 
   apiAction(id: number, func: String): any {
     const url = `${this.gamesUrl}${id}/${func}/`;
+    this.log("calling " + String(url));
     return this.http.get(url).pipe(
-      tap(_ => this.log(`playing game...`)),
-      catchError(this.handleError(`playing game...`))
+      tap(_ => this.log(`got response from ` + String(url))),
+      catchError(this.handleError(`error from ` + String(url)))
     );
   }
 }
