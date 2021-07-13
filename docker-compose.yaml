@@ -21,7 +21,7 @@ services:
     build: api/
     #command: /bin/bash -c "python tests.py"
     #command: bash -c "sleep infinity"
-    command: bash -c "python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0:8000"
+    command: bash -c "python3 manage.py makemigrations chessapp && python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0:8000"
     volumes:
       - .:/python
     expose:
