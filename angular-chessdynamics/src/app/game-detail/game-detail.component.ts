@@ -47,6 +47,13 @@ export class GameDetailComponent implements OnInit {
       .subscribe(game => this.game = game);
   }
 
+  save(): void {
+    if (this.game) {
+      this.gameService.updateGame(this.game)
+        .subscribe(() => this.goBack());
+    }
+  }
+
   playTurn(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.gameService.apiAction(id, "play_turn").subscribe();
