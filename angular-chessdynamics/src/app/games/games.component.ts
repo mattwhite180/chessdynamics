@@ -25,5 +25,4 @@ export class GamesComponent implements OnInit {
     this.gameService.getGames()
         .subscribe(games => this.games = games);
   }
-
 }

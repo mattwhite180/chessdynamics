@@ -34,10 +34,7 @@ export class GameDetailComponent implements OnInit {
 
   refreshBoard(): void {
     this.getGame();
-    this.board = ChessBoard('board1', {
-      position: this.game!.fen, //this.game!.fen,
-      draggable: true
-    });
+    this.board.position(this.game!.fen);
     this.legal_moves = this.game!.legal_moves.split(",");
   }
   
@@ -45,6 +42,13 @@ export class GameDetailComponent implements OnInit {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.gameService.getGame(id)
       .subscribe(game => this.game = game);
+  }
+
+  save(): void {
+    if (this.game) {
+      this.gameService.updateGame(this.game)
+        .subscribe(() => this.goBack());
+    }
   }
 
   playTurn(): void {

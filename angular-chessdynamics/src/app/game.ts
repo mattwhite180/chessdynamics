@@ -11,6 +11,5 @@ export interface Game {
     results: string;
     fen: string;
     legal_moves: string;
-    owner: number;
     creation_date: string;
   }

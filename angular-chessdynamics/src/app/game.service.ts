@@ -13,7 +13,11 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 export class GameService {
 
-  private gamesUrl = 'http://localhost:8000/games/'
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
+
+  private gamesUrl = 'http://localhost:4000/games/'
 
   constructor(
     private http: HttpClient,
@@ -57,6 +61,21 @@ export class GameService {
     return this.http.get<Game>(url).pipe(
       tap(_ => this.log(`fetched game id=${id}`)),
       catchError(this.handleError<Game>(`getGame id=${id}`))
+    );
+  }
+
+  addGame(game: Game): Observable<Game> {
+    return this.http.post<Game>(this.gamesUrl, game, this.httpOptions).pipe(
+      tap((newGame: Game) => this.log(`added game w/ id=${newGame.id}`)),
+      catchError(this.handleError<Game>('addGame'))
+    );
+  }
+
+  updateGame(game: Game): Observable<any> {
+    const url = `${this.gamesUrl}${game.id}/`;
+    return this.http.put(url, game, this.httpOptions).pipe(
+      tap(_ => this.log(`updated game id=${game.id}`)),
+      catchError(this.handleError<any>('updateGame'))
     );
   }
 
