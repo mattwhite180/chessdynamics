@@ -32,8 +32,7 @@ def api_root(request, format=None):
 
 class GameViewSet(viewsets.ModelViewSet):
     """
-    This viewset automatically provides `list`, `create`, `retrieve`,
-    `update` and `destroy` actions.
+    This is the RESTful API for Chessdynamics
     """
 
     queryset = Game.objects.all()

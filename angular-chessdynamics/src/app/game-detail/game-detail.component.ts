@@ -34,10 +34,7 @@ export class GameDetailComponent implements OnInit {
 
   refreshBoard(): void {
     this.getGame();
-    this.board = ChessBoard('board1', {
-      position: this.game!.fen, //this.game!.fen,
-      draggable: true
-    });
+    this.board.position(this.game!.fen);
     this.legal_moves = this.game!.legal_moves.split(",");
   }
   
