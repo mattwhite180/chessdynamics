@@ -64,6 +64,13 @@ export class GameService {
     );
   }
 
+  addGame(game: Game): Observable<Game> {
+    return this.http.post<Game>(this.gamesUrl, game, this.httpOptions).pipe(
+      tap((newGame: Game) => this.log(`added game w/ id=${newGame.id}`)),
+      catchError(this.handleError<Game>('addGame'))
+    );
+  }
+
   updateGame(game: Game): Observable<any> {
     const url = `${this.gamesUrl}${game.id}/`;
     return this.http.put(url, game, this.httpOptions).pipe(
