@@ -79,6 +79,15 @@ export class GameService {
     );
   }
 
+  deleteGame(id: number): Observable<Game> {
+    const url = `${this.gamesUrl}${id}/`;
+  
+    return this.http.delete<Game>(url, this.httpOptions).pipe(
+      tap(_ => this.log(`deleted game id=${id}`)),
+      catchError(this.handleError<Game>('deleteGame'))
+    );
+  }
+
   apiAction(id: number, func: String): any {
     const url = `${this.gamesUrl}${id}/${func}/`;
     this.log("calling " + String(url));
