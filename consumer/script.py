@@ -90,6 +90,8 @@ api.add_resource(Game, '/games/<int:id>/')
 
 api.add_resource(PlayTurn, '/games/<int:id>/play_turn')
 
+#api.add_resource(Endpoint, '/<path:content>')
+
 # http://localhost:4000/games/32/play_turn/
 
 if __name__ == '__main__':
