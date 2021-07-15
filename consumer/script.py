@@ -4,7 +4,6 @@
 import requests
 from flask import Flask, request, jsonify, make_response
 from flask_restful import reqparse, abort, Api, Resource
-import httpie
 import json
 
 app = Flask(__name__)
@@ -94,4 +93,4 @@ api.add_resource(PlayTurn, '/games/<int:id>/play_turn')
 # http://localhost:4000/games/32/play_turn/
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0')
