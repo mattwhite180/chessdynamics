@@ -56,6 +56,13 @@ export class GameDetailComponent implements OnInit {
     this.gameService.apiAction(id, "play_turn").subscribe();
   }
 
+
+  delete(game: Game): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.gameService.deleteGame(id).subscribe();
+  }
+
+
   playMove(move: String): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.gameService.apiAction(id, "play_move/" + move).subscribe();
