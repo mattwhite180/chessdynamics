@@ -46,15 +46,21 @@ class GameViewSet(viewsets.ModelViewSet):
         # response['data'] = serializer.data
         game = self.get_object()
         gm = GameModel(game)
-        move = gm.play_turn()
-        return Response({"move": move, "gameover": str(gm.is_game_over())})
+        if gm != False:
+            move = gm.play_turn()
+            return Response({"message": "game " + str(game.id) + " moved","move": move, "gameover": str(gm.is_game_over())})
+        else:
+            return Response({"message": "game is already in use"})
 
     @action(detail=True, url_path="play_move/(?P<move_str>[^/.]+)")
     def play_move(self, request, move_str, pk=None):
         game = self.get_object()
         gm = GameModel(game)
-        valid_move = gm.play_move(str(move_str))
-        return Response({"valid move": valid_move})
+        if gm != False:
+            valid_move = gm.play_move(str(move_str))
+            return Response({"valid move": valid_move})
+        else:
+            return Response({"message": "game is already in use"})
 
     def perform_create(self, serializer):
         serializer.save()

@@ -177,9 +177,12 @@ class ChessGame:
 
 class GameModel:
     def __init__(self, gm):
-        self.game_model = gm
-        g = self.setup_game()
-        self.save(g)
+        if gm.available:
+            self.game_model = gm
+            g = self.setup_game()
+            self.save(g)
+        else:
+            return False
 
     def setup_white(self):
         return ChessPlayer(
