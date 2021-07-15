@@ -67,17 +67,6 @@ services:
       - testing_net
     ports:
       - "4000:4000"
-  consumer:
-    build: consumer/
-    networks:
-      - testing_net
-    command: python3 script.py --host=0.0.0.0
-    depends_on:
-      - nginx
-    expose:
-      - "5000"
-    ports:
-      - "5000"
 
 volumes:
   postgres_data:
