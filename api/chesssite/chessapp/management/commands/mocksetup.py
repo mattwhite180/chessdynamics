@@ -23,23 +23,23 @@ class Command(BaseCommand):
         mattw.save()
 
         new_game1 = Game.objects.create(
-            name="new1", creation_date=datetime.date(2021, 6, 1), time_controls=(30 * 1000)
+            name="new1", creation_date=datetime.date(2021, 6, 1), time_controls=(1000)
         )
 
         new_game2 = Game.objects.create(
-            name="new2", creation_date=datetime.date(2021, 6, 2), time_controls=(30 * 1000)
+            name="new2", creation_date=datetime.date(2021, 6, 2), time_controls=(1000)
         )
 
         new_game3 = Game.objects.create(
-            name="newmattw", creation_date=datetime.date(2021, 6, 3), time_controls=(30 * 1000)
+            name="newmattw", creation_date=datetime.date(2021, 6, 3), time_controls=(1000)
         )
 
         new_game4 = Game.objects.create(
-            name="longgame", creation_date=datetime.date(2020, 6, 3), time_controls=(30 * 1000)
+            name="longgame", creation_date=datetime.date(2020, 6, 3), time_controls=(1000)
         )
 
         leela = Game.objects.create(
-            name="leela", white="stockfish", white_level=8, black="leela", time_controls=(30 * 1000)
+            name="leela", white="stockfish", white_level=8, black="leela", time_controls=(1000)
         )
 
         Game.objects.create(
@@ -50,7 +50,7 @@ class Command(BaseCommand):
             black_level=1,
             white="random",
             white_level=8,
-            time_controls=(30 * 1000),
+            time_controls=(1000),
             creation_date=datetime.date(2021, 6, 4),
         )
 
