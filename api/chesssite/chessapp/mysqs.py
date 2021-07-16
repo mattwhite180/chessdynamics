@@ -21,6 +21,12 @@ def send_message(message):
     )
     return response
 
+def purge_queue():
+    response = self.client.purge_queue(
+        QueueUrl=self.queue_url,
+    )
+    print(response)
+
 def receive_message(self, messageCount=10, waitTime=5):
     response = self.client.receive_message(
         QueueUrl=self.queue_url,
