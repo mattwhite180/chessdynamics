@@ -10,3 +10,4 @@ django-cors-headers
 ipython
 black
 psycopg2
+boto3

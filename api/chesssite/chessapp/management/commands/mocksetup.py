@@ -7,7 +7,7 @@ import time
 
 
 class Command(BaseCommand):
-    help = "Closes the specified poll for voting"
+    help = "setup mock users and games"
 
     def add_arguments(self, parser):
         pass

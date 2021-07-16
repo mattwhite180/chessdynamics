@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 
 class Command(BaseCommand):
-    help = "Closes the specified poll for voting"
+    help = "Delete all users and games"
 
     def add_arguments(self, parser):
         pass
