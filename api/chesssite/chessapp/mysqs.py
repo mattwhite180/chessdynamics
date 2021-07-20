@@ -29,7 +29,7 @@ class MySQS:
         )
         return int(response['Attributes']['ApproximateNumberOfMessages'])
 
-    def receive_message(self, waitTime=5):
+    def receive_message(self, waitTime=10):
         response = self.client.receive_message(
             QueueUrl=self.queue_url,
             MaxNumberOfMessages=1,
@@ -41,14 +41,12 @@ class MySQS:
         message = messages[0]
         receipt_handle = message['ReceiptHandle']
         self.delete_message(receipt_handle)
-        return message['Body']
+        return json.loads(message['Body'])
 
     def send_message(self, message):
         response = self.client.send_message(
             QueueUrl=self.queue_url,
-            MessageBody=message,
-            MessageGroupId="string",
-            MessageDeduplicationId="string"
+            MessageBody=json.dumps(message),
         )
 
     def delete_message(self, receipt_handle):
