@@ -52,6 +52,7 @@ class GameViewSet(viewsets.ModelViewSet):
         else:
             return Response({"message": "game is already in use"})
 
+
     @action(detail=True, url_path="play_move/(?P<move_str>[^/.]+)")
     def play_move(self, request, move_str, pk=None):
         game = self.get_object()
@@ -61,6 +62,10 @@ class GameViewSet(viewsets.ModelViewSet):
             return Response({"valid move": valid_move})
         else:
             return Response({"message": "game is already in use"})
+
+    @action(detail=True, url_path="echo/(?P<string>[^/.]+)")
+    def echo(self, request, string, pk=None):
+        return Response({"message": "echo returns " + string})
 
     def perform_create(self, serializer):
         serializer.save()
