@@ -11,5 +11,7 @@ export interface Game {
     results: string;
     fen: string;
     legal_moves: string;
+    legal_moves_list: string[];
     creation_date: string;
+    board: any;
   }

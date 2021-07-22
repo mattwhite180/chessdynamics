@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Game } from './game';
-import { GAMES } from './mock-games';
 import { Observable, of } from 'rxjs';
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
+
+declare var ChessBoard: any;
 
 
 @Injectable({
@@ -60,8 +61,19 @@ export class GameService {
     const url = `${this.gamesUrl}${id}/`;
     return this.http.get<Game>(url).pipe(
       tap(_ => this.log(`fetched game id=${id}`)),
-      catchError(this.handleError<Game>(`getGame id=${id}`))
+      catchError(this.handleError<Game>(`getGame id=${id}`)),
+      map(g => this.modify(g))
     );
+  }
+
+  modify(game: Game) {
+    game['board'] =  ChessBoard('board1', {
+      position: game["fen"],
+      draggable: true
+    })
+    game['legal_moves_list'] = game['legal_moves'].split(",");
+    // this.legal_moves = this.game!.legal_moves.split(",");
+    return game;
   }
 
   addGame(game: Game): Observable<Game> {
@@ -76,6 +88,15 @@ export class GameService {
     return this.http.put(url, game, this.httpOptions).pipe(
       tap(_ => this.log(`updated game id=${game.id}`)),
       catchError(this.handleError<any>('updateGame'))
+    );
+  }
+
+  deleteGame(id: number): Observable<Game> {
+    const url = `${this.gamesUrl}${id}/`;
+  
+    return this.http.delete<Game>(url, this.httpOptions).pipe(
+      tap(_ => this.log(`deleted game id=${id}`)),
+      catchError(this.handleError<Game>('deleteGame'))
     );
   }
 
