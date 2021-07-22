@@ -5,8 +5,6 @@ import { Location } from '@angular/common';
 
 import { GameService } from '../game.service';
 
-declare var ChessBoard: any;
-
 @Component({
   selector: 'app-game-detail',
   templateUrl: './game-detail.component.html',
@@ -16,7 +14,6 @@ export class GameDetailComponent implements OnInit {
 
   game: Game | undefined;
   legal_moves: any;
-  board: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,16 +23,10 @@ export class GameDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getGame();
-    this.board = ChessBoard('board1', {
-      position: "empty", //this.game!.fen,
-      draggable: true
-    });
   }
 
   refreshBoard(): void {
     this.getGame();
-    this.board.position(this.game!.fen);
-    this.legal_moves = this.game!.legal_moves.split(",");
   }
   
   getGame(): void {

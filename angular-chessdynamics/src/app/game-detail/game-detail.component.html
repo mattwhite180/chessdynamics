@@ -8,14 +8,16 @@
     <br>
     <button (click)="refreshBoard()">refresh board</button>
     <br>
+    <div *ngIf="game">
     <form>
     <select #selected_move type="text" name="moves" id="moves">
-      <option *ngFor="let lm of legal_moves" [value]="lm">
+      <option *ngFor="let lm of game.legal_moves_list" [value]="lm">
         {{lm}}
     </option>
     </select>
     <button (click)="playMove(selected_move.value)">Play Selected Move</button>
     </form>
+  </div>
   </div>
   <div class="flex-child green">
     <app-messages></app-messages>
