@@ -399,3 +399,14 @@ class GameModelTestCase(TestCase):
         expected = "0-1"
         errmsg = "expected " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
+
+    def test_pop(self):
+        g = Game.objects.get(name="simple")
+        gm = GameModel(g)
+        moves = "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4,a4a3"
+        gm.load_game(moves)
+        gm.pop()
+        val = gm.get_moves()
+        expected = "e2e4,a7a6,d1f3,a6a5,f1d3,a5a4,d3c4"
+        errmsg = "expected " + str(expected) + " actual value was " + str(val)
+        self.assertEqual(val, expected, errmsg)

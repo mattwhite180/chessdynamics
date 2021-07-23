@@ -246,6 +246,13 @@ class GameModel:
         self.save(g)
         return val
 
+    def pop(self):
+        g = self.setup_game()
+        move = g.get_moves()[g.get_moves().rindex(",") :]
+        g.moves = g.get_moves()[0 : g.get_moves().rindex(",")]
+        self.save(g)
+        return move
+
     def play_continuous(self):
         g = self.setup_game()
         while not g.is_game_over():
