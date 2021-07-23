@@ -1,7 +1,6 @@
 <h2>Top Games</h2>
 <div class="games-menu">
-    <a *ngFor="let game of games"
-    routerLink="/detail/{{game.id}}">
+  <a *ngFor="let game of games" routerLink="/detail/{{game.id}}">
     {{game.name}}
   </a>
 </div>
@@ -36,8 +35,10 @@
   </div>
   <!-- (click) passes input value to add() and then clears the input -->
   <button class="add-button"
-  (click)="add(gameName.value, gameDescription.value, whitePlayer.value, whitePlayerLevel.value, blackPlayer.value, blackPlayerLevel.value, timeControls.value); gameName.value=''">
+    (click)="add(gameName.value, gameDescription.value, whitePlayer.value, whitePlayerLevel.value, blackPlayer.value, blackPlayerLevel.value, timeControls.value); gameName.value=''">
     Add game
   </button>
 </div>
-<div><app-messages></app-messages></div>
+<div>
+  <app-messages></app-messages>
+</div>

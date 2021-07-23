@@ -8,8 +8,8 @@ import io
 
 CHESS_CPU = {
     "stockfish": {"url": "/usr/games/stockfish", "configs": {}},
-    "leela" : {"url": "/root/.linuxbrew/bin/lc0", "configs": {}}
-    }
+    "leela": {"url": "/root/.linuxbrew/bin/lc0", "configs": {}},
+}
 
 
 class EnginePlaceHolder:
@@ -34,7 +34,9 @@ class ChessPlayer:
                 if "leela" != self.playerName:
                     self.engine.configure({"Skill Level": self.level})
                     for i in CHESS_CPU[self.playerName]["configs"]:
-                        self.engine.configure({i: CHESS_CPU[self.playerName]["configs"][i]})
+                        self.engine.configure(
+                            {i: CHESS_CPU[self.playerName]["configs"][i]}
+                        )
 
     def is_cpu(self):
         return self.isEngine
@@ -179,10 +181,16 @@ class GameModel:
     def __init__(self, gm):
         if gm.available:
             self.game_model = gm
+            self.game_model.available = False
+            self.game_model.save()
             g = self.setup_game()
             self.save(g)
         else:
             return False
+
+    def __del__(self):
+        self.game_model.available = True
+        self.game_model.save()
 
     def setup_white(self):
         return ChessPlayer(
@@ -237,6 +245,23 @@ class GameModel:
         val = g.play_move(move)
         self.save(g)
         return val
+
+    def pop(self):
+        g = self.setup_game()
+        if g.get_moves().count(",") == 0:
+            move = g.get_moves().replace(",", "")
+            self.game_model.move_list = ""
+            self.game_model.save()
+            g = self.setup_game()
+            self.save(g)
+            return move
+        elif g.get_moves().count(",") > 0:
+            move = g.get_moves()[g.get_moves().rindex(",") :]
+            g.load_game(g.get_moves()[0 : g.get_moves().rindex(",")])
+            self.save(g)
+            return move
+        else:
+            return str(False)
 
     def play_continuous(self):
         g = self.setup_game()
