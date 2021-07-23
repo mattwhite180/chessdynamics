@@ -53,6 +53,10 @@ export class GameDetailComponent implements OnInit {
     this.gameService.deleteGame(id).subscribe();
   }
 
+  pop(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.gameService.apiAction(id, "pop").subscribe();
+  }
 
   playMove(move: String): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));

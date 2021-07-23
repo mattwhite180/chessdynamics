@@ -248,10 +248,20 @@ class GameModel:
 
     def pop(self):
         g = self.setup_game()
-        move = g.get_moves()[g.get_moves().rindex(",") :]
-        g.moves = g.get_moves()[0 : g.get_moves().rindex(",")]
-        self.save(g)
-        return move
+        if g.get_moves().count(",") == 0:
+            move = g.get_moves().replace(",", "")
+            self.game_model.move_list = ""
+            self.game_model.save()
+            g = self.setup_game()
+            self.save(g)
+            return move
+        elif g.get_moves().count(",") > 0:
+            move = g.get_moves()[g.get_moves().rindex(",") :]
+            g.load_game(g.get_moves()[0 : g.get_moves().rindex(",")])
+            self.save(g)
+            return move
+        else:
+            return str(False)
 
     def play_continuous(self):
         g = self.setup_game()
