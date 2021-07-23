@@ -23,9 +23,13 @@ class Command(BaseCommand):
         mattw.save()
 
         leela = Game.objects.create(
-            name="leelatest", white="stockfish", white_level=8, black="leela", time_controls=(2 * 1000)
+            name="leelatest",
+            white="stockfish",
+            white_level=8,
+            black="leela",
+            time_controls=(2 * 1000),
         )
-        
+
         l = GameModel(leela)
 
         while l.is_game_over() == False:

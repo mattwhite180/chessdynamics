@@ -8,6 +8,7 @@ import collections
 import asyncio
 import io
 
+
 class ChessPlayerTestCase(TestCase):
     def setup(self):
         pass

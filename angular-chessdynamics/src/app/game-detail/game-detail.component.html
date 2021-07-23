@@ -3,31 +3,31 @@
     <div id="board1" style="width: 500px"></div>
   </div>
   <div *ngIf="game">
-  <div class="flex-child green">
-    <h2>Controls</h2>
-    <div *ngIf="game.available">
-      <button (click)="playTurn()">playTurn</button>
+    <div class="flex-child green">
+      <h2>Controls</h2>
+      <div *ngIf="game.available">
+        <button (click)="playTurn()">playTurn</button>
+      </div>
+      <div *ngIf="!game.available">
+        <button disabled (click)="playTurn()">playTurn</button>
+      </div>
+      <br>
+      <button (click)="refreshBoard()">refresh board</button>
+      <br>
+      <form>
+        <select #selected_move type="text" name="moves" id="moves">
+          <option *ngFor="let lm of game.legal_moves_list" [value]="lm">
+            {{lm}}
+          </option>
+        </select>
+        <div *ngIf="game.available">
+          <button (click)="playMove(selected_move.value)">Play Selected Move</button>
+        </div>
+        <div *ngIf="!game.available">
+          <button disabled (click)="playMove(selected_move.value)">Play Selected Move</button>
+        </div>
+      </form>
     </div>
-    <div *ngIf="!game.available">
-      <button disabled (click)="playTurn()">playTurn</button>
-    </div>
-    <br>
-    <button (click)="refreshBoard()">refresh board</button>
-    <br>
-    <form>
-    <select #selected_move type="text" name="moves" id="moves">
-      <option *ngFor="let lm of game.legal_moves_list" [value]="lm">
-        {{lm}}
-    </option>
-    </select>
-    <div *ngIf="game.available">
-      <button (click)="playMove(selected_move.value)">Play Selected Move</button>
-    </div>
-    <div *ngIf="!game.available">
-      <button disabled (click)="playMove(selected_move.value)">Play Selected Move</button>
-    </div>
-    </form>
-  </div>
   </div>
   <div class="flex-child green">
     <app-messages></app-messages>
@@ -70,15 +70,13 @@
       <div><span>Results: </span>{{game.results}}</div>
       <div *ngIf="game.available">
         <button (click)="save()">save</button>
-        <button class="delete" title="delete game"
-      (click)="delete(game)">delete</button>
+        <button class="delete" title="delete game" (click)="delete(game)">delete</button>
       </div>
       <div *ngIf="!game.available">
         <button disabled (click)="save()">save</button>
-        <button disabled class="delete" title="delete game"
-      (click)="delete(game)">delete</button>
+        <button disabled class="delete" title="delete game" (click)="delete(game)">delete</button>
       </div>
-  </div>
+    </div>
   </div>
   <div class="flex-child green">
   </div>

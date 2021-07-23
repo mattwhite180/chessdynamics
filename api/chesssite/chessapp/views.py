@@ -48,10 +48,15 @@ class GameViewSet(viewsets.ModelViewSet):
         gm = GameModel(game)
         if gm != False:
             move = gm.play_turn()
-            return Response({"message": "game " + str(game.id) + " moved","move": move, "gameover": str(gm.is_game_over())})
+            return Response(
+                {
+                    "message": "game " + str(game.id) + " moved",
+                    "move": move,
+                    "gameover": str(gm.is_game_over()),
+                }
+            )
         else:
             return Response({"message": "game is already in use"})
-
 
     @action(detail=True, url_path="play_move/(?P<move_str>[^/.]+)")
     def play_move(self, request, move_str, pk=None):

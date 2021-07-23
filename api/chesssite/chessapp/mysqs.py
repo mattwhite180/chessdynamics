@@ -1,6 +1,7 @@
 import boto3
 import json
 
+
 class MySQS:
     def __init__(self, name, region="us-west-2"):
         self.region = region
@@ -9,56 +10,44 @@ class MySQS:
         self.queue_url = self.get_queue_url()
 
     def get_queue_url(self):
-        response = self.client.get_queue_url(
-            QueueName=self.name,
-        )
+        response = self.client.get_queue_url(QueueName=self.name)
         return response["QueueUrl"]
 
     def purge_queue(self):
-        response = self.client.purge_queue(
-            QueueUrl=self.queue_url,
-        )
+        response = self.client.purge_queue(QueueUrl=self.queue_url)
         return response
 
     def count(self):
         response = self.client.get_queue_attributes(
-            QueueUrl=self.queue_url,
-            AttributeNames=[
-                'ApproximateNumberOfMessages'
-            ]
+            QueueUrl=self.queue_url, AttributeNames=["ApproximateNumberOfMessages"]
         )
-        return int(response['Attributes']['ApproximateNumberOfMessages'])
+        return int(response["Attributes"]["ApproximateNumberOfMessages"])
 
     def receive_message(self, waitTime=10):
         response = self.client.receive_message(
-            QueueUrl=self.queue_url,
-            MaxNumberOfMessages=1,
-            WaitTimeSeconds=waitTime,
+            QueueUrl=self.queue_url, MaxNumberOfMessages=1, WaitTimeSeconds=waitTime
         )
-        if 'Messages' not in response:
+        if "Messages" not in response:
             return None
-        messages = response['Messages']
+        messages = response["Messages"]
         message = messages[0]
-        receipt_handle = message['ReceiptHandle']
+        receipt_handle = message["ReceiptHandle"]
         self.delete_message(receipt_handle)
-        return json.loads(message['Body'])
+        return json.loads(message["Body"])
 
     def send_message(self, message):
         response = self.client.send_message(
-            QueueUrl=self.queue_url,
-            MessageBody=json.dumps(message),
+            QueueUrl=self.queue_url, MessageBody=json.dumps(message)
         )
 
     def delete_message(self, receipt_handle):
         response = self.client.delete_message(
-            QueueUrl=self.queue_url,
-            ReceiptHandle=receipt_handle,
+            QueueUrl=self.queue_url, ReceiptHandle=receipt_handle
         )
         return response
 
     def change_queue_attributes(self, attributes):
         response = self.client.set_queue_attributes(
-            QueueUrl=self.queue_url,
-            Attributes=attributes
+            QueueUrl=self.queue_url, Attributes=attributes
         )
         return response

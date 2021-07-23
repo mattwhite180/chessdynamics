@@ -31,15 +31,23 @@ class Command(BaseCommand):
         )
 
         new_game3 = Game.objects.create(
-            name="newmattw", creation_date=datetime.date(2021, 6, 3), time_controls=(8000)
+            name="newmattw",
+            creation_date=datetime.date(2021, 6, 3),
+            time_controls=(8000),
         )
 
         new_game4 = Game.objects.create(
-            name="longgame", creation_date=datetime.date(2020, 6, 3), time_controls=(7000)
+            name="longgame",
+            creation_date=datetime.date(2020, 6, 3),
+            time_controls=(7000),
         )
 
         leela = Game.objects.create(
-            name="leela", white="stockfish", white_level=8, black="leela", time_controls=(6000)
+            name="leela",
+            white="stockfish",
+            white_level=8,
+            black="leela",
+            time_controls=(6000),
         )
 
         Game.objects.create(
