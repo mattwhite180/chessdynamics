@@ -14,4 +14,5 @@ export interface Game {
     legal_moves_list: string[];
     creation_date: string;
     board: any;
+    available: boolean;
   }

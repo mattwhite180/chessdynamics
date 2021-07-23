@@ -398,5 +398,3 @@ class GameModelTestCase(TestCase):
         expected = "0-1"
         errmsg = "expected " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
-
-        

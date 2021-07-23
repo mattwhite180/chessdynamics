@@ -179,10 +179,16 @@ class GameModel:
     def __init__(self, gm):
         if gm.available:
             self.game_model = gm
+            self.game_model.available = False
+            self.game_model.save()
             g = self.setup_game()
             self.save(g)
         else:
             return False
+
+    def __del__(self):
+        self.game_model.available = True
+        self.game_model.save()
 
     def setup_white(self):
         return ChessPlayer(
