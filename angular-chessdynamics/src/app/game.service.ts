@@ -137,9 +137,9 @@ export class GameService {
     draggable: true,
     orientation: gamemodel["turn"],
     position: gamemodel["fen"],
-    onDragStart: onDragStart,
-    onDrop: onDrop,
-    onSnapEnd: onSnapEnd
+    // onDragStart: onDragStart,
+    // onDrop: onDrop,
+    // onSnapEnd: onSnapEnd
   };
 
   updateStatus();
