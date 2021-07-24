@@ -88,10 +88,10 @@ export class GameService {
       var move = source + target;
       var moveList = gamemodel['legal_moves'].split(',');
       for (var i = 0; i < moveList.length; i++) {
-        console.log("is " + move + " == " + moveList[i] + "?")
         if (moveList[i] === move) {
           const func = "play_move/" + move;
           const myurl = `${url}${gamemodel['id']}/${func}/`;
+          gamemodel['refresh'] = true;
           return http.get(myurl).pipe().subscribe();
         }
       }
@@ -106,7 +106,7 @@ export class GameService {
     }
 
     var config = {
-      draggable: true,
+      draggable: gamemodel['available'],
       orientation: gamemodel['turn'],
       position: gamemodel['fen'],
       onDragStart: onDragStart,
@@ -119,6 +119,7 @@ export class GameService {
     var legal_moves = gamemodel['legal_moves'].split(',');
     gamemodel['legal_moves_list'] = legal_moves;
     gamemodel['last_move'] = legal_moves[legal_moves.length - 1];
+    gamemodel['refresh'] = (!gamemodel['available']);
     // this.legal_moves = this.game!.legal_moves.split(",");
     return gamemodel;
   }

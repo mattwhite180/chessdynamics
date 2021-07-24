@@ -17,4 +17,5 @@ export interface Game {
     available: boolean;
     turn: string;
     last_move: string;
+    refresh: boolean;
   }
