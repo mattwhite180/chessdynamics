@@ -68,6 +68,7 @@ export class GameService {
 
   modify(game: Game) {
     game['board'] =  ChessBoard('board1', {
+      orientation: game["turn"],
       position: game["fen"],
       draggable: true
     })

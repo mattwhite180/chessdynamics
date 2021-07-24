@@ -15,4 +15,5 @@ export interface Game {
     creation_date: string;
     board: any;
     available: boolean;
+    turn: string;
   }

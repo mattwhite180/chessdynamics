@@ -15,6 +15,7 @@ class Game(models.Model):
     time_controls = models.IntegerField(default=100, blank=True)
     results = models.CharField(default="*", blank=True, max_length=10)
     available = models.BooleanField(default=True, blank=True)
+    turn = models.CharField(default="white", blank=True, max_length=10)
     fen = models.CharField(
         default="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
         blank=True,

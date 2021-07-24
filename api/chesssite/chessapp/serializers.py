@@ -20,6 +20,7 @@ class GameSerializer(serializers.ModelSerializer):
             "legal_moves",
             "creation_date",
             "available",
+            "turn",
         ]
 
     def create(self, validated_data):
@@ -49,5 +50,6 @@ class GameSerializer(serializers.ModelSerializer):
             "creation_date", instance.creation_date
         )
         instance.available = validated_data.get("available", instance.available)
+        instance.turn = validated_data.get("turn", instance.turn)
         instance.save()
         return instance

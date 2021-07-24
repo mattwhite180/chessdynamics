@@ -8,13 +8,8 @@ import io
 
 CHESS_CPU = {
     "stockfish": {"url": "/usr/games/stockfish", "configs": {}},
-    "leela": {"url": "/root/.linuxbrew/bin/lc0", "configs": {}},
+    "leela": {"url": "/root/lc0/build/release/lc0", "configs": {}},
 }
-
-
-class EnginePlaceHolder:
-    def quit(self, hi=False):
-        return False
 
 
 class ChessPlayer:
@@ -23,7 +18,6 @@ class ChessPlayer:
         self.timeLimit = float(timeLimitms) / 1000
         self.level = int(level)
         self.timeout = timeout
-        self.engine = EnginePlaceHolder()
         self.isEngine = False
         if self.playerName in CHESS_CPU:
             if "url" in CHESS_CPU[self.playerName]:
@@ -37,6 +31,15 @@ class ChessPlayer:
                         self.engine.configure(
                             {i: CHESS_CPU[self.playerName]["configs"][i]}
                         )
+        else:
+            self.engine = chess.engine.SimpleEngine.popen_uci(
+                CHESS_CPU["stockfish"]["url"], timeout=self.timeout
+            )
+            self.engine.configure({"Skill Level": self.level})
+            for i in CHESS_CPU["stockfish"]["configs"]:
+                self.engine.configure(
+                    {i: CHESS_CPU["stockfish"]["configs"][i]}
+                ) 
 
     def is_cpu(self):
         return self.isEngine
@@ -49,13 +52,7 @@ class ChessPlayer:
             self.engine.configure(d)
 
     def play(self, chessBoard):
-        if self.isEngine:
-            return str(
-                self.engine.play(
-                    chessBoard, chess.engine.Limit(time=self.timeLimit)
-                ).move
-            )
-        elif self.playerName == "random":
+        if self.playerName == "random":
             moveStr = str()
             for i in chessBoard.legal_moves:
                 if len(moveStr) == 0:
@@ -64,6 +61,12 @@ class ChessPlayer:
                     moveStr += "," + str(i)
             legalMoves = moveStr.split(sep=",")
             return legalMoves[randrange(len(legalMoves))]
+        else:
+            return str(
+                self.engine.play(
+                    chessBoard, chess.engine.Limit(time=self.timeLimit)
+                ).move
+            )
 
     def get_player(self):
         return self.playerName
@@ -117,6 +120,12 @@ class ChessGame:
 
     def get_fen(self):
         return self.board.fen()
+
+    def get_turn(self):
+        if self.board.turn:
+            return "white"
+        else:
+            return "black"
 
     def play_move(self, move):
         if self.is_game_over():
@@ -246,6 +255,9 @@ class GameModel:
         self.save(g)
         return val
 
+    def get_turn(self):
+        return self.setup_game().get_turn()
+
     def pop(self):
         g = self.setup_game()
         if g.get_moves().count(",") == 0:
@@ -271,6 +283,7 @@ class GameModel:
         return self.game_model.move_list
 
     def save(self, g):
+        self.game_model.turn = g.get_turn()
         self.game_model.move_list = g.get_moves()
         self.game_model.results = g.get_results()
         self.game_model.fen = g.get_fen()
