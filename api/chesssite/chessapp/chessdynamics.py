@@ -8,7 +8,7 @@ import io
 
 CHESS_CPU = {
     "stockfish": {"url": "/usr/games/stockfish", "configs": {}},
-    "leela": {"url": "/root/.linuxbrew/bin/lc0", "configs": {}},
+    "leela": {"url": "/root/lc0/build/release/lc0", "configs": {}},
 }
 
 
