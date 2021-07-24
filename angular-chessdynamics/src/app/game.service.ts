@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
 declare var ChessBoard: any;
-
+declare var Chess: any;
 
 @Injectable({
   providedIn: 'root'
@@ -66,15 +66,88 @@ export class GameService {
     );
   }
 
-  modify(game: Game) {
-    game['board'] =  ChessBoard('board1', {
-      orientation: game["turn"],
-      position: game["fen"],
-      draggable: true
-    })
-    game['legal_moves_list'] = game['legal_moves'].split(",");
+  modify(gamemodel: Game) {
+    var board = null;
+    var game = new Chess();
+    ////////////////////////////////////////////////////////////////////////
+  function onDragStart (source : any, piece : any, position : any, orientation : any) {
+    // do not pick up pieces if the game is over
+    if (game.game_over()) return false;
+
+    // only pick up pieces for the side to move
+    if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
+        (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
+      return false;
+    }
+    return true;
+  }
+
+  function onDrop (source : any, target : any) {
+    // see if the move is legal
+    var move = game.move({
+      from: source,
+      to: target,
+      promotion: 'q' // NOTE: always promote to a queen for example simplicity
+    });
+
+    // illegal move
+    if (move === null) return 'snapback';
+
+    updateStatus();
+    return "";
+  }
+
+  // update the board position after the piece snap
+  // for castling, en passant, pawn promotion
+  function onSnapEnd () {
+    // game.position(game.fen());
+    return 'snapback';
+  }
+
+  function updateStatus () {
+    var status = '';
+
+    var moveColor = 'White';
+    if (game.turn() === 'b') {
+      moveColor = 'Black';
+    }
+
+    // checkmate?
+    if (game.in_checkmate()) {
+      status = 'Game over, ' + moveColor + ' is in checkmate.';
+    }
+
+    // draw?
+    else if (game.in_draw()) {
+      status = 'Game over, drawn position';
+    }
+
+    // game still on
+    else {
+      status = moveColor + ' to move';
+
+      // check?
+      if (game.in_check()) {
+        status += ', ' + moveColor + ' is in check';
+      }
+    }
+  }
+
+  var config = {
+    draggable: true,
+    orientation: gamemodel["turn"],
+    position: gamemodel["fen"],
+    onDragStart: onDragStart,
+    onDrop: onDrop,
+    onSnapEnd: onSnapEnd
+  };
+
+  updateStatus();
+    ////////////////////////////////////////////////////////////////////////
+    gamemodel['board'] =  ChessBoard('board1', config)
+    gamemodel['legal_moves_list'] = gamemodel['legal_moves'].split(",");
     // this.legal_moves = this.game!.legal_moves.split(",");
-    return game;
+    return gamemodel;
   }
 
   addGame(game: Game): Observable<Game> {
