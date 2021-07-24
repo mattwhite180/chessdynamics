@@ -28,6 +28,11 @@ export class GameDetailComponent implements OnInit {
     this.getGame();
   }
 
+  async refresh(): Promise<void> {
+    await sleep(100);
+    this.getGame();
+  }
+
   getGame(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.gameService.getGame(id).subscribe((game) => (this.game = game));
@@ -43,8 +48,7 @@ export class GameDetailComponent implements OnInit {
   playTurn(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.gameService.apiAction(id, 'play_turn').subscribe();
-    sleep(500);
-    this.getGame();
+    this.refresh();
   }
 
   delete(game: Game): void {
@@ -55,24 +59,18 @@ export class GameDetailComponent implements OnInit {
   pop(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.gameService.apiAction(id, 'pop').subscribe();
-    sleep(500);
-    this.getGame();
+    this.refresh();
   }
 
   playMove(move: String): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.gameService.apiAction(id, 'play_move/' + move).subscribe();
-    sleep(500);
-    this.getGame();
+    this.refresh();
   }
 
   goBack(): void {
     this.location.back();
   }
-}
-
-async function init() {
-  await sleep(1000);
 }
 
 function sleep(ms: number) {
