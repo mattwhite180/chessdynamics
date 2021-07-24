@@ -16,4 +16,5 @@ export interface Game {
     board: any;
     available: boolean;
     turn: string;
+    last_move: string;
   }

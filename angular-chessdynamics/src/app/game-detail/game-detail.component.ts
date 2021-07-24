@@ -48,7 +48,6 @@ export class GameDetailComponent implements OnInit {
   playTurn(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.gameService.apiAction(id, 'play_turn').subscribe();
-    this.refresh();
   }
 
   delete(game: Game): void {
@@ -59,13 +58,13 @@ export class GameDetailComponent implements OnInit {
   pop(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.gameService.apiAction(id, 'pop').subscribe();
-    this.refresh();
+    // this.refresh();
   }
 
   playMove(move: String): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.gameService.apiAction(id, 'play_move/' + move).subscribe();
-    this.refresh();
+    // this.refresh();
   }
 
   goBack(): void {
