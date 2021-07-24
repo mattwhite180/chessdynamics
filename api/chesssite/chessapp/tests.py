@@ -141,7 +141,7 @@ class ChessGameTestCase(TestCase):
         g.play_continuous()
         val = g.get_results()
         expected = "0-1"
-        errmsg = "expected either " + str(expected) + " actual value was " + str(val)
+        errmsg = "expected " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
     def test_full_game_white_wins(self):
@@ -151,7 +151,7 @@ class ChessGameTestCase(TestCase):
         g.play_continuous()
         val = g.get_results()
         expected = "1-0"
-        errmsg = "expected either " + str(expected) + " actual value was " + str(val)
+        errmsg = "expected " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
     def test_full_game_manual(self):
@@ -204,6 +204,23 @@ class ChessGameTestCase(TestCase):
         errmsg = "expected either " + str(expected) + " actual move was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
+    def test_turn_white(self):
+        w = ChessPlayer("stockfish", 123, 1, None)
+        b = ChessPlayer("stockfish", 123, 8, None)
+        g = ChessGame(w, b)
+        val = g.get_turn()
+        expected = "white"
+        errmsg = "expected " + str(expected) + " actual value was " + str(val)
+        self.assertEqual(val, expected, errmsg)
+
+    def test_turn_black(self):
+        w = ChessPlayer("stockfish", 123, 1, None)
+        b = ChessPlayer("stockfish", 123, 8, None)
+        g = ChessGame(w, b, "e2e3")
+        val = g.get_turn()
+        expected = "black"
+        errmsg = "expected " + str(expected) + " actual value was " + str(val)
+        self.assertEqual(val, expected, errmsg)
 
 class GameModelTestCase(TestCase):
     def setUp(self):

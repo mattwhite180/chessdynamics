@@ -118,6 +118,12 @@ class ChessGame:
     def get_fen(self):
         return self.board.fen()
 
+    def get_turn(self):
+        if self.board.turn:
+            return "white"
+        else:
+            return "black"
+
     def play_move(self, move):
         if self.is_game_over():
             return False
@@ -246,6 +252,9 @@ class GameModel:
         self.save(g)
         return val
 
+    def get_turn(self):
+        return self.setup_game().get_turn()
+
     def pop(self):
         g = self.setup_game()
         if g.get_moves().count(",") == 0:
@@ -271,6 +280,7 @@ class GameModel:
         return self.game_model.move_list
 
     def save(self, g):
+        self.game_model.turn = g.get_turn()
         self.game_model.move_list = g.get_moves()
         self.game_model.results = g.get_results()
         self.game_model.fen = g.get_fen()
