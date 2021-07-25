@@ -12,3 +12,4 @@ black
 psycopg2
 boto3
 meson
+colorama
