@@ -222,6 +222,7 @@ class ChessGameTestCase(TestCase):
         errmsg = "expected " + str(expected) + " actual value was " + str(val)
         self.assertEqual(val, expected, errmsg)
 
+
 class GameModelTestCase(TestCase):
     def setUp(self):
         Game.objects.create(

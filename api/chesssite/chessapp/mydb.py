@@ -9,15 +9,10 @@ class MyDB:
         self.client = boto3.client("dynamodb", region_name=self.region)
 
     def upload(self, game):
-        response = self.client.put_item(
-            TableName=self.name, 
-            Item=game
-        )
+        response = self.client.put_item(TableName=self.name, Item=game)
+
     def download(self, id):
         response = self.client.get_item(
-        TableName=TABLE_NAME,
-        Key={
-            'game_id': {'N': id},
-            }
+            TableName=self.name, Key={"game_id": {"N": str(id)}}
         )
-        return response['Item']
+        return response["Item"]

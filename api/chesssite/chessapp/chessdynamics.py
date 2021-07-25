@@ -37,9 +37,7 @@ class ChessPlayer:
             )
             self.engine.configure({"Skill Level": self.level})
             for i in CHESS_CPU["stockfish"]["configs"]:
-                self.engine.configure(
-                    {i: CHESS_CPU["stockfish"]["configs"][i]}
-                ) 
+                self.engine.configure({i: CHESS_CPU["stockfish"]["configs"][i]})
 
     def is_cpu(self):
         return self.isEngine
