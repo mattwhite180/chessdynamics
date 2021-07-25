@@ -26,7 +26,7 @@ RUN npm install jquery --save
 
 FROM basedependenciesfront AS front
 # add app
-COPY . /app
+COPY . .
 RUN ng build
 
 # start app
