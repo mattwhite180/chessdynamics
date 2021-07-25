@@ -38,7 +38,7 @@
             "scripts": [
               "/app/node_modules/chessboardjs/www/releases/0.3.0/js/chessboard-0.3.0.js",
               "/app/node_modules/jquery/dist/jquery.js",
-              "/app/chess.js/chess.js"
+              "/app/node_modules/chessboardjs/www/js/chess.js"
             ]
           },
           "configurations": {
@@ -115,7 +115,7 @@
             "scripts": [
               "/app/node_modules/chessboardjs/www/releases/0.3.0/js/chessboard-0.3.0.js",
               "/app/node_modules/jquery/dist/jquery.js",
-              "/app/chess.js/chess.js"
+              "/app/node_modules/chessboardjs/www/js/chess.js"
             ]
           }
         }

@@ -42,10 +42,8 @@ services:
   frontend:
     restart: always
     build: angular-chessdynamics/
-    #command: /bin/bash -c "python tests.py"
     #command: bash -c "sleep infinity"
-    #command: HOST=0.0.0.0 npm run start
-    command: bash -c " cd angular-chessdynamics && ng serve --host 0.0.0.0"
+    command: bash -c "cd angular-chessdynamics && ng serve --host 0.0.0.0"
     expose:
       - "4200"
     volumes:
