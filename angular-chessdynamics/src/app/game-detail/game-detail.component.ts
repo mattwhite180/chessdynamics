@@ -22,6 +22,18 @@ export class GameDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getGame();
+    this.myLoop();
+  }
+
+  async myLoop(): Promise<void> {
+    while (true) {
+      await sleep(1000);
+      console.log("im in refresh!")
+      if (this.game?.refresh == true) {
+        console.log("refreshing!")
+        this.getGame()
+      }
+    }
   }
 
   refreshBoard(): void {
@@ -29,7 +41,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   async refresh(): Promise<void> {
-    await sleep(100);
+    await sleep(600);
     this.getGame();
   }
 

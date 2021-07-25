@@ -54,7 +54,7 @@ class Command(BaseCommand):
             name="random",
             description="random vs lvl 1",
             move_list="",
-            black="stockfish",
+            black="random",
             black_level=1,
             white="random",
             white_level=8,
