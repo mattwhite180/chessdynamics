@@ -35,58 +35,55 @@
       </form>
     </div>
   </div>
-  <div class="flex-child green">
-    <app-messages></app-messages>
-  </div>
-</div>
-<br>
-<div class="flex-container">
-  <div class="flex-child magenta">
-    <div *ngIf="game">
-      <h2>{{game.name | uppercase}} Details</h2>
-      <div><span>id: </span>{{game.id}}</div>
-      <div>
-        <label for="game-name">Game name: </label>
-        <input id="game-name" [(ngModel)]="game.name" placeholder="name">
-      </div>
-      <div>
-        <label for="game-description">Game description: </label>
-        <input id="game-description" [(ngModel)]="game.description" placeholder="description">
-      </div>
-      <div>
-        <label for="game-white-name">White Player: </label>
-        <input id="game-white-name" [(ngModel)]="game.white" placeholder="white-name">
-      </div>
-      <div>
-        <label for="game-white-level">White Level: </label>
-        <input id="game-white-level" [(ngModel)]="game.white_level" placeholder="white-level">
-      </div>
-      <div>
-        <label for="game-black-name">Black Player: </label>
-        <input id="game-black-name" [(ngModel)]="game.black" placeholder="black-name">
-      </div>
-      <div>
-        <label for="game-black-level">Black Level: </label>
-        <input id="game-black-level" [(ngModel)]="game.black_level" placeholder="black-level">
-      </div>
-      <div>
-        <label for="game-time">Game Time Controls: </label>
-        <input id="game-time" [(ngModel)]="game.time_controls" placeholder="game-time">
-      </div>
-      <div><span>Results: </span>{{game.results}}</div>
-      <div *ngIf="game.available">
-        <button (click)="save()">save</button>
-        <button class="delete" title="delete game" (click)="delete(game)">delete</button>
-      </div>
-      <div *ngIf="!game.available">
-        <button disabled (click)="save()">save</button>
-        <button disabled class="delete" title="delete game" (click)="delete(game)">delete</button>
+  <br>
+  <br>
+  <div class="flex-container">
+    <div class="flex-child magenta">
+      <div *ngIf="game">
+        <h2>{{game.name | uppercase}} Details</h2>
+        <div><span>id: </span>{{game.id}}</div>
+        <div>
+          <label for="game-name">Game name: </label>
+          <input id="game-name" [(ngModel)]="game.name" placeholder="name">
+        </div>
+        <div>
+          <label for="game-description">Game description: </label>
+          <input id="game-description" [(ngModel)]="game.description" placeholder="description">
+        </div>
+        <div>
+          <label for="game-white-name">White Player: </label>
+          <input id="game-white-name" [(ngModel)]="game.white" placeholder="white-name">
+        </div>
+        <div>
+          <label for="game-white-level">White Level: </label>
+          <input id="game-white-level" [(ngModel)]="game.white_level" placeholder="white-level">
+        </div>
+        <div>
+          <label for="game-black-name">Black Player: </label>
+          <input id="game-black-name" [(ngModel)]="game.black" placeholder="black-name">
+        </div>
+        <div>
+          <label for="game-black-level">Black Level: </label>
+          <input id="game-black-level" [(ngModel)]="game.black_level" placeholder="black-level">
+        </div>
+        <div>
+          <label for="game-time">Game Time Controls: </label>
+          <input id="game-time" [(ngModel)]="game.time_controls" placeholder="game-time">
+        </div>
+        <div><span>Results: </span>{{game.results}}</div>
+        <div *ngIf="game.available">
+          <button (click)="save()">save</button>
+          <button class="delete" title="delete game" (click)="delete(game)">delete</button>
+        </div>
+        <div *ngIf="!game.available">
+          <button disabled (click)="save()">save</button>
+          <button disabled class="delete" title="delete game" (click)="delete(game)">delete</button>
+        </div>
       </div>
     </div>
   </div>
   <div class="flex-child green">
-  </div>
-  <div class="flex-child green">
+    <app-messages></app-messages>
   </div>
 </div>
 <button (click)="goBack()">go back</button>
