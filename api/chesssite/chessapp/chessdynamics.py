@@ -190,14 +190,21 @@ class GameModel:
             self.game_model = gm
             self.game_model.available = False
             self.game_model.save()
+            self.deleted = False
             g = self.setup_game()
             self.save(g)
         else:
             return False
 
     def __del__(self):
-        self.game_model.available = True
-        self.game_model.save()
+        if self.deleted:
+            self.game_model.delete()
+        else:
+            self.game_model.available = True
+            self.game_model.save()
+
+    def delete(self):
+        self.deleted = True
 
     def setup_white(self):
         return ChessPlayer(
