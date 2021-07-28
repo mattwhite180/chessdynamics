@@ -32,7 +32,7 @@ class Command(BaseCommand):
                 game_fixed[i] = {"BOOL": game[i]}
             else:
                 game_fixed[i] = {"S": str(game[i])}
-        game_fixed["available"] = str(myBool).lower()
+        game_fixed["available"] = { "BOOL": myBool }
         return game_fixed
 
     def edit_game(self, gamerequest):
@@ -64,6 +64,7 @@ class Command(BaseCommand):
             g.save()
             gamerequest["game"]["id"] = g.id
             self.edit_game(gamerequest)
+            db.upload(self.serialize_game(g))
         else:
             game = Game.objects.get(id=int(gamerequest["game"]["id"]))
             db.upload(self.serialize_game(game, False))
@@ -101,7 +102,10 @@ class Command(BaseCommand):
             else:
                 self.stdout.write(self.style.NOTICE("Finished consuming!"))
                 sleeptime = 0
-                gameExists = Game.objects.filter(id=int(gamerequest["game"]["id"])).exists()
+                if "id" in gamerequest["game"]:
+                    gameExists = Game.objects.filter(id=int(gamerequest["game"]["id"])).exists()
+                else:
+                    gameExists = False
                 createFunction = gamerequest["function"] == "create"
                 if (gameExists or createFunction):
                     self.handleRequest(gamerequest, db, sqs)

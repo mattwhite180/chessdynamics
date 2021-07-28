@@ -6,9 +6,9 @@ print(q.get_queue_url())
 message = {
     "function": "create",
     "game" : {
-        "name" : "QTEST",
-        "description" : "I WAS CREATED FROM QTEST",
-        "white" : "leela2",
+        "name" : "new qtest",
+        "description" : "I WAS ALSO CREATED FROM QTEST",
+        "white" : "leela3",
         # "id" : "100"
     }
 }
