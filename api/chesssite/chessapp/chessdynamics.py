@@ -37,9 +37,7 @@ class ChessPlayer:
             )
             self.engine.configure({"Skill Level": self.level})
             for i in CHESS_CPU["stockfish"]["configs"]:
-                self.engine.configure(
-                    {i: CHESS_CPU["stockfish"]["configs"][i]}
-                ) 
+                self.engine.configure({i: CHESS_CPU["stockfish"]["configs"][i]})
 
     def is_cpu(self):
         return self.isEngine
@@ -192,14 +190,21 @@ class GameModel:
             self.game_model = gm
             self.game_model.available = False
             self.game_model.save()
+            self.deleted = False
             g = self.setup_game()
             self.save(g)
         else:
             return False
 
     def __del__(self):
-        self.game_model.available = True
-        self.game_model.save()
+        if self.deleted:
+            self.game_model.delete()
+        else:
+            self.game_model.available = True
+            self.game_model.save()
+
+    def delete(self):
+        self.deleted = True
 
     def setup_white(self):
         return ChessPlayer(

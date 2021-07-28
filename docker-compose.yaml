@@ -23,7 +23,7 @@ services:
     #command: bash -c "sleep infinity"
     command: bash -c "python3 manage.py makemigrations chessapp && python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0:8000"
     volumes:
-      - .:/python
+      - "~/.aws:/root/.aws"
     expose:
       - "8000"
     ports:
