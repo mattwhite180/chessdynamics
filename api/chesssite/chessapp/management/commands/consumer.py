@@ -20,7 +20,8 @@ class Command(BaseCommand):
         parser.add_argument("sqs_name", type=str)
         parser.add_argument("db_name", type=str)
 
-    def serialize_game(self, inputgame, myBool = True):
+    def serialize_game(self, inputgameID, myBool = True):
+        inputgame = Game.objects.get(id=inputgameID)
         game_serial = GameSerializer(inputgame)
         game = dict(game_serial.data)
         game_fixed = dict()
@@ -64,34 +65,36 @@ class Command(BaseCommand):
             g.save()
             gamerequest["game"]["id"] = g.id
             self.edit_game(gamerequest)
-            db.upload(self.serialize_game(g))
+            db.upload(self.serialize_game(g.id))
         else:
             game = Game.objects.get(id=int(gamerequest["game"]["id"]))
-            db.upload(self.serialize_game(game, False))
+            db.upload(self.serialize_game(game.id, False))
             if game.available:
                 gm = GameModel(game)
                 if gamerequest["function"] == "edit":
                     self.edit_game(gamerequest)
-                    db.upload(self.serialize_game(game))
+                    db.upload(self.serialize_game(game.id))
                 if gamerequest["function"] == "delete":
                     print("im in delete")
-                    db.delete_item(self.serialize_game())
+                    db.delete_item(game.id)
                     gm.delete()
                 if gamerequest["function"] == "play_turn":
                     gm.play_turn()
-                    db.upload(self.serialize_game(game))
+                    db.upload(self.serialize_game(game.id))
                 if gamerequest["function"] == "play_move":
                     gm.play_move(gamerequest["move"])
-                    db.upload(self.serialize_game(game))
+                    db.upload(self.serialize_game(game.id))
                 if gamerequest["function"] == "pop":
                     gm.pop()
-                    db.upload(self.serialize_game(game))
+                    db.upload(self.serialize_game(game.id))
 
     def handle(self, *args, **options):
         print("hi")
         self.stdout.write(self.style.SUCCESS("Starting consuming!"))
         db = MyDB(options["db_name"], AWS_REGION)
         sqs = MySQS(options["sqs_name"], AWS_REGION)
+        # db.delete_item(37)
+        # return 0
         sleeptime = 3
         while True:
             time.sleep(sleeptime)

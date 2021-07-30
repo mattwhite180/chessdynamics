@@ -4,12 +4,12 @@ import time
 q = MySQS("chessdynamics-queue")
 print(q.get_queue_url())
 message = {
-    "function": "create",
+    "function": "delete",
     "game" : {
-        "name" : "new qtest",
-        "description" : "I WAS ALSO CREATED FROM QTEST",
-        "white" : "leela3",
-        # "id" : "100"
+        "name" : "this is the create test",
+        "description" : "this is the description",
+        "white" : "white player",
+        "id" : "90"
     }
 }
 q.send_message(message)
