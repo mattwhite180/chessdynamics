@@ -1,0 +1,17 @@
+FROM python:3.6-buster AS basedependencies
+
+ENV TZ="America/Denver"
+EXPOSE 5000
+
+WORKDIR /root/
+
+# pip installs
+RUN pip3 install --upgrade pip setuptools wheel
+COPY requirements.txt .
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+
+FROM basedependencies AS flask
+COPY aws-api.py .
+
+CMD python3 aws-api.py
