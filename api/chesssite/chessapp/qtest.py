@@ -6,10 +6,10 @@ print(q.get_queue_url())
 message = {
     "function": "delete",
     "game" : {
-        "name" : "QTEST",
-        "description" : "I WAS CREATED FROM QTEST",
-        "white" : "leela2",
-        "id" : "7"
+        "name" : "this is the create test",
+        "description" : "this is the description",
+        "white" : "white player",
+        "id" : "90"
     }
 }
 q.send_message(message)

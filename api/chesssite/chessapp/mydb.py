@@ -8,11 +8,19 @@ class MyDB:
         self.name = name
         self.client = boto3.client("dynamodb", region_name=self.region)
 
-    def upload(self, game):
-        response = self.client.put_item(TableName=self.name, Item=game)
+    def upload(self, game_serial):
+        response = self.client.put_item(TableName=self.name, Item=game_serial)
 
     def download(self, id):
         response = self.client.get_item(
             TableName=self.name, Key={"game_id": {"N": str(id)}}
         )
-        return response["Item"]
+        if "Item" in response:
+            return response["Item"]
+        else:
+            return {"error": "item of ID (" + str(id) + ") not found..."}
+
+    def delete_item(self, id):
+        response = self.client.delete_item(
+            TableName=self.name, Key={"game_id": {"N": str(id)}}
+        )

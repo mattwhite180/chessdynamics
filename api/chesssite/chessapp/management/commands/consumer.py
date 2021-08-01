@@ -20,11 +20,12 @@ class Command(BaseCommand):
         parser.add_argument("sqs_name", type=str)
         parser.add_argument("db_name", type=str)
 
-    def serialize_game(self, game_id):
-        game_serial = GameSerializer(Game.objects.get(id=game_id))
+    def serialize_game(self, inputgameID, myBool = True):
+        inputgame = Game.objects.get(id=inputgameID)
+        game_serial = GameSerializer(inputgame)
         game = dict(game_serial.data)
         game_fixed = dict()
-        game_fixed["game_id"] = {"N": str(game_id)}
+        game_fixed["game_id"] = {"N": str(inputgame.id)}
         for i in game:
             if type(game[i]) == type(123):
                 game_fixed[i] = {"N": str(game[i])}
@@ -32,6 +33,7 @@ class Command(BaseCommand):
                 game_fixed[i] = {"BOOL": game[i]}
             else:
                 game_fixed[i] = {"S": str(game[i])}
+        game_fixed["available"] = { "BOOL": myBool }
         return game_fixed
 
     def edit_game(self, gamerequest):
@@ -57,32 +59,42 @@ class Command(BaseCommand):
             g.time_controls = gr["time_controls"]
         g.save()
 
-    def handlerequest(self, gamerequest, db, sqs):
+    def handleRequest(self, gamerequest, db, sqs):
         if gamerequest["function"] == "create":
             g = Game.objects.create(name="newgame")
             g.save()
             gamerequest["game"]["id"] = g.id
             self.edit_game(gamerequest)
+            db.upload(self.serialize_game(g.id))
         else:
             game = Game.objects.get(id=int(gamerequest["game"]["id"]))
+            db.upload(self.serialize_game(game.id, False))
             if game.available:
                 gm = GameModel(game)
                 if gamerequest["function"] == "edit":
                     self.edit_game(gamerequest)
+                    db.upload(self.serialize_game(game.id))
                 if gamerequest["function"] == "delete":
+                    print("im in delete")
+                    db.delete_item(game.id)
                     gm.delete()
                 if gamerequest["function"] == "play_turn":
                     gm.play_turn()
+                    db.upload(self.serialize_game(game.id))
                 if gamerequest["function"] == "play_move":
                     gm.play_move(gamerequest["move"])
+                    db.upload(self.serialize_game(game.id))
                 if gamerequest["function"] == "pop":
                     gm.pop()
+                    db.upload(self.serialize_game(game.id))
 
     def handle(self, *args, **options):
         print("hi")
         self.stdout.write(self.style.SUCCESS("Starting consuming!"))
         db = MyDB(options["db_name"], AWS_REGION)
         sqs = MySQS(options["sqs_name"], AWS_REGION)
+        # db.delete_item(37)
+        # return 0
         sleeptime = 3
         while True:
             time.sleep(sleeptime)
@@ -93,10 +105,13 @@ class Command(BaseCommand):
             else:
                 self.stdout.write(self.style.NOTICE("Finished consuming!"))
                 sleeptime = 0
-                gameExists = Game.objects.filter(id=int(gamerequest["game"]["id"])).exists()
+                if "id" in gamerequest["game"]:
+                    gameExists = Game.objects.filter(id=int(gamerequest["game"]["id"])).exists()
+                else:
+                    gameExists = False
                 createFunction = gamerequest["function"] == "create"
                 if (gameExists or createFunction):
-                    self.handlerequest(gamerequest, db, sqs)
+                    self.handleRequest(gamerequest, db, sqs)
                 else:
                     self.stdout.write(self.style.ERROR("Game ID not found!"))
  

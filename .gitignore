@@ -6,7 +6,7 @@ djangosecret.txt
 __pycache__/
 *.py[cod]
 *$py.class
-
+*.zip
 # C extensions
 *.so
 

@@ -21,8 +21,6 @@ RUN git clone https://github.com/jhlywa/chess.js
 COPY package.json /app/package.json
 RUN npm install
 RUN npm install -g @angular/cli@7.3.9
-RUN npm install chessboardjs --save
-RUN npm install jquery --save
 
 FROM basedependenciesfront AS front
 # add app
