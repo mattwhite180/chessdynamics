@@ -15,7 +15,10 @@ class MyDB:
         response = self.client.get_item(
             TableName=self.name, Key={"game_id": {"N": str(id)}}
         )
-        return response["Item"]
+        if "Item" in response:
+            return response["Item"]
+        else:
+            return {"error": "item of ID (" + str(id) + ") not found..."}
 
     def delete_item(self, id):
         response = self.client.delete_item(
