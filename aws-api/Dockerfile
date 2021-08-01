@@ -13,5 +13,6 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 
 FROM basedependencies AS flask
 COPY aws-api.py .
+COPY awsresources.py .
 
-CMD python3 aws-api.py
+ENTRYPOINT ["python3", "aws-api.py"]

@@ -65,7 +65,7 @@ services:
       - testing_net
     ports:
       - "4000:4000"
-  api:
+  awsapi:
     restart: always
     build: aws-api/
     command: python3 aws-api.py
