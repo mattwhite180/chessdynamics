@@ -1,5 +1,5 @@
 # base image
-FROM node:14 AS basedependenciesfront
+FROM node:14
 ENV TZ="America/Denver"
 
 # set working directory
@@ -24,7 +24,6 @@ RUN npm install -g @angular/cli@7.3.9
 RUN npm install chessboardjs --save
 RUN npm install jquery --save
 
-FROM basedependenciesfront AS front
 # add app
 COPY . .
 RUN ng build
