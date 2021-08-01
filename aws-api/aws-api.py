@@ -81,5 +81,32 @@ def play_turn(game_id):
     q.send_message(gamerequest)
     return jsonify("successfully added play_turn task to queue")
 
+@app.route('/games/<game_id>/pop/', methods=['PUT', 'POST', 'GET'])
+def pop(game_id):
+    q = MySQS(queueName)
+    gamerequest = {
+        "function" : "pop",
+        "game": {
+            "id" : game_id
+        },
+    }
+    q.send_message(gamerequest)
+    return jsonify("successfully added pop task to queue")
+
+
+
+@app.route('/games/<game_id>/play_move/<move>', methods=['PUT', 'POST', 'GET'])
+def play_move(game_id, move):
+    q = MySQS(queueName)
+    gamerequest = {
+        "function" : "play_turn",
+        "move": move,
+        "game": {
+            "id" : game_id
+        },
+    }
+    q.send_message(gamerequest)
+    return jsonify("successfully added play_move task to queue")
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
