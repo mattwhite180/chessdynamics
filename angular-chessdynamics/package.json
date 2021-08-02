@@ -18,11 +18,8 @@
     "@angular/platform-browser": "~12.1.0",
     "@angular/platform-browser-dynamic": "~12.1.0",
     "@angular/router": "~12.1.0",
-    "chokidar" : "*",
-    "jquery": ">=3.4.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
-    "chessboardjs" : "*",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
