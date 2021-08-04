@@ -17,7 +17,7 @@ export class GameService {
   };
 
   //private gamesUrl = 'http://localhost:4000/games/';
-  private gamesUrl = 'https://chessdynamicsapigateway-env.eba-krfgiwe9.us-west-2.elasticbeanstalk.com/games/';
+  private gamesUrl = 'http://chessdynamicsapigateway-env.eba-krfgiwe9.us-west-2.elasticbeanstalk.com/games/';
 
   constructor(
     private http: HttpClient,
