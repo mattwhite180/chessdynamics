@@ -1,5 +1,6 @@
 import json
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import boto3
 import sys
 from boto3.dynamodb.types import TypeDeserializer
@@ -12,6 +13,7 @@ import json
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
+CORS(app)
 
 tableName = 'games'
 queueName = 'chessdynamics-queue'
