@@ -33,12 +33,12 @@
             ],
             "styles": [
               "src/styles.css",
-              "/app/node_modules/chessboardjs/www/releases/0.3.0/css/chessboard-0.3.0.css"
+              "https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css"
             ],
             "scripts": [
-              "/app/node_modules/chessboardjs/www/releases/0.3.0/js/chessboard-0.3.0.js",
-              "/app/node_modules/jquery/dist/jquery.js",
-              "/app/node_modules/chessboardjs/www/js/chess.js"
+              "https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js",
+              "https://code.jquery.com/jquery-3.5.1.min.js",
+              "https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"
             ]
           },
           "configurations": {
@@ -110,12 +110,12 @@
             ],
             "styles": [
               "src/styles.css",
-              "/app/node_modules/chessboardjs/www/releases/0.3.0/css/chessboard-0.3.0.css"
+              "https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css"
             ],
             "scripts": [
-              "/app/node_modules/chessboardjs/www/releases/0.3.0/js/chessboard-0.3.0.js",
-              "/app/node_modules/jquery/dist/jquery.js",
-              "/app/node_modules/chessboardjs/www/js/chess.js"
+              "https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js",
+              "https://code.jquery.com/jquery-3.5.1.min.js",
+              "https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"
             ]
           }
         }
