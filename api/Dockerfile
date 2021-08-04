@@ -9,7 +9,6 @@ RUN apt-get update -y \
     && apt-get install -y \                                                                                    
     	ipython3 \
 	python3-pip \
-	stockfish \
 	vim \
 	postgresql \
 	build-essential \
