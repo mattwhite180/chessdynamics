@@ -7,7 +7,7 @@ from random import randrange
 import io
 
 CHESS_CPU = {
-    "stockfish": {"url": "/usr/games/stockfish", "configs": {}},
+    "stockfish": {"url": "/root/stockfish/stockfish_14_linux_x64/stockfish_14_x64", "configs": {}},
     "leela": {"url": "/root/lc0/build/release/lc0", "configs": {}},
 }
 

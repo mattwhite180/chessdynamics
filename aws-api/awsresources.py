@@ -26,14 +26,20 @@ class MyDB:
             
             if not last_evaluated_key:
                 break
-        return results
+        unserialized_items = list()
+        deserializer = TypeDeserializer()
+        for i in results:
+            unserialized_items.append({k: deserializer.deserialize(v) for k, v in i.items()})
+        return unserialized_items
 
     def download(self, id):
         response = self.client.get_item(
             TableName=self.name, Key={"game_id": {"N": str(id)}}
         )
         if "Item" in response:
-            return response["Item"]
+            deserializer = TypeDeserializer()
+            unserialized_item = {k: deserializer.deserialize(v) for k, v in response["Item"].items()}
+            return unserialized_item
         else:
             return {"error": "item of ID (" + str(id) + ") not found..."}
 

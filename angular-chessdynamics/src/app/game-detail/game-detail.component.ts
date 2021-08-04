@@ -29,7 +29,7 @@ export class GameDetailComponent implements OnInit {
     while (true) {
       await sleep(1000);
       console.log("im in refresh!")
-      if (this.game?.refresh == true) {
+      if ((this.game?.refresh == true) && (this.game?.results != "*")) {
         console.log("refreshing!")
         this.getGame()
       }

@@ -23,7 +23,7 @@ queueName = 'chessdynamics-queue'
 @app.route('/games/', methods=['GET'])
 def get_all_games():
     db = MyDB(tableName)
-    return jsonify(db.get_all())
+    return json.dumps(db.get_all())
 
 @app.route('/games/', methods=['POST'])
 def create_game():
@@ -35,7 +35,7 @@ def create_game():
         "game": game
     }
     q.send_message(gamerequest)
-    return jsonify("successfully added create task to queue")
+    return json.dumps("successfully added create task to queue")
 
 
 @app.route('/games/<game_id>/', methods=['PUT'])
@@ -55,7 +55,7 @@ def update_game():
 @app.route('/games/<game_id>/', methods=['GET'])
 def get_game(game_id):
     db = MyDB(tableName)
-    return jsonify(db.download(game_id))
+    return json.dumps(db.download(game_id))
     
 @app.route('/games/', methods=['DELETE'])
 def delete_game():
