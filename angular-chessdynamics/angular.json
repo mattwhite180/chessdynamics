@@ -27,18 +27,18 @@
               "src/assets",
               {
                 "glob": "**/*",
-                "input": "/app/node_modules/chessboardjs/www/releases/0.3.0/img",
+                "input": "node_modules/chessboardjs/www/releases/0.3.0/img",
                 "output": "./img"
               }
             ],
             "styles": [
               "src/styles.css",
-              "/app/node_modules/chessboardjs/www/releases/0.3.0/css/chessboard-0.3.0.css"
+              "node_modules/chessboardjs/www/releases/0.3.0/css/chessboard-0.3.0.css"
             ],
             "scripts": [
-              "/app/node_modules/chessboardjs/www/releases/0.3.0/js/chessboard-0.3.0.js",
-              "/app/node_modules/jquery/dist/jquery.js",
-              "/app/node_modules/chessboardjs/www/js/chess.js"
+              "node_modules/chessboardjs/www/releases/0.3.0/js/chessboard-0.3.0.js",
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/chessboardjs/www/js/chess.js"
             ]
           },
           "configurations": {
@@ -104,18 +104,18 @@
               "src/assets",
               {
                 "glob": "**/*",
-                "input": "/app/node_modules/chessboardjs/www/releases/0.3.0/img",
+                "input": "node_modules/chessboardjs/www/releases/0.3.0/img",
                 "output": "./img"
               }
             ],
             "styles": [
               "src/styles.css",
-              "/app/node_modules/chessboardjs/www/releases/0.3.0/css/chessboard-0.3.0.css"
+              "node_modules/chessboardjs/www/releases/0.3.0/css/chessboard-0.3.0.css"
             ],
             "scripts": [
-              "/app/node_modules/chessboardjs/www/releases/0.3.0/js/chessboard-0.3.0.js",
-              "/app/node_modules/jquery/dist/jquery.js",
-              "/app/node_modules/chessboardjs/www/js/chess.js"
+              "node_modules/chessboardjs/www/releases/0.3.0/js/chessboard-0.3.0.js",
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/chessboardjs/www/js/chess.js"
             ]
           }
         }
