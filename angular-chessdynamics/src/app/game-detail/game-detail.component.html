@@ -11,6 +11,12 @@
       <div *ngIf="!game.available">
         <button disabled (click)="playTurn()">playTurn</button>
       </div>
+      <div *ngIf="game.available">
+        <button (click)="playContinuous()">playContinuous</button>
+      </div>
+      <div *ngIf="!game.available">
+        <button disabled (click)="playContinuous()">playContinuous</button>
+      </div>
       <br>
       <button (click)="refreshBoard()">refresh board</button>
       <br>
