@@ -1,5 +1,5 @@
-import json
-from flask import Flask, request, jsonify
+import simplejson as json
+from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 import boto3
 import sys
@@ -23,7 +23,8 @@ queueName = 'chessdynamics-queue'
 @app.route('/games/', methods=['GET'])
 def get_all_games():
     db = MyDB(tableName)
-    return json.dumps(db.get_all())
+    # return json.dumps(db.get_all())
+    return Response(json.dumps(db.get_all()),  mimetype='application/json')
 
 @app.route('/games/', methods=['POST'])
 def create_game():
@@ -55,6 +56,7 @@ def update_game():
 @app.route('/games/<game_id>/', methods=['GET'])
 def get_game(game_id):
     db = MyDB(tableName)
+    print(db.download(game_id))
     return json.dumps(db.download(game_id))
     
 @app.route('/games/', methods=['DELETE'])

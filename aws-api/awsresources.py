@@ -2,6 +2,7 @@ import boto3
 import json
 from boto3.dynamodb.types import TypeDeserializer
 from boto3.dynamodb.transform import TransformationInjector
+import decimal
 
 class MyDB:
     def __init__(self, name, region="us-west-2"):
@@ -30,6 +31,10 @@ class MyDB:
         deserializer = TypeDeserializer()
         for i in results:
             unserialized_items.append({k: deserializer.deserialize(v) for k, v in i.items()})
+        for i in range(len(unserialized_items)):
+            for val in unserialized_items[i]:
+                if type(unserialized_items[i][val]) == type(decimal.Decimal(1.23)):
+                    unserialized_items[i][val] = int(unserialized_items[i][val])
         return unserialized_items
 
     def download(self, id):
@@ -39,6 +44,9 @@ class MyDB:
         if "Item" in response:
             deserializer = TypeDeserializer()
             unserialized_item = {k: deserializer.deserialize(v) for k, v in response["Item"].items()}
+            for i in unserialized_item:
+                if type(unserialized_item[i]) == type(decimal.Decimal(1.23)):
+                    unserialized_item[i] = int(unserialized_item[i])
             return unserialized_item
         else:
             return {"error": "item of ID (" + str(id) + ") not found..."}
