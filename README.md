@@ -22,7 +22,7 @@ sudo systemctl enable docker
 `docker-compose build`
 
 ## Run 
-`docker-compose run`
+`docker-compose up`
 
 ## USEFUL LINKS
 * https://python-chess.readthedocs.io/en/latest/
