@@ -1,71 +1,68 @@
 version: "3.3"
 
 services:
-  db:
-    restart: always
-    image: postgres
-    networks:
-      - testing_net
-    expose:
-      - "5432"
-    ports:
-      - "5432:5432"
-    volumes:
-      - .postgres_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=myproject
-      - POSTGRES_USER=myprojectuser
-      - POSTGRES_PASSWORD=password
-  api:
-    restart: always
-    build: api/
-    #command: /bin/bash -c "python tests.py"
-    #command: bash -c "sleep infinity"
-    command: bash django-run.sh
-    # command: ls
-    volumes:
-      - "~/.aws:/root/.aws"
-    expose:
-      - "8000"
-    ports:
-      - "8000"
-    networks:
-      - testing_net
-    links:
-      - db:db
-    depends_on:
-      - db
-    environment:
-      - PGHOST=db
-      - PGDATABASE=myproject
-      - PGUSER=myprojectuser
-      - PGPASSWORD=password
+  # db:
+  #   restart: always
+  #   image: postgres
+  #   networks:
+  #     - testing_net
+  #   expose:
+  #     - "5432"
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - .postgres_data:/var/lib/postgresql/data
+  #   environment:
+  #     - POSTGRES_DB=myproject
+  #     - POSTGRES_USER=myprojectuser
+  #     - POSTGRES_PASSWORD=password
+  # api:
+  #   restart: always
+  #   build: api/
+  #   #command: /bin/bash -c "python tests.py"
+  #   #command: bash -c "sleep infinity"
+  #   command: bash django-run.sh
+  #   # command: ls
+  #   volumes:
+  #     - "~/.aws:/root/.aws"
+  #   expose:
+  #     - "8000"
+  #   ports:
+  #     - "8000"
+  #   networks:
+  #     - testing_net
+  #   links:
+  #     - db:db
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     - PGHOST=db
+  #     - PGDATABASE=myproject
+  #     - PGUSER=myprojectuser
+  #     - PGPASSWORD=password
   frontend:
     restart: always
     build: angular-chessdynamics/
-    #command: bash -c "sleep infinity"
-    command: bash -c "cd angular-chessdynamics && ng serve --host 0.0.0.0"
+    # command: bash -c "sleep infinity"
+    command: bash -c "ng serve --host 0.0.0.0"
     expose:
       - "4200"
-    volumes:
-      - '.:/app'
-      - '/app/node_modules'
     ports:
       - '4200:4200'
     networks:
       - testing_net
-    depends_on:
-      - api
-  nginx:
-    image: nginx:latest
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - api
-    networks:
-      - testing_net
-    ports:
-      - "4000:4000"
+    # depends_on:
+    #   - api
+  # nginx:
+  #   image: nginx:latest
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  #   depends_on:
+  #     - api
+  #   networks:
+  #     - testing_net
+  #   ports:
+  #     - "4000:4000"
   # awsapi:
   #   restart: always
   #   build: aws-api/
