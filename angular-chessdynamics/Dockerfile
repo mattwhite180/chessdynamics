@@ -18,16 +18,20 @@ RUN git clone https://github.com/jhlywa/chess.js
 
 # install and cache app dependencies
 
-COPY package.json /app/package.json
+COPY package.json package.json
 RUN npm install
-RUN npm install -g @angular/cli@7.3.9
+RUN npm install --save-dev @angular-devkit/build-angular
+RUN npm install --save @angular-devkit/build-angular
+RUN npm install -g @angular/cli@latest
 RUN npm install chessboardjs --save
 RUN npm install jquery --save
 
+
 # add app
+
 COPY . .
 RUN ng build
 
 # start app
-#CMD ng serve --host 0.0.0.0
+# CMD ng serve --host 0.0.0.0
 CMD echo 'done building front end'

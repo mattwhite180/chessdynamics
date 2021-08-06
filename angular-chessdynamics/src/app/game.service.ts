@@ -16,8 +16,8 @@ export class GameService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  //private gamesUrl = 'http://localhost:4000/games/';
-  private gamesUrl = 'http://chessdynamicsapigateway-env.eba-krfgiwe9.us-west-2.elasticbeanstalk.com/games/';
+  private gamesUrl = 'http://localhost:4000/games/';
+  // private gamesUrl = 'http://localhost:5000/games/';
 
   constructor(
     private http: HttpClient,

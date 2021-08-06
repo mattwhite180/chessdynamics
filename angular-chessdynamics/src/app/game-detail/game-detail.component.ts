@@ -29,7 +29,7 @@ export class GameDetailComponent implements OnInit {
     while (true) {
       await sleep(1000);
       console.log("im in refresh!")
-      if (this.game?.refresh == true) {
+      if ((this.game?.refresh == true) && (this.game?.results == "*")) {
         console.log("refreshing!")
         this.getGame()
       }
@@ -60,6 +60,12 @@ export class GameDetailComponent implements OnInit {
   playTurn(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.gameService.apiAction(id, 'play_turn').subscribe();
+    this.refresh();
+  }
+
+  playContinuous(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.gameService.apiAction(id, 'play_continuous').subscribe();
     this.refresh();
   }
 

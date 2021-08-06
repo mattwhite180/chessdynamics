@@ -54,6 +54,22 @@ class GameViewSet(viewsets.ModelViewSet):
         else:
             return Response({"message": "game is already in use"})
 
+    @action(detail=True)
+    def play_continuous(self, request, *args, **kwargs):
+        game = self.get_object()
+        if game.available:
+            gm = GameModel(game)
+            moves = gm.play_continuous()
+            return Response(
+                {
+                    "message": "game " + str(game.id) + " moved",
+                    "moves": moves,
+                    "gameover": str(gm.is_game_over()),
+                }
+            )
+        else:
+            return Response({"message": "game is already in use"})
+
     @action(detail=True, url_path="play_move/(?P<move_str>[^/.]+)")
     def play_move(self, request, move_str, pk=None):
         game = self.get_object()

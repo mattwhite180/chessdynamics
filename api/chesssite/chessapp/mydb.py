@@ -1,6 +1,7 @@
 import boto3
 import json
-
+from boto3.dynamodb.types import TypeDeserializer
+from boto3.dynamodb.transform import TransformationInjector
 
 class MyDB:
     def __init__(self, name, region="us-west-2"):
@@ -16,9 +17,11 @@ class MyDB:
             TableName=self.name, Key={"game_id": {"N": str(id)}}
         )
         if "Item" in response:
-            return response["Item"]
+            deserializer = TypeDeserializer()
+            unserialized_item = {k: deserializer.deserialize(v) for k, v in response["Item"].items()}
+            return unserialized_item
         else:
-            return {"error": "item of ID (" + str(id) + ") not found..."}
+            return False
 
     def delete_item(self, id):
         response = self.client.delete_item(

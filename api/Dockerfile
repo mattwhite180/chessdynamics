@@ -9,7 +9,6 @@ RUN apt-get update -y \
     && apt-get install -y \                                                                                    
     	ipython3 \
 	python3-pip \
-	stockfish \
 	vim \
 	postgresql \
 	build-essential \
@@ -31,8 +30,19 @@ COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 ##############
+# stockfish
+FROM basedependencies AS stockfish
+RUN mkdir /root/stockfish/
+WORKDIR /root/stockfish/
+RUN wget https://stockfishchess.org/files/stockfish_14_linux_x64.zip
+RUN unzip stockfish_14_linux_x64.zip
+###############
+
+
+##############
 # leela lc0
-FROM basedependencies AS leela
+FROM stockfish AS leela
+WORKDIR /root/
 RUN git clone -b release/0.27 https://github.com/LeelaChessZero/lc0
 WORKDIR /root/lc0/
 RUN bash build.sh
