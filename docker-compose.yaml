@@ -51,6 +51,8 @@ services:
       - '4200:4200'
     networks:
       - testing_net
+    volumes:
+      - "./angular-chessdynamics/src:/app/src"
     depends_on:
       - api
   nginx:
@@ -63,20 +65,20 @@ services:
       - testing_net
     ports:
       - "4000:4000"
-  awsapi:
-    restart: always
-    build: aws-api/
-    command: python3 aws-api.py
-    volumes:
-      - "~/.aws:/root/.aws"
-    expose:
-      - "5000"
-    ports:
-      - "5000"
-    networks:
-      - testing_net
-    depends_on:
-      - api
+  # awsapi:
+  #   restart: always
+  #   build: aws-api/
+  #   command: python3 aws-api.py
+  #   volumes:
+  #     - "~/.aws:/root/.aws"
+  #   expose:
+  #     - "5000"
+  #   ports:
+  #     - "5000"
+  #   networks:
+  #     - testing_net
+  #   depends_on:
+  #     - api
 
 volumes:
   postgres_data:

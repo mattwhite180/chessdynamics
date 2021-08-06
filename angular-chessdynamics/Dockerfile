@@ -29,7 +29,7 @@ RUN npm install jquery --save
 
 # add app
 
-COPY . .
+COPY . /app
 RUN ng build
 
 # start app
