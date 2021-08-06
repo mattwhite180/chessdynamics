@@ -18,7 +18,11 @@ sudo systemctl enable docker
 # reboot your computer
 ```
 
+## Build
+`docker-compose build`
+
 ## Run 
+`docker-compose run`
 
 ## USEFUL LINKS
 * https://python-chess.readthedocs.io/en/latest/
