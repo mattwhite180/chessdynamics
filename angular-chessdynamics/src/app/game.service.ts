@@ -17,7 +17,7 @@ export class GameService {
   };
 
   private gamesUrl = 'http://localhost:4000/games/';
-  // private gamesUrl = 'http://localhost:5000/games/';
+  // private gamesUrl = 'http://172.23.0.7:5000/games/';
 
   constructor(
     private http: HttpClient,
@@ -108,7 +108,8 @@ export class GameService {
 
     var config = {
       draggable: gamemodel['available'],
-      orientation: gamemodel['turn'],
+      // orientation: gamemodel['turn'],
+      orientation: 'white',
       position: gamemodel['fen'],
       onDragStart: onDragStart,
       onDrop: onDrop,
