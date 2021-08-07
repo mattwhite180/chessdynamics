@@ -40,17 +40,32 @@ def create_game():
 
 
 @app.route('/games/<game_id>/', methods=['PUT'])
-def update_game():
+def update_game(game_id):
+    q = MySQS(queueName)
+    print('created queue')
+    game = json.loads(request.data)
+    # game["id"] = game_id
+    gamerequest = {
+        "function" : "edit",
+        "game": game,
+    }
+    print("i get here")
+    q.send_message(gamerequest)
+    return json.dumps("successfully added edit task to queue")
+
+
+@app.route('/games/<game_id>/', methods=['DELETE'])
+def delete_game(game_id):
     q = MySQS(queueName)
 
     game = json.loads(request.data)
     game["id"] = game_id
     gamerequest = {
-        "function" : "edit",
+        "function" : "delete",
         "game": game,
     }
     q.send_message(gamerequest)
-    return jsonify("successfully added edit task to queue")
+    return jsonify({ "message" :"successfully added edit task to queue"})
 
 
 @app.route('/games/<game_id>/', methods=['GET'])
@@ -60,7 +75,7 @@ def get_game(game_id):
     return json.dumps(db.download(game_id))
     
 @app.route('/games/', methods=['DELETE'])
-def delete_game():
+def delete_games():
     q = MySQS(queueName)
 
     game = json.loads(request.data)

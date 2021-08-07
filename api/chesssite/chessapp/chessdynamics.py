@@ -295,6 +295,10 @@ class GameModel:
         self.game_model.legal_moves = g.get_legal_moves()
         self.game_model.save()
 
+    def save_game(self):
+        g = self.setup_game()
+        self.save(g)
+
     def get_legal_moves(self):
         return self.setup_game().get_legal_moves()
 

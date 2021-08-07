@@ -16,8 +16,8 @@ export class GameService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  private gamesUrl = 'http://localhost:4000/games/';
-  // private gamesUrl = 'http://172.23.0.7:5000/games/';
+  //private gamesUrl = 'http://localhost:4000/games/';
+  private gamesUrl = 'http://192.168.144.7:5000/games/';
 
   constructor(
     private http: HttpClient,
