@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
+
 # Create your models here.
 
 
@@ -9,9 +10,7 @@ class Game(models.Model):
     description = models.CharField(default="untitled", blank=True, max_length=500)
     move_list = models.CharField(default="", blank=True, max_length=2000)
     white = models.CharField(default="stockfish", blank=True, max_length=200)
-    white_level = models.IntegerField(default=1, blank=True)
-    black = models.CharField(default="stockfish", blank=True, max_length=200)
-    black_level = models.IntegerField(default=1, blank=True)
+    black = models.CharField(default="leela", blank=True, max_length=200)
     time_controls = models.IntegerField(default=100, blank=True)
     results = models.CharField(default="*", blank=True, max_length=10)
     available = models.BooleanField(default=True, blank=True)
@@ -26,7 +25,11 @@ class Game(models.Model):
         blank=True,
         max_length=2000,
     )
+    pgn = models.CharField(default="", blank=True, max_length=2000)
     creation_date = models.DateTimeField(default=timezone.now(), blank=True)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         ordering = ["creation_date"]

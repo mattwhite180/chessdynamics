@@ -7,7 +7,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from chessapp.serializers import GameSerializer
-from chessapp.chessdynamics import ChessPlayer, ChessGame, GameModel
+from chessapp.chessdynamics import GameHandler, Stockfish, Leela
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -42,13 +42,16 @@ class GameViewSet(viewsets.ModelViewSet):
     def play_turn(self, request, *args, **kwargs):
         game = self.get_object()
         if game.available:
-            gm = GameModel(game)
-            move = gm.play_turn()
+            gh = GameHandler(game)
+            s = Stockfish(8, game.time_controls)
+            move = s.getMove(gh.get_board())
+            # move = gh.play_turn()
+            gh.play_move(move)
             return Response(
                 {
                     "message": "game " + str(game.id) + " moved",
                     "move": move,
-                    "gameover": str(gm.is_game_over()),
+                    "gameover": str(gh.is_game_over()),
                 }
             )
         else:
@@ -58,13 +61,13 @@ class GameViewSet(viewsets.ModelViewSet):
     def play_continuous(self, request, *args, **kwargs):
         game = self.get_object()
         if game.available:
-            gm = GameModel(game)
-            moves = gm.play_continuous()
+            gh = GameHandler(game)
+            moves = gh.play_continuous()
             return Response(
                 {
                     "message": "game " + str(game.id) + " moved",
                     "moves": moves,
-                    "gameover": str(gm.is_game_over()),
+                    "gameover": str(gh.is_game_over()),
                 }
             )
         else:
@@ -74,8 +77,8 @@ class GameViewSet(viewsets.ModelViewSet):
     def play_move(self, request, move_str, pk=None):
         game = self.get_object()
         if game.available:
-            gm = GameModel(game)
-            valid_move = gm.play_move(str(move_str))
+            gh = GameHandler(game)
+            valid_move = gh.play_move(str(move_str))
             return Response({"valid move": valid_move})
         else:
             return Response({"message": "game is already in use"})
@@ -88,8 +91,8 @@ class GameViewSet(viewsets.ModelViewSet):
     def pop(self, request, *args, **kwargs):
         game = self.get_object()
         if game.available:
-            gm = GameModel(game)
-            move = gm.pop()
+            gh = GameHandler(game)
+            move = gh.pop()
             return Response({"message": "pop " + move + " from " + str(game.id)})
         else:
             return Response({"message": "game is already in use"})
