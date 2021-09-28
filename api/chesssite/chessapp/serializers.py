@@ -36,6 +36,6 @@ class GameSerializer(serializers.ModelSerializer):
         instance.description = validated_data.get("description", instance.description)
         instance.white = validated_data.get("white", instance.white)
         instance.black = validated_data.get("black", instance.black)
-        instance.time_controls = validated_data("time_controls", instance.time_controls)
+        instance.time_controls = validated_data.get("time_controls", instance.time_controls)
         instance.save()
         return instance

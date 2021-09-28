@@ -39,11 +39,11 @@ class GameViewSet(viewsets.ModelViewSet):
     serializer_class = GameSerializer
 
     @action(detail=True)
-    def play_turn(self, request, *args, **kwargs):
+    def play_leela(self, request, *args, **kwargs):
         game = self.get_object()
         if game.available:
             gh = GameHandler(game)
-            s = Stockfish(8, game.time_controls)
+            s = Leela(game.time_controls)
             move = s.getMove(gh.get_board())
             # move = gh.play_turn()
             gh.play_move(move)
