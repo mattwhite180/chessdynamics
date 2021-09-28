@@ -58,15 +58,15 @@
         </div>
         <div>
           <label for="game-white-name">White Player: </label>
-          <input id="game-white-name" [(ngModel)]="game.white" placeholder="white-name">
+          <input id="game-white-name" [(ngModel)]="game.white" placeholder="white">
         </div>
         <div>
           <label for="game-black-name">Black Player: </label>
-          <input id="game-black-name" [(ngModel)]="game.black" placeholder="black-name">
+          <input id="game-black-name" [(ngModel)]="game.black" placeholder="black">
         </div>
         <div>
           <label for="game-time">Game Time Controls: </label>
-          <input id="game-time" [(ngModel)]="game.time_controls" placeholder="game-time">
+          <input id="game-time" [(ngModel)]="game.time_controls" placeholder="time_controls">
         </div>
         <div><span>Results: </span>{{game.results}}</div>
         <div *ngIf="game.available">
