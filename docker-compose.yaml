@@ -19,9 +19,12 @@ services:
   api:
     restart: always
     build: api/
-    #command: /bin/bash -c "python tests.py"
-    #command: bash -c "sleep infinity"
+    # command: /bin/bash -c "python tests.py"
+    # command: bash -c "sleep infinity"
+    # command: ls
     command: bash django-run.sh
+    volumes:
+      - "./api/chesssite:/usr/src/app/"
     # command: ls
     # volumes:
     #   - "./server:/usr/src/app/"
@@ -40,11 +43,14 @@ services:
       - PGDATABASE=myproject
       - PGUSER=myprojectuser
       - PGPASSWORD=password
-  frontend:
+  client:
     restart: always
-    build: angular-chessdynamics/
+    build: client/
     # command: bash -c "sleep infinity"
+    # command: ls
     command: bash -c "ng serve --host 0.0.0.0"
+    # volumes:
+    #   - "./client:/app"
     expose:
       - "4200"
     ports:
