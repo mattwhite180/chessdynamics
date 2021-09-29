@@ -63,9 +63,9 @@ export class GameDetailComponent implements OnInit {
     this.refresh();
   }
 
-  playContinuous(): void {
+  playStockfish(level: String): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.gameService.apiAction(id, 'play_continuous').subscribe();
+    this.gameService.apiAction(id, 'play_stockfish/' + level).subscribe();
     this.refresh();
   }
 

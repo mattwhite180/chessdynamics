@@ -95,6 +95,12 @@ export class GameService {
           gamemodel['refresh'] = true;
           return http.get(myurl).pipe().subscribe();
         }
+        if (moveList[i]=== move + 'q' ) {
+          const func = "play_move/" + move + 'q' ;
+          const myurl = `${url}${gamemodel['id']}/${func}/`;
+          gamemodel['refresh'] = true;
+          return http.get(myurl).pipe().subscribe();
+        }
       }
       return 'snapback';
     }
@@ -108,7 +114,7 @@ export class GameService {
 
     var config = {
       draggable: gamemodel['available'],
-      orientation: gamemodel['turn'],
+      orientation: 'white', //gamemodel['turn'],
       position: gamemodel['fen'],
       onDragStart: onDragStart,
       onDrop: onDrop,

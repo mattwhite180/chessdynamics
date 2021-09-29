@@ -57,21 +57,39 @@ class GameViewSet(viewsets.ModelViewSet):
         else:
             return Response({"message": "game is already in use"})
 
-    @action(detail=True)
-    def play_continuous(self, request, *args, **kwargs):
+    @action(detail=True, url_path="play_stockfish/(?P<level_str>[^/.]+)")
+    def play_stockfish(self, request, level_str, pk=None):
         game = self.get_object()
         if game.available:
             gh = GameHandler(game)
-            moves = gh.play_continuous()
+            s = Stockfish(int(level_str), game.time_controls)
+            move = s.getMove(gh.get_board())
+            # move = gh.play_turn()
+            gh.play_move(move)
             return Response(
                 {
                     "message": "game " + str(game.id) + " moved",
-                    "moves": moves,
+                    "move": move,
                     "gameover": str(gh.is_game_over()),
                 }
             )
         else:
             return Response({"message": "game is already in use"})
+    # @action(detail=True)
+    # def play_continuous(self, request, *args, **kwargs):
+    #     game = self.get_object()
+    #     if game.available:
+    #         gh = GameHandler(game)
+    #         moves = gh.play_continuous()
+    #         return Response(
+    #             {
+    #                 "message": "game " + str(game.id) + " moved",
+    #                 "moves": moves,
+    #                 "gameover": str(gh.is_game_over()),
+    #             }
+    #         )
+    #     else:
+    #         return Response({"message": "game is already in use"})
 
     @action(detail=True, url_path="play_move/(?P<move_str>[^/.]+)")
     def play_move(self, request, move_str, pk=None):
