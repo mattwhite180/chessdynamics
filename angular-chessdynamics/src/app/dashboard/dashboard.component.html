@@ -18,16 +18,8 @@
     <input id="game-white-name" #whitePlayer>
   </div>
   <div>
-    <label for="game-white-level">White Level: </label>
-    <input id="game-white-level" #whitePlayerLevel>
-  </div>
-  <div>
     <label for="game-black-name">Black Player: </label>
     <input id="game-black-name" #blackPlayer>
-  </div>
-  <div>
-    <label for="game-black-level">Black Level: </label>
-    <input id="game-black-level" #blackPlayerLevel>
   </div>
   <div>
     <label for="game-time">Game Time Controls: </label>
@@ -35,7 +27,7 @@
   </div>
   <!-- (click) passes input value to add() and then clears the input -->
   <button class="add-button"
-    (click)="add(gameName.value, gameDescription.value, whitePlayer.value, whitePlayerLevel.value, blackPlayer.value, blackPlayerLevel.value, timeControls.value); gameName.value=''">
+    (click)="add(gameName.value, gameDescription.value, whitePlayer.value, blackPlayer.value, timeControls.value); gameName.value=''">
     Add game
   </button>
 </div>

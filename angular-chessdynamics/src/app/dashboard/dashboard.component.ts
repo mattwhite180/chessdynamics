@@ -21,13 +21,11 @@ export class DashboardComponent implements OnInit {
       .subscribe(games => this.games = games);
   }
 
-  add(name: string, description: string, white: string, wl: string, black: string, bl: string, tc: string): void {
+  add(name: string, description: string, white: string, black: string, tc: string): void {
     name = name.trim();
-    const white_level = +wl;
-    const black_level = +bl;
     const time_controls = +tc;
     if (!name) { return; }
-    this.gameService.addGame({name, description, white, white_level, black, black_level, time_controls} as Game)
+    this.gameService.addGame({name, description, white, black, time_controls} as Game)
       .subscribe(game => {
         this.games.push(game);
       });

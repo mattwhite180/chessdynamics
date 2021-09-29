@@ -23,12 +23,12 @@ services:
     #command: bash -c "sleep infinity"
     command: bash django-run.sh
     # command: ls
-    volumes:
-      - "~/.aws:/root/.aws"
+    # volumes:
+    #   - "./server:/usr/src/app/"
     expose:
       - "8000"
     ports:
-      - "8000"
+      - "8000:8000"
     networks:
       - testing_net
     links:
@@ -53,31 +53,16 @@ services:
       - testing_net
     depends_on:
       - api
-  nginx:
-    image: nginx:latest
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - api
-    networks:
-      - testing_net
-    ports:
-      - "4000:4000"
-  awsapi:
-    restart: always
-    build: aws-api/
-    command: python3 aws-api.py
-    volumes:
-      - "~/.aws:/root/.aws"
-    expose:
-      - "5000"
-    ports:
-      - "5000"
-    networks:
-      - testing_net
-    depends_on:
-      - api
-
+  # nginx:
+  #   image: nginx:latest
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  #   depends_on:
+  #     - api
+  #   networks:
+  #     - testing_net
+  #   ports:
+  #     - "4000:4000"
 volumes:
   postgres_data:
 

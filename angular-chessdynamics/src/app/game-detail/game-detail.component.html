@@ -6,15 +6,11 @@
     <div class="flex-child green">
       <h2>Controls</h2>
       <div *ngIf="game.available">
-        <button (click)="playTurn()">playTurn</button>
-      </div>
-      <div *ngIf="!game.available">
-        <button disabled (click)="playTurn()">playTurn</button>
-      </div>
-      <div *ngIf="game.available">
+        <button (click)="playLeela()">playLeela</button>
         <button (click)="playContinuous()">playContinuous</button>
       </div>
       <div *ngIf="!game.available">
+        <button disabled (click)="playLeela()">playTurn</button>
         <button disabled (click)="playContinuous()">playContinuous</button>
       </div>
       <br>
@@ -27,15 +23,11 @@
           </option>
         </select>
         <div *ngIf="game.available">
+          <button (click)="pop()">pop last move</button>
           <button (click)="playMove(selected_move.value)">Play Selected Move</button>
         </div>
         <div *ngIf="!game.available">
           <button disabled (click)="playMove(selected_move.value)">Play Selected Move</button>
-        </div>
-        <div *ngIf="game.available">
-          <button (click)="pop()">pop last move</button>
-        </div>
-        <div *ngIf="!game.available">
           <button disabled (click)="pop()">pop last move</button>
         </div>
       </form>
@@ -58,23 +50,15 @@
         </div>
         <div>
           <label for="game-white-name">White Player: </label>
-          <input id="game-white-name" [(ngModel)]="game.white" placeholder="white-name">
-        </div>
-        <div>
-          <label for="game-white-level">White Level: </label>
-          <input id="game-white-level" [(ngModel)]="game.white_level" placeholder="white-level">
+          <input id="game-white-name" [(ngModel)]="game.white" placeholder="white">
         </div>
         <div>
           <label for="game-black-name">Black Player: </label>
-          <input id="game-black-name" [(ngModel)]="game.black" placeholder="black-name">
-        </div>
-        <div>
-          <label for="game-black-level">Black Level: </label>
-          <input id="game-black-level" [(ngModel)]="game.black_level" placeholder="black-level">
+          <input id="game-black-name" [(ngModel)]="game.black" placeholder="black">
         </div>
         <div>
           <label for="game-time">Game Time Controls: </label>
-          <input id="game-time" [(ngModel)]="game.time_controls" placeholder="game-time">
+          <input id="game-time" [(ngModel)]="game.time_controls" placeholder="time_controls">
         </div>
         <div><span>Results: </span>{{game.results}}</div>
         <div *ngIf="game.available">
