@@ -153,13 +153,13 @@ class ChessGame:
 class GameHandler:
     def __init__(self, gm):
         self.game_model = gm
-        if self.game_model.available:
-            self.game_model.available = True
-            self.game_model.save()
-            self.available = True
-        else:
-            self.available = True
-        self.game_model.save()
+        # if self.game_model.available:
+        #     self.game_model.available = True
+        #     self.game_model.save()
+        #     self.available = True
+        # else:
+        #     self.available = True
+        # self.game_model.save()
         self.deleted = False
         g = self.setup_game()
         self.save(g)
@@ -167,9 +167,9 @@ class GameHandler:
     def __del__(self):
         if self.deleted:
             self.game_model.delete()
-        else:
-            self.game_model.available = True
-            self.game_model.save()
+        # else:
+            # self.game_model.available = True
+        self.game_model.save_game()
 
     def delete(self):
         self.deleted = True
@@ -192,13 +192,13 @@ class GameHandler:
         return self.setup_game().get_moves()
 
     def load_game(self, moveList):
-        if self.available:
-            g = self.setup_game()
-            g.load_game(moveList)
-            self.save(g)
-            return "loaded game"
-        else:
-            return "game is marked 'unavailable'"
+        # if self.available:
+        g = self.setup_game()
+        g.load_game(moveList)
+        self.save(g)
+        return "loaded game"
+        # else:
+        #     return "game is marked 'unavailable'"
 
     def is_game_over(self):
         return self.setup_game().is_game_over()
@@ -207,45 +207,45 @@ class GameHandler:
         return self.setup_game().get_results()
 
     def play_move(self, move):
-        if self.available:
-            g = self.setup_game()
-            val = g.play_move(move)
-            self.save(g)
-            return val
-        else:
-            return "game is marked 'unavailable'"
+        # if self.available:
+        g = self.setup_game()
+        val = g.play_move(move)
+        self.save(g)
+        return val
+        # else:
+        #     return "game is marked 'unavailable'"
 
     def get_turn(self):
         return self.setup_game().get_turn()
 
     def pop(self):
-        if self.available:
+        # if self.available:
+        g = self.setup_game()
+        if len(g.get_moves()) == 0:
+            return True
+        elif g.get_moves().count(",") == 0:
+            move = g.get_moves().replace(",", "")
+            self.game_model.move_list = ""
+            self.game_model.save()
             g = self.setup_game()
-            if len(g.get_moves()) == 0:
-                return True
-            elif g.get_moves().count(",") == 0:
-                move = g.get_moves().replace(",", "")
-                self.game_model.move_list = ""
-                self.game_model.save()
-                g = self.setup_game()
-                self.save(g)
-                return move
-            elif g.get_moves().count(",") > 0:
-                # moveList = g.get_moves().split(',')
-                # move = str(moveList[-1])
-                # newMoves = moveList[0]
-                # for i in range(1, len(moveList) - 1):
-                #     newMoves += "," + moveList[i]
-                # g.load_game(newMoves)
-                # self.save(g)
-                # return move
-                move = g.get_moves()[g.get_moves().rindex(",") :]
-                g.load_game(g.get_moves()[0 : g.get_moves().rindex(",")])
-                self.save(g)
-                return str(move).replace(",", "")
-            else:
-                return str(False)
-        return "game is marked 'unavailable'"
+            self.save(g)
+            return move
+        elif g.get_moves().count(",") > 0:
+            # moveList = g.get_moves().split(',')
+            # move = str(moveList[-1])
+            # newMoves = moveList[0]
+            # for i in range(1, len(moveList) - 1):
+            #     newMoves += "," + moveList[i]
+            # g.load_game(newMoves)
+            # self.save(g)
+            # return move
+            move = g.get_moves()[g.get_moves().rindex(",") :]
+            g.load_game(g.get_moves()[0 : g.get_moves().rindex(",")])
+            self.save(g)
+            return str(move).replace(",", "")
+        else:
+            return str(False)
+        # return "game is marked 'unavailable'"
 
     def save(self, g):
         self.game_model.turn = g.get_turn()
@@ -257,7 +257,7 @@ class GameHandler:
         self.game_model.save()
 
     def save_game(self):
-        self.game_model.available = True
+        # self.game_model.available = True
         self.game_model.save()
         self.save(self.setup_game())
 

@@ -65,6 +65,40 @@ export class GameService {
 
   modify(gamemodel: Game, http: any, url: string) {
     ////////////////////////////////////////////////////////////////////////
+    
+    function getPromotionColor(turn: string) {
+      if (turn === "white") {
+          return "8/8/8/2NBRQ2/8/8/8/8 w - - 0 1"
+      }
+      else {
+          return "8/8/8/2nbrq2/8/8/8/8 w - - 0 1"
+      }
+    }
+    
+    function choosePiece(
+      source: any,
+      piece: any,
+      position: any,
+      orientation: any
+    ) {
+      const formattedPiece = piece.substring(1).toLowerCase();
+      const promotionMove = gamemodel['promotion_move'] + formattedPiece;
+      console.log("promotionMove: " + promotionMove)
+      const func = "play_move/" + promotionMove;
+      const myurl = `${url}${gamemodel['id']}/${func}/`;
+      gamemodel['refresh'] = true;
+      return http.get(myurl).pipe().subscribe();
+  }
+
+    var promotionConfig = {
+      draggable: true,
+      orientation: "white",
+      position: getPromotionColor(gamemodel['turn']),
+      onDragStart: choosePiece
+  }
+
+  //gamemodel['promotion_board'] = ChessBoard('board2', promotionConfig);
+
     function onDragStart(
       source: any,
       piece: any,
@@ -95,11 +129,11 @@ export class GameService {
           gamemodel['refresh'] = true;
           return http.get(myurl).pipe().subscribe();
         }
+      }
+      for (var i = 0; i < moveList.length; i++) {
         if (moveList[i]=== move + 'q' ) {
-          const func = "play_move/" + move + 'q' ;
-          const myurl = `${url}${gamemodel['id']}/${func}/`;
-          gamemodel['refresh'] = true;
-          return http.get(myurl).pipe().subscribe();
+          gamemodel['promotion_move'] = move;
+          gamemodel['board'] = ChessBoard('board1', promotionConfig)
         }
       }
       return 'snapback';
