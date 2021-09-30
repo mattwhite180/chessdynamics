@@ -13,6 +13,8 @@ export interface Game {
     legal_moves: string;
     legal_moves_list: string[];
     creation_date: string;
+    promotion_board: any;
+    promotion_move: string;
     board: any;
     last_move: string;
     refresh: boolean;
