@@ -169,7 +169,7 @@ class GameHandler:
             self.game_model.delete()
         # else:
             # self.game_model.available = True
-        self.game_model.save_game()
+        self.game_model.save()
 
     def delete(self):
         self.deleted = True
