@@ -7,7 +7,7 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from chessapp.serializers import GameSerializer
-from chessapp.chessdynamics import GameHandler, Stockfish, Leela
+from chessapp.chessdynamics import GameHandler, Stockfish, Leela, RandomEngine
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -43,8 +43,8 @@ class GameViewSet(viewsets.ModelViewSet):
         game = self.get_object()
         if game.available:
             gh = GameHandler(game)
-            s = Leela(game.time_controls)
-            move = s.getMove(gh.get_board())
+            l = Leela(game.time_controls)
+            move = l.getMove(gh.get_board())
             # move = gh.play_turn()
             gh.play_move(move)
             return Response(
@@ -75,6 +75,26 @@ class GameViewSet(viewsets.ModelViewSet):
             )
         else:
             return Response({"message": "game is already in use"})
+
+    @action(detail=True)
+    def play_random(self, request, *args, **kwargs):
+        game = self.get_object()
+        if game.available:
+            gh = GameHandler(game)
+            r = RandomEngine()
+            move = r.getMove(gh.get_board())
+            # move = gh.play_turn()
+            gh.play_move(move)
+            return Response(
+                {
+                    "message": "game " + str(game.id) + " moved",
+                    "move": move,
+                    "gameover": str(gh.is_game_over()),
+                }
+            )
+        else:
+            return Response({"message": "game is already in use"})
+
     # @action(detail=True)
     # def play_continuous(self, request, *args, **kwargs):
     #     game = self.get_object()

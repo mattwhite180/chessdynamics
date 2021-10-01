@@ -8,11 +8,27 @@
       <h2>Controls</h2>
       <div *ngIf="game.available">
         <form action="/action_page.php">
-          <label for="quantity">Stockfish Level (between 1 and 5):</label>
+          <label for="quantity">Stockfish Level (between 1 and 8):</label>
           <input #selected_level type="number" id="quantity" name="quantity" min="1" max="8">
+          <br>
           <button (click)="playStockfish(selected_level.value)">playStockfish</button>
         </form>
+        <br>
+        <button (click)="playRandom()">playRandom</button>
+        <br>
         <button (click)="playLeela()">playLeela</button>
+      </div>
+      <div *ngIf="!game.available">
+        <form action="/action_page.php">
+          <label for="quantity">Stockfish Level (between 1 and 8):</label>
+          <input #selected_level type="number" id="quantity" name="quantity" min="1" max="8">
+          <br>
+          <button disabled (click)="playStockfish(selected_level.value)">playStockfish</button>
+        </form>
+        <br>
+        <button disabled (click)="playRandom()">playRandom</button>
+        <br>
+        <button disabled (click)="playLeela()">playLeela</button>
       </div>
       <br>
       <button (click)="refreshBoard()">refresh board</button>
