@@ -1,54 +1,63 @@
 /* GameDetailComponent's private CSS styles */
+
 label {
-    color: #435960;
-    font-weight: bold;
-  }
-  input {
-    font-size: 1em;
-    padding: .5rem;
-  }
-  button {
-    margin-top: 20px;
-    background-color: #eee;
-    padding: 1rem;
-    border-radius: 4px;
-    font-size: 1rem;
-  }
-  select {
-    margin-top: 20px;
-    background-color: #eee;
-    padding: 1rem;
-    border-radius: 40px;
-    font-size: 1rem;
-    padding: 1rem;
-  }
-  button:hover {
-    background-color: #cfd8dc;
-  }
-  button:disabled {
-    background-color: #eee;
-    color: #ccc;
-    cursor: auto;
-  }
+  color: #435960;
+  font-weight: bold;
+}
+input {
+  font-size: 1em;
+  padding: 0.5rem;
+}
+button {
+  margin-top: 20px;
+  background-color: lightgreen;
+  padding: 1rem;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+select {
+  margin-top: 20px;
+  background-color: lightgreen;
+  padding: 1rem;
+  border-radius: 40px;
+  font-size: 1rem;
+  padding: 1rem;
+}
+select:hover {
+  margin-top: 20px;
+  background-color: ;
+  padding: 1rem;
+  border-radius: 40px;
+  font-size: 1rem;
+  padding: 1rem;
+}
+
+button:hover {
+  background-color: rgb(191, 121, 219);
+}
+button:disabled {
+  background-color: #eee;
+  color: #ccc;
+  cursor: auto;
+}
 
 .flex-container {
-    display: flex;
+  display: flex;
 }
 
 .flex-child {
-    flex: 1;
-    border: 2px solid green;
-    padding: 10px;
-    height: 620px;
-    /* overflow:scroll; */
+  flex: 1;
+  border: 2px solid green;
+  padding: 10px;
+  height: 620px;
+  /* overflow:scroll; */
 }
 
 .flex-child:first-child {
-    margin-right: 20px;
-} 
+  margin-right: 20px;
+}
 
 .flex-messages {
-  
   flex: 1;
   border: 2px solid green;
   padding: 10px;

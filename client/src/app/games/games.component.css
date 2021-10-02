@@ -10,6 +10,7 @@
     position: relative;
     left: 0;
     background-color: #EEE;
+    color: green;
     margin: .5em;
     padding: .3em 0;
     height: 1.6em;
@@ -17,7 +18,7 @@
   }
   .games li:hover {
     color: #2c3a41;
-    background-color: #e6e6e6;
+    background-color: grey;
     left: .1em;
   }
   .games li.selected {
@@ -37,7 +38,7 @@
     font-size: small;
     color: white;
     padding: 0.8em 0.7em 0 0.7em;
-    background-color:#405061;
+    background-color:green;
     line-height: 1em;
     position: relative;
     left: -1px;
@@ -55,8 +56,8 @@
     position: absolute;
     left: 210px;
     top: 5px;
-    background-color: white;
-    color:  #525252;
+    background-color: purple;
+    color:  black;
     font-size: 1.1rem;
     padding: 1px 10px 3px 10px;
   }
@@ -72,7 +73,7 @@ button.delete:hover {
 
 .flex-child {
     flex: 1;
-    border: 2px solid green;
+    border: 2px solid purple;
     padding: 10px;
     height: 620px;
     /* overflow:scroll; */
@@ -85,7 +86,7 @@ button.delete:hover {
 .flex-fixed {
   
   flex: 1;
-  border: 2px solid green;
+  border: 2px solid purple;
   padding: 10px;
   overflow-y: scroll;
   max-height: 620px;
