@@ -21,7 +21,7 @@
       <div *ngIf="!game.available">
         <form action="/action_page.php">
           <label for="quantity">Stockfish Level (between 1 and 8):</label>
-          <input #selected_level type="number" id="quantity" name="quantity" min="1" max="8">
+          <input #selected_level type="number" id="quantity" name="quantity" min="1" max="8" value="8">
           <br>
           <button disabled (click)="playStockfish(selected_level.value)">playStockfish</button>
         </form>
