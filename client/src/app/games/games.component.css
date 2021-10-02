@@ -61,7 +61,32 @@
     padding: 1px 10px 3px 10px;
   }
   
-  button.delete:hover {
-    background-color: #525252;
-    color: white;
-  }
+button.delete:hover {
+  background-color: #525252;
+  color: white;
+}
+
+  .flex-container {
+    display: flex;
+}
+
+.flex-child {
+    flex: 1;
+    border: 2px solid green;
+    padding: 10px;
+    height: 620px;
+    /* overflow:scroll; */
+}
+
+.flex-child:first-child {
+    margin-right: 20px;
+} 
+
+.flex-fixed {
+  
+  flex: 1;
+  border: 2px solid green;
+  padding: 10px;
+  overflow-y: scroll;
+  max-height: 620px;
+}
