@@ -29,8 +29,8 @@ RUN npm install jquery --save
 
 # add app
 
-COPY . .
-RUN ng build
+# COPY . .
+# RUN ng build
 
 # start app
 # CMD ng serve --host 0.0.0.0
