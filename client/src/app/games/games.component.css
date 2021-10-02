@@ -91,3 +91,19 @@ button.delete:hover {
   overflow-y: scroll;
   max-height: 620px;
 }
+
+input {
+  border: 2px solid rgb(191, 121, 219);
+  border-radius: 4px;
+  width: 96%;
+  background-color: lightgreen;
+}
+
+input:focus {
+  background-color: rgb(191, 121, 219);
+}
+
+.add-button {
+  background-color: lightgreen;
+  width:100%;
+}
