@@ -29,4 +29,15 @@ export class GamesComponent implements OnInit {
     this.gameService.getGames()
         .subscribe(games => this.games = games);
   }
+
+  add(name: string, description: string, white: string, black: string, tc: string): void {
+    name = name.trim();
+    const time_controls = +tc;
+    if (!name) { return; }
+    this.gameService.addGame({name, description, white, black, time_controls} as Game)
+      .subscribe(game => {
+        this.games.push(game);
+      });
+  }
+
 }

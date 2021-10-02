@@ -4,7 +4,7 @@
     <!-- <div hidden id="board2" style="width: 600px"></div> -->
   </div>
   <div *ngIf="game">
-    <div class="flex-child green">
+    <div class="flex-child" magenta>
       <h2>Controls</h2>
       <div *ngIf="game.available">
         <form action="/action_page.php">
@@ -89,7 +89,7 @@
       </div>
     </div>
   </div>
-  <div class="flex-child green">
+  <div class="flex-messages">
     <app-messages></app-messages>
   </div>
 </div>

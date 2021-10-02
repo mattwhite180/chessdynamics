@@ -39,8 +39,19 @@ label {
     flex: 1;
     border: 2px solid green;
     padding: 10px;
-}  
+    height: 620px;
+    /* overflow:scroll; */
+}
 
 .flex-child:first-child {
     margin-right: 20px;
 } 
+
+.flex-messages {
+  
+  flex: 1;
+  border: 2px solid green;
+  padding: 10px;
+  overflow-y: scroll;
+  max-height: 620px;
+}

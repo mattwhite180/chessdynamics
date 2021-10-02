@@ -7,3 +7,33 @@
     <button class="delete" title="delete game" (click)="delete(game)">x</button>
   </li>
 </ul>
+<div>
+  <div>
+    <label for="game-name">Game Title: </label>
+    <input id="game-name" #gameName>
+  </div>
+  <div>
+    <label for="game-description">Game description: </label>
+    <input id="game-description" #gameDescription>
+  </div>
+  <div>
+    <label for="game-white-name">White Player: </label>
+    <input id="game-white-name" #whitePlayer>
+  </div>
+  <div>
+    <label for="game-black-name">Black Player: </label>
+    <input id="game-black-name" #blackPlayer>
+  </div>
+  <div>
+    <label for="game-time">Game Time Controls: </label>
+    <input id="game-time" #timeControls>
+  </div>
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button class="add-button"
+    (click)="add(gameName.value, gameDescription.value, whitePlayer.value, blackPlayer.value, timeControls.value); gameName.value=''">
+    Add game
+  </button>
+</div>
+<div>
+  <app-messages></app-messages>
+</div>
