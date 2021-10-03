@@ -4,7 +4,7 @@
     <ul class="games">
       <li *ngFor="let game of games">
         <a routerLink="/detail/{{game.id}}">
-          <span class="badge">{{game.id}}</span> {{game.name}}
+          <span class="badge">{{game.id}}</span>{{game.name}}: [{{game.white}} vs {{game.black}}]
         </a>
         <button class="delete" title="delete game" (click)="delete(game)">x</button>
       </li>

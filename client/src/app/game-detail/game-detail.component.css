@@ -49,7 +49,7 @@ button:disabled {
   flex: 1;
   border: 2px solid green;
   padding: 10px;
-  height: 620px;
+  height: 700px;
   /* overflow:scroll; */
 }
 
@@ -62,5 +62,5 @@ button:disabled {
   border: 2px solid green;
   padding: 10px;
   overflow-y: scroll;
-  max-height: 620px;
+  max-height: 700px;
 }

@@ -3,7 +3,7 @@
     margin: 0 0 2em 0;
     list-style-type: none;
     padding: 0;
-    width: 15em;
+    width: 25em;
   }
   .games li {
     cursor: pointer;
@@ -54,7 +54,7 @@
 
   button.delete {
     position: absolute;
-    left: 210px;
+    left: 350px;
     top: 5px;
     background-color: purple;
     color:  black;
