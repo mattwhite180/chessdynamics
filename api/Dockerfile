@@ -23,6 +23,11 @@ RUN apt-get update -y \
     libstdc++-8-dev \
     clang-6.0 \
     pkg-config \
+	libeigen3-dev \
+	libopenblas-dev \
+	cmake \
+	python3-keras \
+	
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --upgrade pip setuptools wheel

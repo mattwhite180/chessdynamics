@@ -3,13 +3,14 @@
     margin: 0 0 2em 0;
     list-style-type: none;
     padding: 0;
-    width: 15em;
+    width: 25em;
   }
   .games li {
     cursor: pointer;
     position: relative;
     left: 0;
     background-color: #EEE;
+    color: green;
     margin: .5em;
     padding: .3em 0;
     height: 1.6em;
@@ -17,7 +18,7 @@
   }
   .games li:hover {
     color: #2c3a41;
-    background-color: #e6e6e6;
+    background-color: grey;
     left: .1em;
   }
   .games li.selected {
@@ -37,7 +38,7 @@
     font-size: small;
     color: white;
     padding: 0.8em 0.7em 0 0.7em;
-    background-color:#405061;
+    background-color:green;
     line-height: 1em;
     position: relative;
     left: -1px;
@@ -53,15 +54,56 @@
 
   button.delete {
     position: absolute;
-    left: 210px;
+    left: 350px;
     top: 5px;
-    background-color: white;
-    color:  #525252;
+    background-color: purple;
+    color:  black;
     font-size: 1.1rem;
     padding: 1px 10px 3px 10px;
   }
   
-  button.delete:hover {
-    background-color: #525252;
-    color: white;
-  }
+button.delete:hover {
+  background-color: #525252;
+  color: white;
+}
+
+  .flex-container {
+    display: flex;
+}
+
+.flex-child {
+    flex: 1;
+    border: 2px solid purple;
+    padding: 10px;
+    height: 620px;
+    /* overflow:scroll; */
+}
+
+.flex-child:first-child {
+    margin-right: 20px;
+} 
+
+.flex-fixed {
+  
+  flex: 1;
+  border: 2px solid purple;
+  padding: 10px;
+  overflow-y: scroll;
+  max-height: 620px;
+}
+
+input {
+  border: 2px solid rgb(191, 121, 219);
+  border-radius: 4px;
+  width: 96%;
+  background-color: lightgreen;
+}
+
+input:focus {
+  background-color: rgb(191, 121, 219);
+}
+
+.add-button {
+  background-color: lightgreen;
+  width:100%;
+}

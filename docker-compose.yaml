@@ -48,9 +48,10 @@ services:
     build: client/
     # command: bash -c "sleep infinity"
     # command: ls
+    # command: bash runscript.sh
     command: bash -c "ng serve --host 0.0.0.0"
-    # volumes:
-    #   - "./client:/app"
+    #volumes:
+    #  - "./client:/app"
     expose:
       - "4200"
     ports:

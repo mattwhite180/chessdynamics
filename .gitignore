@@ -10,6 +10,8 @@ __pycache__/
 # C extensions
 *.so
 
+chess.js/
+
 # Distribution / packaging
 .Python
 build/
