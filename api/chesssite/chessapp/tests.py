@@ -1,6 +1,7 @@
 from django.test import TestCase
 from .models import Game
 from .chessdynamics import ChessGame, GameHandler, Stockfish, Leela, RandomEngine
+from django.utils import timezone
 import chess
 import chess.engine
 import chess.pgn
@@ -36,7 +37,7 @@ class ChessGameTestCase(TestCase):
         expected = (
             '[Event "chessdynamics"]\n'
             + '[Site "https://github.com/mattwhite180/chessdynamics"]\n'
-            + '[Date "????.??.??"]\n'
+            + '[Date "' + str(timezone.now().date()) + '"]\n'
             + '[Round "?"]\n'
             + '[White "stockfish"]\n'
             + '[Black "stockfish"]\n'
@@ -54,7 +55,7 @@ class ChessGameTestCase(TestCase):
         expected = (
             '[Event "undefined game"]\n'
             + '[Site "https://github.com/mattwhite180/chessdynamics"]\n'
-            + '[Date "????.??.??"]\n'
+            + '[Date "' + str(timezone.now().date()) + '"]\n'
             + '[Round "?"]\n'
             + '[White "stockfish"]\n'
             + '[Black "stockfish"]\n'
@@ -118,7 +119,7 @@ class GameHandlerTestCase(TestCase):
         expected = (
             '[Event "simple"]\n'
             + '[Site "https://github.com/mattwhite180/chessdynamics"]\n'
-            + '[Date "????.??.??"]\n'
+            + '[Date "' + str(timezone.now().date()) + '"]\n'
             + '[Round "?"]\n'
             + '[White "stockfish"]\n'
             + '[Black "stockfish"]\n'

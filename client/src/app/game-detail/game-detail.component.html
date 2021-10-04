@@ -90,6 +90,10 @@
           <button disabled (click)="save()">save</button>
           <button disabled class="delete" title="delete game" (click)="delete(game)">delete</button>
         </div>
+        <br>
+        <div style="max-width: 300px; max-height: 300px; overflow: scroll">
+          {{game.pgn}}
+        </div>
       </div>
     </div>
   </div>

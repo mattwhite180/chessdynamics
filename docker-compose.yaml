@@ -50,7 +50,7 @@ services:
     # command: ls
     # command: bash runscript.sh
     command: bash -c "ng serve --host 0.0.0.0"
-    #volumes:
+    # volumes:
     #  - "./client:/app"
     expose:
       - "4200"

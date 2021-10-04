@@ -18,4 +18,5 @@ export interface Game {
     board: any;
     last_move: string;
     refresh: boolean;
+    pgn: string
   } 
