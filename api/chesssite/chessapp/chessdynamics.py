@@ -3,6 +3,7 @@ import chess.engine
 import chess.pgn
 import collections
 from random import randrange
+from django.utils import timezone
 import io
 
 
@@ -135,18 +136,19 @@ class ChessGame:
                 self.moves += str(move)
             return True
 
-    def get_PGN(self):
-        self.set_headers()
+    def get_PGN(self, date = timezone.now()):
+        self.set_headers(date)
         return str(self.game)
 
     def get_results(self):
         return self.board.result()
 
-    def set_headers(self):
+    def set_headers(self, date = timezone.now()):
         self.game.headers["Event"] = self.name
         self.game.headers["White"] = self.white
         self.game.headers["Black"] = self.black
         self.game.headers["Result"] = self.board.result()
+        self.game.headers["Date"] = date.date()
         self.game.headers["Site"] = "https://github.com/mattwhite180/chessdynamics"
 
 
@@ -254,7 +256,7 @@ class GameHandler:
             self.game_model.results = g.get_results()
             self.game_model.fen = g.get_fen()
             self.game_model.legal_moves = g.get_legal_moves()
-            self.game_model.pgn = g.get_PGN()
+            self.game_model.pgn = g.get_PGN(self.game_model.creation_date)
             self.game_model.save()
 
     def save_game(self):

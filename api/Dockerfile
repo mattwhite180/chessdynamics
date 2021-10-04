@@ -27,7 +27,6 @@ RUN apt-get update -y \
 	libopenblas-dev \
 	cmake \
 	python3-keras \
-	
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --upgrade pip setuptools wheel
