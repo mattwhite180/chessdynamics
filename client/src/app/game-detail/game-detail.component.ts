@@ -52,7 +52,7 @@ export class GameDetailComponent implements OnInit {
 
   save(): void {
     if (this.game) {
-      this.gameService.updateGame(this.game).subscribe(() => this.goBack());
+      this.gameService.updateGame(this.game).subscribe(() => this.refresh());
     }
     this.getGame();
   }
@@ -77,7 +77,7 @@ export class GameDetailComponent implements OnInit {
 
   delete(game: Game): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.gameService.deleteGame(id).subscribe();
+    this.gameService.deleteGame(id).subscribe(() => this.goBack());
   }
 
   pop(): void {
