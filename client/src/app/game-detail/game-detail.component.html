@@ -16,8 +16,8 @@
         </form>
         <br>
         <button (click)="playRandom()">playRandom</button>
-        <br>
-        <button (click)="playLeela()">playLeela</button>
+        <!-- <br>
+        <button (click)="playLeela()">playLeela</button> -->
       </div>
       <div *ngIf="!game.available">
         <form action="/action_page.php">
@@ -29,8 +29,8 @@
         </form>
         <br>
         <button disabled (click)="playRandom()">playRandom</button>
-        <br>
-        <button disabled (click)="playLeela()">playLeela</button>
+        <!-- <br>
+        <button disabled (click)="playLeela()">playLeela</button> -->
       </div>
       <br>
       <button (click)="refreshBoard()">refresh board</button>

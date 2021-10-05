@@ -57,11 +57,11 @@ export class GameDetailComponent implements OnInit {
     this.getGame();
   }
 
-  playLeela(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.gameService.apiAction(id, 'play_leela').subscribe();
-    this.refresh();
-  }
+  // playLeela(): void {
+  //   const id = Number(this.route.snapshot.paramMap.get('id'));
+  //   this.gameService.apiAction(id, 'play_leela').subscribe();
+  //   this.refresh();
+  // }
 
   playRandom(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
