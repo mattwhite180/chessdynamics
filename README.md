@@ -1,5 +1,5 @@
 # chessdynamics
-![Python Badge](https://img.shields.io/badge/Python-3.7-informational?style=plastic&logo=python&logoColor=green&color=green)
+![Python Badge](https://img.shields.io/badge/Python-3.10-informational?style=plastic&logo=python&logoColor=green&color=green)
 ![Django Badge](https://img.shields.io/badge/Django-3.1.0-informational?style=plastic&logo=django&logoColor=blue&color=green)
 ![Docker Badge](https://img.shields.io/badge/Docker-Debian-informational?style=plastic&logo=docker&logoColor=blue&color=blue)
 
@@ -23,7 +23,3 @@ sudo systemctl enable docker
 
 ## Run 
 `docker-compose up`
-
-## USEFUL LINKS
-* https://python-chess.readthedocs.io/en/latest/
-* https://python-chess.readthedocs.io/en/latest/engine.html
