@@ -1,3 +1,4 @@
+aws/
 djangosecret.txt
 .postgres_data
 .postgres_test
