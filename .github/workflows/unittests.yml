@@ -13,4 +13,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: echo ${{ secrets.DJANGO_SECRET }} > api/chesssite/djangosecret.txt && docker-compose build && docker-compose run api bash unittests.sh
+      run: docker-compose build && docker-compose run api bash unittests.sh
