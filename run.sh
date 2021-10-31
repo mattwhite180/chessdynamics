@@ -6,6 +6,7 @@ else
 fi
 
 
+cd ~/chessdynamics
 docker-compose down --remove-orphans && \
 docker-compose build \
 && docker-compose up --scale api=$APICOUNT
