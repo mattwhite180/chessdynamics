@@ -9,6 +9,8 @@ import io
 
 class Stockfish:
     def __init__(self, level=1, timeLimit=1000):
+        if timeLimit < 250:
+            timeLimit = 250
         self.url = "/root/stockfish/stockfish_14_linux_x64/stockfish_14_x64"
         self.engine = chess.engine.SimpleEngine.popen_uci(self.url, timeout=None)
         self.skillLevel = level
@@ -39,6 +41,8 @@ class Stockfish:
 
 class Leela:
     def __init__(self, timeLimit=1000):
+        if timeLimit < 250:
+            timeLimit = 250
         self.url = "/root/stockfish/stockfish_14_linux_x64/stockfish_14_x64"
         self.engine = chess.engine.SimpleEngine.popen_uci(self.url, timeout=None)
         self.setTimeLimit(timeLimit)
