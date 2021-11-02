@@ -1,4 +1,4 @@
-FROM python:3.10.0b3-buster AS basedependencies
+FROM python:3.10-buster AS basedependencies
 ENV TZ="America/Denver"
 
 EXPOSE 8000
